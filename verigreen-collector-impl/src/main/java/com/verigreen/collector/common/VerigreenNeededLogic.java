@@ -142,7 +142,7 @@ public class VerigreenNeededLogic {
                     subject,
                     messageText,
                     recipients,
-                    "verigreen@hp.com",
+                    "verigreen@github.com",
                     properties.getProperty("mail.server"),
                     signature);
         } catch (MessagingException ex) {

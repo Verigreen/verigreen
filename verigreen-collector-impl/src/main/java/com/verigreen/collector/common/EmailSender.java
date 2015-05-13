@@ -170,7 +170,7 @@ public class EmailSender {
                     subject,
                     messageText,
                     recipients,
-                    "verigreen@hp.com",
+                    "verigreen@github.com",
                     _mailServer,
                     signature);
         } catch (MessagingException ex) {

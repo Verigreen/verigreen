@@ -104,7 +104,7 @@ public class TestVerigreenNeededLogic extends CollectorUnitTestCase {
                         protectedBranch,
                         branch,
                         "",
-                        "eli.dagan@hp.com");
+                        "pUser@github.com");
         Assert.assertEquals(false, verigreenNeeded.getVerigreenNeeded());
         Assert.assertEquals(false, verigreenNeeded.getShouldRejectCommit());
     }
