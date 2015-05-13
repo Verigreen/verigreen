@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Copyright 2015 Hewlett-Packard Development Company, L.P.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
+ -->
+<Configuration name="hook-config" status="warn"
+	packages="com">
+	<Appenders>
+		<RollingRandomAccessFile name="RollingFile"
+			fileName="logs/verigreen.log" filePattern="logs/verigreen-%i-%d{yyyy-MM-dd-HH}.log">
+			<PatternLayout pattern="%d{dd/MM/yy HH:mm:ss:sss} %-5p [%c] %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="12" />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+				<OnStartupTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy max="100" />
+		</RollingRandomAccessFile>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{dd/MM/yy HH:mm:ss:sss} %-5p [%c] %m%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<logger name="org.springframework" level="error">
+			<appender-ref ref="RollingFile" />
+	        <appender-ref ref="STDOUT" />
+	    </logger>
+		<Root level="warn">
+			<appender-ref ref="RollingFile" />
+			<appender-ref ref="STDOUT" />
+		</Root>
+	</Loggers>
+</Configuration>

@@ -1,0 +1,55 @@
+<!-- 
+Copyright 2015 Hewlett-Packard Development Company, L.P.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+      http://www.springframework.org/schema/context 
+      http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	
+	<context:property-placeholder location="file:${VG_HOME}/config.properties" />
+	
+	<bean id="collectorVersion" class="com.verigreen.collector.common.CollectorVersion"
+		scope="singleton">
+		<property name="_collectorVersion" value="${coll.version}"/>
+	</bean>
+	<bean id="jgitOperator" class="com.verigreen.jgit.JGitOperator"
+		scope="singleton">
+		<constructor-arg name="repositoryPath" value="${git.repsoritoryLocation}" />
+		<property name="commited_By_Collector" value="${commited.by.collector}"/>
+		<property name="email_Address" value="${email.address}"/>
+	</bean>
+
+	<bean id="emailSender"
+		class="com.verigreen.collector.common.EmailSender"
+		scope="singleton">
+		<constructor-arg name="mailServer" value="${mail.server}" />
+		<property name="collectorAddress" value="${collector.address}" />
+	</bean>
+	
+	<bean id="verigreenNeededLogic"
+		class="com.verigreen.collector.common.VerigreenNeededLogic"
+		scope="singleton">
+		<constructor-arg name="protectedBranches" value="${git.protectedBranches}"/> 
+		<constructor-arg name="permittedUsers" value="${git.permittedUsers}"/>   
+		<constructor-arg name="hashedPassword" value="${hash.password}"/>
+		<constructor-arg name="fullPush" value="${full.push}"/>
+	</bean>
+
+	<bean
+		id="labLogger" class="com.verigreen.collector.common.log4j.VerigreenLogger"
+		scope="singleton">
+	</bean>
+</beans>
+

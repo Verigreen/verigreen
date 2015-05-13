@@ -1,12 +1,22 @@
-*.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
+.settings/
+target/
+bin/
+obj/
+Debug/
+war/
+_Resharper*/
 *.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+*.user
+*.suo
+*.tlb
+*.crc
+*.cab
+*.lld
+*.msi
+.project
+QCDrop
+*.log.*
+test-output
+*.classpath
+logs/
+verigreen-collector-webapp/cacheloader/

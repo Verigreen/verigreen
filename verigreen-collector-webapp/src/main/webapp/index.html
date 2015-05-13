@@ -1,0 +1,158 @@
+<html xmlns:ng="http://angularjs.org" ng-app="App" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet" />
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css" rel="stylesheet" />
+		<link rel="shortcut icon" href="V_Only.png" />
+		<script src="angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js"></script>
+		<script type="text/javascript" src="date.js"></script>
+		<script src="controllers.js"></script>
+		<script src="services.js"></script>
+		<script src="directives.js"></script>
+		<!-- script modal window -->
+		<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+		<link rel="stylesheet" type="text/css" href="index-style.css" />
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular-cookies.min.js"></script>
+		<title>Verigreen UI</title>
+	</head>
+	<body class="wrapper" ng-click-body="checklist=true">
+		<div class="overlay"></div>
+		<script type="text/javascript">
+			var sortingOrder = '-creationTime';
+		</script>
+		<div ng-controller="ctrlRead" class="content">
+		  	<img src="VeriGreenLogo_Wide.png"></img><br/>
+			<div>
+				<ul class="collectorName">
+					<li>
+    					{{displayMode.Name}}
+					</li>
+				</ul>
+			</div>
+			<div>
+  			<div class="input-append search">
+				<input type="text" ng-model="query" ng-change="search()"
+				class="input-large search-query" id="textbox" placeholder="Search">
+				<span
+				class="add-on"><i class="icon-search"></i></span>
+			</div>
+			</div>
+			<span title="Select the columns to display." class="filter" ng-click-anywhere="checklist=true">
+  				<button class="button"><table border="1"class="symbol1">
+												  <tr>
+												    <td></td>
+												    <td></td>		
+												    <td></td>
+												  </tr>
+												  <tr>
+												    <td></td>
+												    <td></td>		
+												    <td></td>
+												  </tr>
+												  <tr>
+												    <td></td>
+												    <td></td>		
+												    <td></td>
+												  </tr>
+										</table>
+				</button>
+  				<button class="button symbol2" ng-click="checklist=false">&#9660;</button>
+			<div class="columnSelection" ng-hide="checklist">
+					<input type="checkbox" ng-checked="!showHistory" ng-click="toogleHistory()"/>History<br/>
+					<input type="checkbox" ng-checked="!showId" ng-click="toogleId()"/>Id<br/>
+					<input type="checkbox" ng-checked="!showProtectedBranch" ng-click="toogleProtectedBranch()"/>Protected Branch<br/>
+					<input type="checkbox" ng-checked="!showParentBranch" ng-click="toogleParentBranch()"/>Parent Branch<br/>
+					<input type="checkbox" ng-checked="!showCommitter" ng-click="toogleCommitter()"/>Committer<br/>
+					<input type="checkbox" ng-checked="!showStatus" ng-click="toogleStatus()"/>Status<br/>
+					<input type="checkbox" ng-checked="!showRetry" ng-click="toogleRetry()"/>Retry<br/>
+					<input type="checkbox" ng-checked="!showCreationTime" ng-click="toogleCreationTime()"/>Creation Time<br/>
+					<input type="checkbox" ng-checked="!showRunTime" ng-click="toogleRunTime()"/>Run Time<br/>
+					<input type="checkbox" ng-checked="!showEndTime" ng-click="toogleEndTime()"/>End Time<br/>
+					<input type="checkbox" ng-checked="!showBuildUrl" ng-click="toogleBuildUrl()"/>Build URL
+			</div>
+			</span>
+			<form name="form" class="refresh" title="Refresh table">
+				<button type="button" ng-click="toogle()" class="refreshButton">
+          			<span class="icon-refresh" ng-style="{'color': getRefreshColor()}"></span>
+        		</button>
+  				<span ng-show="check"><input type="text" class="time" name="time" ng-pattern="number" ng-model="time" ng-enter="changeTime(form.time.$valid)" ng-keyup="blurAfterEnter($event)"> seconds</span>
+  			</form>
+			<table class="table table-striped table-hover" >
+				<thead>
+					<tr>
+						<th class="hist" ng-hide="showHistory"></th>
+						<th class="branchDescriptor.newBranch" ng-hide="showId" colspan="2">Id&nbsp;<a ng-click="sort_by('branchDescriptor.newBranch')"><i class="icon-sort"></i></a></th>
+						<th class="branchDescriptor.protectedBranch" ng-hide="showProtectedBranch">Protected Branch&nbsp;<a ng-click="sort_by('branchDescriptor.protectedBranch')"><i class="icon-sort"></i></a></th>
+						<th class="parentBranch" ng-hide="showParentBranch">Parent Branch&nbsp;<a ng-click="sort_by('parentBranch')"><i class="icon-sort"></i></a></th>
+						<th class="branchDescriptor.committer" ng-hide="showCommitter">Committer&nbsp;<a ng-click="sort_by('branchDescriptor.committer')"><i class="icon-sort"></i></a></th>
+						<th class="status" ng-hide="showStatus">Status&nbsp;<a ng-click="sort_by('status')"><i class="icon-sort"></i></a></th>
+						<th class="retry" ng-hide="showRetry">Retry&nbsp;<a ng-click="sort_by('branchDescriptor.commitId')"><i class="icon-sort"></i></a></th> 
+						<th class="creationTime" ng-hide="showCreationTime">Creation Time&nbsp;<a ng-click="sort_by('creationTime')"><i class="icon-sort"></i></a></th>
+						<th class="runTime" ng-hide="showRunTime">Run Time&nbsp;<a ng-click="sort_by('runTime')"><i class="icon-sort"></i></a></th>
+						<th class="endTime" ng-hide="showEndTime">End Time&nbsp;<a ng-click="sort_by('endTime')"><i class="icon-sort"></i></a></th>
+						<th class="buildUrl" ng-hide="showBuildUrl">Build URL&nbsp;<a ng-click="sort_by('buildUrl')"><i class="icon-sort"></i></a></th>
+					</tr>
+				</thead>
+				<tfoot>
+					<td colspan="6">
+					<div class="pagination pull-right">
+						<ul>
+							<li ng-class="{disabled: currentPage == 0}">
+								<a href
+								ng-click="prevPage()">« Prev</a>
+							</li>
+							<li ng-repeat="n in range(pagedItems.length)"
+							ng-class="{active: n == currentPage}" ng-click="setPage()">
+								<a href ng-bind="n + 1">1</a>
+							</li>
+							<li ng-class="{disabled: currentPage == pagedItems.length - 1}">
+								<a href ng-click="nextPage()">Next »</a>
+							</li>
+						</ul>
+					</div></td>
+				</tfoot>
+				<tbody ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse" >
+					<tr>
+						<td title="History: {{histNumber}}" ng-mouseover="getHistory(item.branchDescriptor.newBranch)"><font color="green" size="4px" ng-click="showHist=!showHist" ng-hide="historyExist(item.branchDescriptor.newBranch)"><b ng-hide="!showHist">&#43;</b><b ng-hide="showHist">&#8211;</b></font></td>	
+						<td title="Commit message: {{dynamicTooltip}}" ng-mouseover="getMessage(item.branchDescriptor.newBranch.substring(3,10))" ng-context-menu="context(item.status,item.branchDescriptor.committer,item.branchDescriptor.protectedBranch,item.branchDescriptor.newBranch,item.branchDescriptor.commitId);menuOptions" ng-hide="showId" colspan="2">{{item.branchDescriptor.newBranch}}</td>
+						<td title="Protected branch" ng-hide="showProtectedBranch">{{item.branchDescriptor.protectedBranch.substring("refs/heads/".length)}}</td>
+						<td title="Parent branch" ng-hide="showParentBranch">{{isParentBranchValid(item.parentBranch)}}</td>
+						<td title="Committer Email" ng-hide="showCommitter">{{item.branchDescriptor.committer}}</td>
+						<td title="Commit verification status" ng-style="{'color': getColor(item.status)}" ng-hide="showStatus">{{item.status}}</td>
+					    <td title="Retry mechanism" ng-hide="showRetry"><div ng-hide="true">{{item.branchDescriptor.commitId}}</div><button ng-click="retry(item.branchDescriptor.committer,item.branchDescriptor.protectedBranch,item.branchDescriptor.newBranch,item.branchDescriptor.commitId)" ng-disabled="button(item.status,item.branchDescriptor.commitId,displayMode.Mode,item.runTimeStr,item.endTimeStr)">Retry</button></td>
+						<td title="Git push time" ng-hide="showCreationTime">{{item.creationTimeStr}}</td>
+						<td title="Sent to Jenkins time" ng-hide="showRunTime">{{item.runTimeStr}}</td>
+						<td title="Verification End time" ng-hide="showEndTime">{{item.endTimeStr}}</td>
+						<td title="Jenkins Build URL" ng-hide="showBuildUrl"><a href={{item.buildUrl}} target="_blank">{{item.buildUrl.substring(item.buildUrl.indexOf("job")+4)}}</a></td>
+					</tr>
+					<tr ng-hide="showHist">
+						<th style="background-color: white;"></th>
+						<th style="background-color: white; width : 70px;"></th>
+						<th title="Parent branch" style="width : 160px;">Parent Branch</th>
+						<th title="Committer Email">Committer</th>
+						<th title="Commit verification status">Status</th>
+						<th title="Verification End time">End Time</th>
+						<th title="Jenkins Build URL(Commit Id)">Build URL (Commit ID)</th>
+					</tr>
+					<tr ng-repeat="hitem in historyData | filter:{commitId:item.branchDescriptor.newBranch}" ng-hide="showHist">
+						<td style="background-color:white; border-top:2px solid white;"></td>
+						<td style="background-color:white; border-top:2px solid white;"></td>
+						<td title="Parent Branch" style="width : 160px;">{{isParentBranchValid(hitem.parentBranch)}}</td>
+						<td title="Committer Email">{{hitem.committer}}</td>
+						<td title="Commit verification status" ng-style="{'color': getColor(hitem.status)}">{{hitem.status}}</td>
+						<td title="Verification End time">{{formatDate(hitem.endTime) | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+						<td title="Jenkins Build URL(Commit Id)"><a href={{hitem.buildUrl}} target="_blank">{{hitem.buildUrl.substring(hitem.buildUrl.indexOf("job")+4)}}</a>({{hitem.commitId.substring(3,10)}})</td>
+					</tr>
+				</tbody>
+			</table>
+		<div class="collector">
+				<ul style="list-style:none">
+					<li>
+    					Version:{{displayMode.Version}}
+					</li>
+				</ul>
+		</div>
+	 </div>
+	</body>
+</html>

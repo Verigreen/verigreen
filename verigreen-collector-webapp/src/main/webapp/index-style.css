@@ -1,0 +1,136 @@
+/*******************************************************************************
+ * Copyright 2015 Hewlett-Packard Development Company, L.P.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License.
+ *******************************************************************************/
+			img {
+				top: 5px;
+				right: 10px;
+				position: absolute;
+				width: 185px;
+				height: 75px;
+			}
+			.wrapper {
+				min-width: 100%;
+				min-height:100%;
+				position:absolute;
+			}
+			.content {
+				padding: 10px;
+				padding-bottom: 30px;
+			}
+			.collector {
+				height: 30px;
+				position: absolute;
+				bottom: 0;
+				right: 2px;
+			}
+			.collectorName {
+				list-style: none;
+				text-align: center;
+				color: black;
+				font-family: "Times New Roman", Times, serif;
+				font-weight: bold;
+				font-style: italic;
+				font-size: 25px;
+			}
+			.time {
+				width: 50px;
+				height: 40px;
+			}
+			.table {
+				top: 50px;
+  				position: relative;
+			}
+			.columnSelection {
+				position: absolute;
+				right: 0px;
+				top: 60px;
+				overflow: auto; 
+				width: 150px; 
+				height: 75px; 
+				padding-left: 5px;
+				top: 30px;
+  				float: left;
+  				padding: 5px 0;
+  				margin: 2px 0 0;
+  				font-size: 14px;
+  				background-color: white;
+  				border: 1px solid #E0E0E0;
+  				box-shadow: 1px 1px 2px #E0E0E0;
+  				z-index: 10;
+			}
+			.filter {
+				position:absolute;
+				left:260px;
+				top: 112px;
+			}
+			.button {
+  				margin: 0;
+  				float: left;
+  				outline: none;
+  				padding: 5px;
+  				background: white;
+  				border: none;
+  				display:inline-block;
+  				font-size:20px;
+  				color: #b3b3b3;
+			}
+			.button:hover {
+  				cursor: pointer;
+  				color: #E0E0E0;
+			}
+			.symbol1 {
+				border: 1px solid #b3b3b3;
+				width: 25px;
+				height: 27px;
+			}
+			.symbol2 {
+				transform: scale(.7, 1.2);
+			}
+			#textbox {
+				border: 2px solid;
+				height: 30px;
+    			border-color: #dddddd;
+    			border-top-right-radius: 0em;
+    			border-bottom-right-radius: 0em;
+			}
+			.search {
+				position: relative;
+				top: 55px;
+				left: 0px;
+			}
+			.refresh {
+				position: absolute;
+				left: 320px;
+				top: 117px;
+			}
+			.refreshButton {
+  				margin: 0;
+  				outline: none;
+  				padding: 5px;
+  				background: white;
+  				border: none;
+  				display: inline-block;
+  				font-size: 30px;
+  				color: #b3b3b3;
+			}
+			.historyButton {
+  				margin: 0;
+  				outline: none;
+  				padding: 5px;
+  				background: #f9f9f9;
+  				border: none;
+  				display: inline-block;
+  				font-size: 30px;
+			}
+			.historyButton:hover {
+				background: #f5f5f5;
+			}
