@@ -14,7 +14,6 @@ _Resharper*/
 *.lld
 *.msi
 .project
-QCDrop
 *.log.*
 test-output
 *.classpath
