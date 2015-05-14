@@ -17,7 +17,6 @@ See the License for the specific language governing permissions and limitations 
 	<version>2.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>verigreen</name>
-	<!-- TODO: need to change path to github -->
 	<scm>
 		<url>https://github.com/Verigreen/verigreen/</url>
 		<connection>scm:git:git@github.com:Verigreen/verigreen.git</connection>
