@@ -89,7 +89,7 @@ public class BranchCleanerJob implements Job{
 		}
 		
 		try {
-			repo = new FileRepository(VerigreenNeededLogic.properties.getProperty("git.repsoritoryLocation"));
+			repo = new FileRepository(VerigreenNeededLogic.properties.getProperty("git.repositoryLocation"));
 			if(result.contains(repo.getBranch())) {
 				_jgit.checkout(VerigreenNeededLogic.VerigreenMap.get("_protectedBranches"), false, false);
 			}
@@ -97,7 +97,7 @@ public class BranchCleanerJob implements Job{
 			 VerigreenLogger.get().error(
 	                    getClass().getName(),
 	                    RuntimeUtils.getCurrentMethodName(),
-	                    String.format("Failed creating git repository for path [%s]",VerigreenNeededLogic.properties.getProperty("git.repsoritoryLocation")),
+	                    String.format("Failed creating git repository for path [%s]",VerigreenNeededLogic.properties.getProperty("git.repositoryLocation")),
 	                    e);
 		}
 		

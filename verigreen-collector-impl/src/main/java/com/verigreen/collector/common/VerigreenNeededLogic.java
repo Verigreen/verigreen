@@ -71,9 +71,9 @@ public class VerigreenNeededLogic {
 	    	  VerigreenLogger.get().error(
 	                    getClass().getName(),
 	                    RuntimeUtils.getCurrentMethodName(),
-	                    String.format("Repository not found: %s", properties.getProperty("git.repsoritoryLocation")),
+	                    String.format("Repository not found: %s", properties.getProperty("git.repositoryLocation")),
 	                    thrown);
-	    	  sendEmailNotification("Repository not found", "Repository not found: "+properties.getProperty("git.repsoritoryLocation")+". "+thrown.getMessage()+".", new String[] { properties.getProperty("email.address") }, getSignature());
+	    	  sendEmailNotification("Repository not found", "Repository not found: "+properties.getProperty("git.repositoryLocation")+". "+thrown.getMessage()+".", new String[] { properties.getProperty("email.address") }, getSignature());
 			}
 
 			Thread t = new Thread(new Watchdir());
@@ -126,11 +126,11 @@ public class VerigreenNeededLogic {
 	}
     public void setGitRepositoryPath()
     {
-		String repoPath = properties.getProperty("git.repsoritoryLocation").concat("\\.git");
-		properties.setProperty("git.repsoritoryLocation", repoPath);
+		String repoPath = properties.getProperty("git.repositoryLocation").concat("\\.git");
+		properties.setProperty("git.repositoryLocation", repoPath);
     }
 	private void checkGitRepo() {
-		String repositoryPath = properties.getProperty("git.repsoritoryLocation");
+		String repositoryPath = properties.getProperty("git.repositoryLocation");
 		SourceControlOperator srcControl = new JGitOperator(repositoryPath);
 		srcControl.fetch();
 	}

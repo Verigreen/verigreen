@@ -785,8 +785,8 @@ public class TestCollectorE2EGreenPath extends SystemTestBase {
         String line, row = null;
 		while ((line = reader.readLine()) != null) {
 			row = line.toString();
-			if(line.toString().contains("git.repsoritoryLocation")){
-				row = "git.repsoritoryLocation=" + repo;
+			if(line.toString().contains("git.repositoryLocation")){
+				row = "git.repositoryLocation=" + repo;
 			}
 			out.append(row + "\n");
         }
