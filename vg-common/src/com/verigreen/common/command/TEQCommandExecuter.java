@@ -29,13 +29,13 @@ import com.verigreen.common.concurrency.timeboundedexecuter.KeepWaitingPolicy;
 import com.verigreen.common.concurrency.timeboundedexecuter.TimeBoundedExecuter;
 import com.verigreen.common.utils.Action;
 
-public class TECommandExecuter {
+public class TEQCommandExecuter {
     
     @Autowired
     private TimeBoundedExecuter _timeBoundedExecuter;
     private int _timeoutMillis;
     
-    private TECommandExecuter() {}
+    private TEQCommandExecuter() {}
     
     public <TCommandParameters extends TEQCommandParameters> void execute(
             CommandPack<TCommandParameters> commandPack,
@@ -120,11 +120,11 @@ public class TECommandExecuter {
     private static class RunnableExecuter<TCommandParameters extends TEQCommandParameters>
             implements Action<Void> {
         
-        private final TECommand<TCommandParameters> _command;
+        private final TEQCommand<TCommandParameters> _command;
         private final TCommandParameters _commandParameters;
         
         public RunnableExecuter(
-                TECommand<TCommandParameters> command,
+                TEQCommand<TCommandParameters> command,
                 TCommandParameters commandParameters) {
             
             _command = command;

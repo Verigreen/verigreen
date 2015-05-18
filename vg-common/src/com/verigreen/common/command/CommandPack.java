@@ -19,17 +19,17 @@ import com.verigreen.common.concurrency.RuntimeUtils;
 
 public class CommandPack<TTEQCommandParameters extends TEQCommandParameters> {
     
-    private final TECommand<TTEQCommandParameters> _command;
+    private final TEQCommand<TTEQCommandParameters> _command;
     private final TTEQCommandParameters _params;
     private final CommandResult _error = new CommandResult();
     
-    public CommandPack(TECommand<TTEQCommandParameters> command, TTEQCommandParameters params) {
+    public CommandPack(TEQCommand<TTEQCommandParameters> command, TTEQCommandParameters params) {
         
         _command = command;
         _params = params;
     }
     
-    public TECommand<TTEQCommandParameters> getCommand() {
+    public TEQCommand<TTEQCommandParameters> getCommand() {
         
         return _command;
     }
