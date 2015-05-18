@@ -39,7 +39,7 @@ public class CommitMessage {
 		Map<String,String> logMessages = new HashMap<String,String>();
 		try {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-	     Repository repo = builder.setGitDir(new File(VerigreenNeededLogic.properties.getProperty("git.repsoritoryLocation"))).setMustExist(true).build();
+	     Repository repo = builder.setGitDir(new File(VerigreenNeededLogic.properties.getProperty("git.repositoryLocation"))).setMustExist(true).build();
 	    Git git = new Git(repo);
 	    Iterable<RevCommit> log = git.log().call();
 	    for (Iterator<RevCommit> iterator = log.iterator(); iterator.hasNext();) {

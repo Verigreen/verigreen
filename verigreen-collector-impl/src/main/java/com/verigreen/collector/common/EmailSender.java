@@ -48,7 +48,7 @@ public class EmailSender {
     	String commitMessage = null;
 		try {
 			FileRepositoryBuilder builder = new FileRepositoryBuilder();
-			String repoPath = VerigreenNeededLogic.properties.getProperty("git.repsoritoryLocation");
+			String repoPath = VerigreenNeededLogic.properties.getProperty("git.repositoryLocation");
 			Repository repo = builder.setGitDir(new File(repoPath)).setMustExist(true).build();
 			Git git = new Git(repo);
 			Iterable<RevCommit> log = git.log().call();
