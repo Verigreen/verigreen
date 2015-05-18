@@ -12,12 +12,12 @@
  *******************************************************************************/
 package com.verigreen.common.command;
 
-import com.verigreen.common.command.AbstractTEQCommand;
+import com.verigreen.common.command.AbstractTECommand;
 import com.verigreen.common.command.params.TEQCommandParameters;
 
-public class TEQCommandMocks {
+public class TECommandMocks {
     
-    public static class TEQCommandMockDefault extends AbstractTEQCommand<TEQCommandParameters> {
+    public static class TEQCommandMockDefault extends AbstractTECommand<TEQCommandParameters> {
         
         public static final String TYPE = "teqCommandMock";
         
@@ -33,7 +33,7 @@ public class TEQCommandMocks {
         }
     }
     
-    public static class TEQCommandNegativeMock extends AbstractTEQCommand<TEQCommandParameters> {
+    public static class TEQCommandNegativeMock extends AbstractTECommand<TEQCommandParameters> {
         
         public static final String TYPE = "teqCommandNegativeMock";
         
@@ -49,7 +49,7 @@ public class TEQCommandMocks {
         }
     }
     
-    public static class TEQCommandHangMock extends AbstractTEQCommand<TEQCommandParameters> {
+    public static class TEQCommandHangMock extends AbstractTECommand<TEQCommandParameters> {
         
         public static final String TYPE = "teqCommandHangMock";
         

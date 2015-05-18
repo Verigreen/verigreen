@@ -15,8 +15,6 @@ See the License for the specific language governing permissions and limitations 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
- 	<!-- TEQ Command Executer -->
-    <bean id="teqCommandExecuter" class="com.verigreen.common.command.TEQCommandExecuter" scope="singleton">
-    	<property name="timeout" value="60000"/>
-    </bean>
+ 	<!-- TE Command Executer -->
+    <bean id="timeBoundedExecuter" class="com.verigreen.common.concurrency.timeboundedexecuter.TimeBoundedExecuter" scope="singleton"/>
 </beans>

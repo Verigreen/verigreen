@@ -28,8 +28,8 @@ import com.verigreen.common.utils.Action;
 import com.verigreen.common.spring.SpringTestCase;
 
 @ContextConfiguration(locations = {
-        "/Spring/qcext-pclab-timeboundedexecuter-context.xml",
-        "/Spring/qcext-pclab-common-context.xml" })
+        "/Spring/timeboundedexecuter-context.xml",
+        "/Spring/common-context.xml" })
 public class TestTimeBoundedExecuter extends SpringTestCase {
     
     @Autowired

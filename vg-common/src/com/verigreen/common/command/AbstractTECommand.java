@@ -14,19 +14,19 @@ package com.verigreen.common.command;
 
 import com.verigreen.common.command.params.TEQCommandParameters;
 
-public abstract class AbstractTEQCommand<TTEQCommandParameters extends TEQCommandParameters>
-        implements TEQCommand<TTEQCommandParameters> {
+public abstract class AbstractTECommand<TTEQCommandParameters extends TEQCommandParameters>
+        implements TECommand<TTEQCommandParameters> {
     
     private final String _type;
     private final Priority _priority;
     private final boolean _isCritical;
     
-    public AbstractTEQCommand(String type, Priority priority) {
+    public AbstractTECommand(String type, Priority priority) {
         
         this(type, priority, false);
     }
     
-    public AbstractTEQCommand(String type, Priority priority, boolean isCritical) {
+    public AbstractTECommand(String type, Priority priority, boolean isCritical) {
         
         _type = type;
         _priority = priority;
@@ -52,7 +52,7 @@ public abstract class AbstractTEQCommand<TTEQCommandParameters extends TEQComman
     }
     
     @Override
-    public int compareTo(TEQCommand<TTEQCommandParameters> command) {
+    public int compareTo(TECommand<TTEQCommandParameters> command) {
         
         // works with enum compareTo method - the order of the enum values' declaration matters
         return _priority.compareTo(command.getPriority());

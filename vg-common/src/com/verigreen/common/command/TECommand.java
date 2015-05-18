@@ -14,8 +14,8 @@ package com.verigreen.common.command;
 
 import com.verigreen.common.command.params.TEQCommandParameters;
 
-public interface TEQCommand<TTEQCommandParameters extends TEQCommandParameters> extends
-        Comparable<TEQCommand<TTEQCommandParameters>>, HasPriority {
+public interface TECommand<TTEQCommandParameters extends TEQCommandParameters> extends
+        Comparable<TECommand<TTEQCommandParameters>>, HasPriority {
     
     String getType();
     
