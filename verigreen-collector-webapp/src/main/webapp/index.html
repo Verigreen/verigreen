@@ -114,16 +114,16 @@
 				</tfoot>
 				<tbody ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse" >
 					<tr>
-						<td title="History: {{histNumber}}" ng-mouseover="getHistory(item.branchDescriptor.newBranch)"><font color="green" size="4px" ng-click="showHist=!showHist" ng-hide="historyExist(item.branchDescriptor.newBranch)"><b ng-hide="!showHist">&#43;</b><b ng-hide="showHist">&#8211;</b></font></td>	
+						<td title="History: {{histNumber}}" ng-mouseover="getHistory(item.branchDescriptor.newBranch)"><button type="button" class="historyButton" ng-click="showHist=!showHist" ng-hide="historyExist(item.branchDescriptor.newBranch)"><font color="green" size="4px"><b ng-hide="!showHist">&#43;</b><b ng-hide="showHist">&#8211;</b></font></button></td>	
 						<td title="Commit message: {{dynamicTooltip}}" ng-mouseover="getMessage(item.branchDescriptor.newBranch.substring(3,10))" ng-context-menu="context(item.status,item.branchDescriptor.committer,item.branchDescriptor.protectedBranch,item.branchDescriptor.newBranch,item.branchDescriptor.commitId);menuOptions" ng-hide="showId" colspan="2">{{item.branchDescriptor.newBranch}}</td>
 						<td title="Protected branch" ng-hide="showProtectedBranch">{{item.branchDescriptor.protectedBranch.substring("refs/heads/".length)}}</td>
 						<td title="Parent branch" ng-hide="showParentBranch">{{isParentBranchValid(item.parentBranch)}}</td>
 						<td title="Committer Email" ng-hide="showCommitter">{{item.branchDescriptor.committer}}</td>
 						<td title="Commit verification status" ng-style="{'color': getColor(item.status)}" ng-hide="showStatus">{{item.status}}</td>
 					    <td title="Retry mechanism" ng-hide="showRetry"><div ng-hide="true">{{item.branchDescriptor.commitId}}</div><button ng-click="retry(item.branchDescriptor.committer,item.branchDescriptor.protectedBranch,item.branchDescriptor.newBranch,item.branchDescriptor.commitId)" ng-disabled="button(item.status,item.branchDescriptor.commitId,displayMode.Mode,item.runTimeStr,item.endTimeStr)">Retry</button></td>
-						<td title="Git push time" ng-hide="showCreationTime">{{item.creationTimeStr}}</td>
-						<td title="Sent to Jenkins time" ng-hide="showRunTime">{{item.runTimeStr}}</td>
-						<td title="Verification End time" ng-hide="showEndTime">{{item.endTimeStr}}</td>
+						<td title="Git push time" ng-hide="showCreationTime">{{item.creationDateTimeString}}</td>
+						<td title="Sent to Jenkins time" ng-hide="showRunTime">{{item.runDateTimeString}}</td>
+						<td title="Verification End time" ng-hide="showEndTime">{{item.endDateTimeString}}</td>
 						<td title="Jenkins Build URL" ng-hide="showBuildUrl"><a href={{item.buildUrl}} target="_blank">{{item.buildUrl.substring(item.buildUrl.indexOf("job")+4)}}</a></td>
 					</tr>
 					<tr ng-hide="showHist">

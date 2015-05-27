@@ -269,6 +269,9 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 			}
 		}).success(function(data) {
 			$scope.items = data;
+			angular.forEach($scope.items, function(item) {
+				createDateStringAttributes(item);
+			});
 			$scope.search();
 		}).error(function(data) {
 			alert('err');
@@ -306,15 +309,18 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 
 		$scope.filteredItems = $filter('filter')($scope.items, function(item) {
 			for (var attr in item) {
-				createDateStringAttributes(item);
 				if (attr === 'branchDescriptor') {
 					for (var attr2 in item[attr]) {
 						if (searchMatch(item[attr][attr2], $scope.query)) {
 							return true;
 						}
 					}
-				} else if (searchMatch(item[attr], $scope.query)) {
-					return true;
+				} else {
+					if (attr !== 'creationTime' && attr !== 'runTime' && attr !== 'endTime') {
+						if (searchMatch(item[attr], $scope.query)) {
+							return true;
+						}
+					}
 				}
 			}
 			return false;
@@ -330,14 +336,9 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	
 	function createDateStringAttributes(commitItem) {
 		
-		commitItem.creationTimeStr = toDateString(commitItem.creationTime);
-		commitItem.runTimeStr = toDateString(commitItem.runTime);
-		commitItem.endTimeStr = toDateString(commitItem.endTime);
-	}
-
-	function toDateString(timestamp) {
-
-		return new Date(timestamp).toString("dd-MM-yyyy HH:mm:ss");
+		commitItem.creationDateTimeString = new Date(commitItem.creationTime).toString("dd-MM-yyyy HH:mm:ss");
+		commitItem.runDateTimeString = new Date(commitItem.runTime).toString("dd-MM-yyyy HH:mm:ss");
+		commitItem.endDateTimeString = new Date(commitItem.endTime).toString("dd-MM-yyyy HH:mm:ss");
 	}
 
 	// calculate page in place
