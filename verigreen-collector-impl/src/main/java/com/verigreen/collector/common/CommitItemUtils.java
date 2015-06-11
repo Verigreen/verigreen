@@ -14,7 +14,6 @@ package com.verigreen.collector.common;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -109,18 +108,18 @@ public class CommitItemUtils {
 			if(canceledItem == false) {
 				jsonObject.put("status", localCommitItem.getStatus().name());
 				if(localCommitItem.getEndTime()!=null) {
-					jsonObject.put("endTime", localCommitItem.getEndTime().toString());
+					jsonObject.put("endTime", localCommitItem.getEndTime().getTime());
 				} else {
-					jsonObject.put("endTime", new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(new Date(0)));
+					jsonObject.put("endTime", new Date(0).getTime());
 				}
 				
 			} else {
 				if(localCommitItem.getStatus().equals(VerificationStatus.NOT_STARTED) || localCommitItem.getStatus().equals(VerificationStatus.RUNNING)){
 					jsonObject.put("status", "CANCELED");
-					jsonObject.put("endTime", new LocalMachineCurrentTimeProvider().getCurrentTime().toString());
+					jsonObject.put("endTime", new LocalMachineCurrentTimeProvider().getCurrentTime().getTime());
 				} else {
 					jsonObject.put("status", localCommitItem.getStatus().name());
-					jsonObject.put("endTime", new LocalMachineCurrentTimeProvider().getCurrentTime().toString());
+					jsonObject.put("endTime", new LocalMachineCurrentTimeProvider().getCurrentTime().getTime());
 				}
 			}
 		objectList.add(jsonObject);
