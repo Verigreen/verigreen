@@ -123,24 +123,25 @@ public class CommitItemUtils {
 				}
 			}
 		objectList.add(jsonObject);
-		if(VerigreenNeededLogic.history.containsKey("\""+localCommitItem.getBranchDescriptor().getNewBranch()+"\"")) {
+		if(VerigreenNeededLogic.history.containsKey(localCommitItem.getBranchDescriptor().getNewBranch())) {
 			for (String key : VerigreenNeededLogic.history.keySet()) {
-				if(key.equals("\""+localCommitItem.getBranchDescriptor().getNewBranch()+"\"")) {
+				if(key.equals(localCommitItem.getBranchDescriptor().getNewBranch())) {
 					objectList.addAll(VerigreenNeededLogic.history.get(key));
 					VerigreenNeededLogic.history.put(key, objectList);
 				}		
 			}
 		} else {
-			VerigreenNeededLogic.history.put("\""+localCommitItem.getBranchDescriptor().getNewBranch()+"\"", objectList);
+			VerigreenNeededLogic.history.put(localCommitItem.getBranchDescriptor().getNewBranch(), objectList);
 		}
-			file = new FileWriter(System.getenv("VG_HOME") + "\\history.json");
-			file.write(VerigreenNeededLogic.history.toString().replaceAll("=", ":"));
+			file = new FileWriter(System.getenv("VG_HOME") + "//history.json");
+			JSONObject history = new JSONObject(VerigreenNeededLogic.history);
+			file.write(history.toString());
 			file.flush();
 			file.close();
 	}
     
     private static boolean checkIfBuildUrlExist(CommitItem localCommitItem) throws JSONException {
-		List<JSONObject> jsonList = VerigreenNeededLogic.history.get("\""+localCommitItem.getBranchDescriptor().getNewBranch()+"\"");
+		List<JSONObject> jsonList = VerigreenNeededLogic.history.get(localCommitItem.getBranchDescriptor().getNewBranch());
 		if(jsonList != null) { 	
 			for (JSONObject jobj : jsonList) {
 				if(jobj.get("buildUrl").equals(localCommitItem.getBuildUrl().toString())) {

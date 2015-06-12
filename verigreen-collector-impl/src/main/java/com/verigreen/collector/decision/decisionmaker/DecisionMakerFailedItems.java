@@ -110,7 +110,7 @@ public class DecisionMakerFailedItems {
 			VerigreenLogger.get().error(
 					getClass().getName(),
                     RuntimeUtils.getCurrentMethodName(),
-                    String.format("Failed creating json file",
+                    String.format("Failed creating json file: " + System.getenv("VG_HOME") + "\\history.json",
                     e));
 		}
         

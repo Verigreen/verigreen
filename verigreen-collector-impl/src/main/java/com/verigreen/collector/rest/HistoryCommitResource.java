@@ -12,9 +12,6 @@
  *******************************************************************************/
 package com.verigreen.collector.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -32,13 +29,10 @@ public class HistoryCommitResource {
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(){
-		List<JSONObject> values = new ArrayList<JSONObject>();
-		String val = null;
-		for(String key : VerigreenNeededLogic.history.keySet()) {
-			values.addAll(VerigreenNeededLogic.history.get(key));
-		}
-		val = values.toString();
 		
-		return Response.status(Status.OK).entity(val).build();
+		JSONObject history = new JSONObject(VerigreenNeededLogic.history);
+		return Response.status(Status.OK).entity(history.toString()).build();
+		
 	}
+	
 }
