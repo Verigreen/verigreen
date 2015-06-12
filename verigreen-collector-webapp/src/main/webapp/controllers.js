@@ -11,8 +11,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  *******************************************************************************/
 var app = angular.module('App', ['ngCookies','angularModalService']);
-app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedProperty', '$cookies', '$interval',
-   function ($scope, $filter, $http, ModalService, sharedProperty, $cookies,$interval) {
+app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedProperty', '$cookies', '$interval', '$cookieStore',
+   function ($scope, $filter, $http, ModalService, sharedProperty, $cookies,$interval,$cookieStore) {
 
 	// init
 	$scope.sortingOrder = sortingOrder;
@@ -28,185 +28,45 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	$scope.number = /^\d+$/;
 	$scope.time = "30";
 	$scope.checklist = true;
-	$scope.showHist = true;
-	$scope.color = "gray";
+	$scope.color = "#A8A8A8";
 	
-    $scope.reloadValue = function() {
-    	if($cookies.History == "false") {
-    		$scope.showHistory = false;
-    	} else if($cookies.History == "true") {
-    		$scope.showHistory = true;
-    	}
-    	if($cookies.Id == "false") {
-    		$scope.showId = false;
-    	} else if($cookies.Id == "true") {
-    		$scope.showId = true;
-    	}
-    	if($cookies.ProtectedBranch == "false") {
-    		$scope.showProtectedBranch = false;
-    	} else if($cookies.ProtectedBranch == "true") {
-    		$scope.showProtectedBranch = true;
-    	}
-    	if($cookies.ParentBranch == "false") {
-    		$scope.showParentBranch = false;
-    	} else if($cookies.ParentBranch == "true") {
-    		$scope.showParentBranch = true;
-    	}
-    	if($cookies.Committer == "false") {
-    		$scope.showCommitter = false;
-    	} else if($cookies.Committer == "true") {
-    		$scope.showCommitter = true;
-    	}
-    	if($cookies.Status == "false") {
-    		$scope.showStatus = false;
-    	} else if($cookies.Status == "true") {
-    		$scope.showStatus = true;
-    	}
-    	if($cookies.Retry == "false") {
-    		$scope.showRetry = false;
-    	} else if($cookies.Retry == "true") {
-    		$scope.showRetry = true;
-    	}
-    	if($cookies.CreationTime == "false") {
-    		$scope.showCreationTime = false;
-    	} else if($cookies.CreationTime == "true") {
-    		$scope.showCreationTime = true;
-    	}
-    	if($cookies.RunTime == "false") {
-    		$scope.showRunTime = false;
-    	} else if($cookies.RunTime == "true") {
-    		$scope.showRunTime = true;
-    	}
-    	if($cookies.EndTime == "false") {
-    		$scope.showEndTime = false;
-    	} else if($cookies.EndTime == "true") {
-    		$scope.showEndTime = true;
-    	}
-    	if($cookies.BuildUrl == "false") {
-    		$scope.showBuildUrl = false;
-    	} else if($cookies.BuildUrl == "true") {
-    		$scope.showBuildUrl = true;
-    	}
-    };
-    
-    $scope.reloadValue();
-    
-    $scope.toogleHistory = function(){
-    	$scope.showHistory=!$scope.showHistory;
-    	if($scope.showHistory == false) {
-    		$cookies.History = "false";
-    	}
-    	else {
-    		$cookies.History = "true";
-    	}
-    };
+	$scope.getValueFilter = function(column) {
+		if($cookieStore.get(column) == true) {
+			  $scope.colorFilter = "#0088CC";
+			  return false;
+		  }
+		  else {
+			  return true;
+		  }
+	};
 	
-    $scope.toogleId = function(){
-    	$scope.showId=!$scope.showId;
-    	if($scope.showId == false) {
-    		$cookies.Id = "false";
-    	}
-    	else {
-    		$cookies.Id = "true";
-    	}
+    $scope.toogleFilter = function(column,show) {
+    	$cookieStore.put(column,show);
+    	$scope.filterColor();
     };
     
-    $scope.toogleProtectedBranch = function(){
-    	$scope.showProtectedBranch=!$scope.showProtectedBranch;
-    	if($scope.showProtectedBranch == false) {
-    		$cookies.ProtectedBranch = "false";
+    $scope.filterColor = function() {
+    	if($cookieStore.get('Id') == true || $cookieStore.get('ProtectedBranch') == true || $cookieStore.get('ParentBranch') == true || 
+    			$cookieStore.get('Committer') == true || $cookieStore.get('Status') == true || $cookieStore.get('Retry') == true || $cookieStore.get('CreationTime') == true ||
+    			$cookieStore.get('RunTime') == true || $cookieStore.get('EndTime') == true || $cookieStore.get('BuildUrl') == true) {
+    		 $scope.colorFilter = "#0088CC";
     	}
     	else {
-    		$cookies.ProtectedBranch = "true";
-    	}
-    };
-    
-    $scope.toogleParentBranch = function(){
-    	$scope.showParentBranch=!$scope.showParentBranch;
-    	if($scope.showParentBranch == false) {
-    		$cookies.ParentBranch = "false";
-    	}
-    	else {
-    		$cookies.ParentBranch = "true";
-    	}
-    };
-    
-    $scope.toogleCommitter = function(){
-    	$scope.showCommitter=!$scope.showCommitter;
-    	if($scope.showCommitter == false) {
-    		$cookies.Committer = "false";
-    	}
-    	else {
-    		$cookies.Committer = "true";
-    	}
-    };
-    
-    $scope.toogleStatus = function(){
-    	$scope.showStatus=!$scope.showStatus;
-    	if($scope.showStatus == false) {
-    		$cookies.Status = "false";
-    	}
-    	else {
-    		$cookies.Status = "true";
-    	}
-    };
-    
-    $scope.toogleRetry = function(){
-    	$scope.showRetry=!$scope.showRetry;
-    	if($scope.showRetry == false) {
-    		$cookies.Retry = "false";
-    	}
-    	else {
-    		$cookies.Retry = "true";
-    	}
-    };
-    
-    $scope.toogleCreationTime = function(){
-    	$scope.showCreationTime=!$scope.showCreationTime;
-    	if($scope.showCreationTime == false) {
-    		$cookies.CreationTime = "false";
-    	}
-    	else {
-    		$cookies.CreationTime = "true";
-    	}
-    };
-    
-    $scope.toogleRunTime = function(){
-    	$scope.showRunTime=!$scope.showRunTime;
-    	if($scope.showRunTime == false) {
-    		$cookies.RunTime = "false";
-    	}
-    	else {
-    		$cookies.RunTime = "true";
-    	}
-    };
-    
-    $scope.toogleEndTime = function(){
-    	$scope.showEndTime=!$scope.showEndTime;
-    	if($scope.showEndTime == false) {
-    		$cookies.EndTime = "false";
-    	}
-    	else {
-    		$cookies.EndTime = "true";
-    	}
-    };
-    
-    $scope.toogleBuildUrl = function(){
-    	$scope.showBuildUrl=!$scope.showBuildUrl;
-    	if($scope.showBuildUrl == false) {
-    		$cookies.BuildUrl = "false";
-    	}
-    	else {
-    		$cookies.BuildUrl = "true";
+    		 $scope.colorFilter = "#A8A8A8";
     	}
     };
     
     $scope.toogle = function() {
   		$scope.check =!$scope.check;
   		if($scope.check == true){
-  			$scope.color = "green";
+  			$scope.color = "#0088CC";
+  			$scope.cols = 450;
   			$cookies.time = $scope.time;
-  			timer = $interval(function(){
+  			$scope.refresh();
+			$scope.clicked = [];
+			$scope.commitMessage();
+			$scope.historyResource();
+  			timer = $interval(function() {
   				$scope.refresh();
   				$scope.clicked = [];
   				$scope.commitMessage();
@@ -214,7 +74,8 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
   			},$scope.time*1000);
   		}
   		else if($scope.check == false){
-  			$scope.color = "gray";
+  			$scope.color = "#A8A8A8";
+  			$scope.cols = 330;
   			$cookies.time = "0";
   			$interval.cancel(timer);
             timer=undefined;
@@ -236,7 +97,8 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
       
     $scope.autoreload = function() {
   		if($cookies.time > 0) {
-  			$scope.color = "green";
+  			$scope.color = "#0088CC";
+  			$scope.cols = 450;
   			$scope.check = true;
   			$scope.time = $cookies.time;
   			timer = $interval(function(){
@@ -335,11 +197,20 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	};
 	
 	function createDateStringAttributes(commitItem) {
-		
-		commitItem.creationDateTimeString = new Date(commitItem.creationTime).toString("dd-MM-yyyy HH:mm:ss");
-		commitItem.runDateTimeString = new Date(commitItem.runTime).toString("dd-MM-yyyy HH:mm:ss");
-		commitItem.endDateTimeString = new Date(commitItem.endTime).toString("dd-MM-yyyy HH:mm:ss");
-	}
+		commitItem.creationDateTimeString = formatDate(commitItem.creationTime);
+		commitItem.runDateTimeString = formatDate(commitItem.runTime);
+		commitItem.endDateTimeString = formatDate(commitItem.endTime);
+	};
+	
+	function formatDate(date) {
+		date = new Date(date).toString("dd-MM-yyyy HH:mm:ss");
+		if(date == "01-01-1970 02:00:00") {
+			return "N/A";
+		}
+		else {
+			return date;
+		}
+	};
 
 	// calculate page in place
 	$scope.groupToPages = function() {
@@ -489,6 +360,9 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
                         }
               }).success(function(data) {
                         $scope.historyData = data;
+                        angular.forEach($scope.historyData, function(item) {
+            				historyDate(item);
+            			});
               }).error(function(data) {
                         alert('err');
               });
@@ -496,15 +370,15 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	  
 	  $scope.historyResource();
 	  
-	  $scope.formatDate = function(date){
-          return new Date(date);
-    };
+	  historyDate = function(hitem){
+	      hitem.endDateTimeString = formatDate(hitem.endTime);
+      };
 	  
 	  $scope.historyExist = function(commitId) {
-		  $scope.histExist = true;
+		  $scope.histExist = false;
 		  for (var d = 0, len = $scope.historyData.length; d < len; d += 1) {
               if ($scope.historyData[d].commitId === commitId) {
-                  $scope.histExist = false; 
+                  $scope.histExist = true;
               }
           }
 		  return $scope.histExist;
@@ -518,6 +392,37 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
               }
           }
 		  return $scope.histNumber;
+	  };
+	 
+	  $scope.saveHistory = function(id,show) {
+		  $cookieStore.put(id.toString(),show);  
+	  };
+	  
+	  $scope.getValue = function(commitId) {
+		  if($cookieStore.get(commitId.toString()) == false) {
+			  return false;
+		  }
+		  else {
+			  return true;
+		  }
+	  };
+	  
+	  $scope.expandAll = function(value) {
+		  for (var d = 0, len = $scope.historyData.length; d < len; d++) {
+			  $cookieStore.put($scope.historyData[d].commitId.toString(),value);
+		  }
+		  $cookieStore.put("expandAll",value);
+	  };
+	  
+	  $scope.getAll = function() {
+		  if($cookieStore.get("expandAll") == false) {
+			  $scope.expandCollapse = "Collapse All";
+			  return false;
+		  }
+		  else {
+			  $scope.expandCollapse = "Expand All";
+			  return true;
+		  }
 	  };
 
 	  $scope.displayMode = function() {
