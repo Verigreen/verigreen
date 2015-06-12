@@ -51,7 +51,7 @@ public class VerigreenNeededLogic {
 	public static Map<String,String> jenkinsParams = new HashMap<String,String>();
 	public static Map<String,List<JSONObject>> history = new HashMap<String,List<JSONObject>>();
 	private String vgHomePath = System.getenv("VG_HOME");
-	private String historyJsonPath = vgHomePath + "\\history.json";
+	private String historyJsonPath = vgHomePath + "//history.json";
 
 	
 	private VerigreenNeededLogic(String protectedBranches, String permittedUsers, String hashedPassword, String fullPush
@@ -111,7 +111,7 @@ public class VerigreenNeededLogic {
 		                {
 			                values.add(keyValues.getJSONObject(i));
 		                }
-		                history.put("\""+key+"\"", values);
+		                history.put(key, values);
 		            }			
 
 		        } catch (JSONException e) {

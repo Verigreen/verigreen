@@ -1,3 +1,15 @@
+<!--/*******************************************************************************
+ * Copyright 2015 Hewlett-Packard Development Company, L.P.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License.
+ *******************************************************************************/-->
 <html xmlns:ng="http://angularjs.org" ng-app="App" lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -95,7 +107,7 @@
 				</tfoot>
 				<tbody ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse" >
 					<tr>
-						<td title="History: {{histNumber}}" ng-mouseover="getHistory(item.branchDescriptor.newBranch)"><button type="button" class="historyButton" ng-click="show=getValue(item.branchDescriptor.newBranch);show=!show;saveHistory(item.branchDescriptor.newBranch,show)" ng-hide="!historyExist(item.branchDescriptor.newBranch)"><font color="#0088CC" size="4px"><b ng-hide="!getValue(item.branchDescriptor.newBranch)">&#43;</b><b ng-hide="getValue(item.branchDescriptor.newBranch)">&#8211;</b></font></td>	
+						<td title="History: {{histNumber}}" ng-mouseover="getHistory(item.branchDescriptor.newBranch)"><button type="button" class="historyButton" ng-click="show=getValue(item.branchDescriptor.newBranch);show=!show;saveHistory(item.branchDescriptor.newBranch,show)" ng-hide="historyExist(item.branchDescriptor.newBranch)"><font color="#0088CC" size="4px"><b ng-hide="!getValue(item.branchDescriptor.newBranch)">&#43;</b><b ng-hide="getValue(item.branchDescriptor.newBranch)">&#8211;</b></font></td>	
 						<td title="Commit message: {{dynamicTooltip}}" ng-mouseover="getMessage(item.branchDescriptor.newBranch.substring(3,10))" ng-context-menu="context(item.status,item.branchDescriptor.committer,item.branchDescriptor.protectedBranch,item.branchDescriptor.newBranch,item.branchDescriptor.commitId);menuOptions" ng-hide="!showId" colspan="2">{{item.branchDescriptor.newBranch}}</td>
 						<td title="Protected branch" ng-hide="!showProtectedBranch">{{item.branchDescriptor.protectedBranch.substring("refs/heads/".length)}}</td>
 						<td title="Parent branch" ng-hide="!showParentBranch">{{isParentBranchValid(item.parentBranch)}}</td>
@@ -116,7 +128,7 @@
 						<th title="Verification End time">End Time</th>
 						<th title="Jenkins Build URL(Commit Id)" colspan="2">Build URL (Commit ID)</th>
 					</tr>
-					<tr ng-repeat="hitem in historyData | filter:{commitId:item.branchDescriptor.newBranch}" ng-hide="getValue(item.branchDescriptor.newBranch)">
+					<tr ng-repeat="hitem in allHistory | filter:{commitId:item.branchDescriptor.newBranch}" ng-hide="getValue(item.branchDescriptor.newBranch)">
 						<td style="background-color:white; border-top:2px solid white;"></td>
 						<td style="background-color:white; border-top:2px solid white;"></td>
 						<td title="Parent Branch" style="width : 160px;">{{isParentBranchValid(hitem.parentBranch)}}</td>

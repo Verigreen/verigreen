@@ -12,7 +12,7 @@
  *******************************************************************************/
 var app = angular.module('App', ['ngCookies','angularModalService']);
 app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedProperty', '$cookies', '$interval', '$cookieStore',
-   function ($scope, $filter, $http, ModalService, sharedProperty, $cookies,$interval,$cookieStore) {
+   function ($scope, $filter, $http, ModalService, sharedProperty, $cookies, $interval, $cookieStore) {
 
 	// init
 	$scope.sortingOrder = sortingOrder;
@@ -23,7 +23,9 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	$scope.pagedItems = [];
 	$scope.currentPage = 0;
 	$scope.items = [];
-	$scope.clicked = [];	
+	$scope.clicked = [];
+	$scope.historyData = [];
+	$scope.historyValues = [];
 	$scope.check = false;
 	$scope.number = /^\d+$/;
 	$scope.time = "30";
@@ -290,7 +292,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 
 	$scope.button  = function(status,commitId,mode,runTime,endTime) {
 		if($scope.clicked.length != 0){
-		for (var d = 0, len = $scope.clicked.length; d < len; d += 1) {
+		for (var d = 0, len = $scope.clicked.length; d < len; d++) {
 			if($scope.clicked[d] == commitId || mode=='enabled' &&(status !='FAILED' && status !='TRIGGER_FAILED' && status !='TIMEOUT' && status !='GIT_FAILURE'))
 			{	
 				return 	true;
@@ -360,9 +362,14 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
                         }
               }).success(function(data) {
                         $scope.historyData = data;
-                        angular.forEach($scope.historyData, function(item) {
-            				historyDate(item);
-            			});
+                    	$scope.allHistory = [];
+                        angular.forEach($scope.historyData, function(hist) {
+                        	$scope.historyValues = hist;
+                        	angular.forEach($scope.historyValues, function(value) {
+                        		historyDate(value);
+                        		$scope.allHistory.push(value);
+                        	});
+                        });
               }).error(function(data) {
                         alert('err');
               });
@@ -375,22 +382,22 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
       };
 	  
 	  $scope.historyExist = function(commitId) {
-		  $scope.histExist = false;
-		  for (var d = 0, len = $scope.historyData.length; d < len; d += 1) {
-              if ($scope.historyData[d].commitId === commitId) {
-                  $scope.histExist = true;
-              }
-          }
+		  $scope.histExist = true;
+		  angular.forEach($scope.allHistory, function(history) {
+			  if(history.commitId === commitId) {
+				  $scope.histExist = false;
+			  }
+		  });
 		  return $scope.histExist;
 	  };
 	  
 	  $scope.getHistory = function(commitId) {
 		  $scope.histNumber = 0;
-		  for (var d = 0, len = $scope.historyData.length; d < len; d += 1) {
-              if ($scope.historyData[d].commitId === commitId) {
-                  $scope.histNumber++;
-              }
-          }
+		  angular.forEach($scope.allHistory, function(history) {
+			  if(history.commitId === commitId) {
+				  $scope.histNumber++;
+			  }
+		  });
 		  return $scope.histNumber;
 	  };
 	 
@@ -408,9 +415,9 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	  };
 	  
 	  $scope.expandAll = function(value) {
-		  for (var d = 0, len = $scope.historyData.length; d < len; d++) {
-			  $cookieStore.put($scope.historyData[d].commitId.toString(),value);
-		  }
+		  angular.forEach($scope.allHistory, function(history) {
+			  $cookieStore.put(history.commitId.toString(),value);
+		  });
 		  $cookieStore.put("expandAll",value);
 	  };
 	  
@@ -434,9 +441,9 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	                          "Content-Type" : "application/json; charset=utf-8"
 	                        }
 	              }).success(function(data) {
-	                             $scope.displayMode = data;
+	            	  $scope.displayMode = data;
 	              }).error(function(data) {
-	                              alert('err');
+	            	  alert('err');
 	              });
 	       }; 
 	                                                                  	
@@ -461,8 +468,8 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	
 	$scope.getMessage = function(branchId) {
 		for(var attr in $scope.messages) {
-			if(attr.substr(0,7)==branchId) {
-				$scope.dynamicTooltip =  $scope.messages[attr];
+			if(attr.substr(0,7) == branchId) {
+				$scope.dynamicTooltip = $scope.messages[attr];
 			}
 		}
 	};
