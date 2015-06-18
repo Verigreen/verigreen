@@ -98,13 +98,13 @@ public class TestVerigreenNeededLogic extends CollectorUnitTestCase {
     
     @Test
     public void testIsVerigreenNeededPermittedUser() {
-        
+        String pUser= VerigreenNeededLogic.properties.getProperty("git.permittedUsers");
         VerigreenNeeded verigreenNeeded =
                 CollectorApi.getVerigreenNeededLogic().isVerigreenNeeded(
                         protectedBranch,
                         branch,
                         "",
-                        "pUser@github.com");
+                        pUser);
         Assert.assertEquals(false, verigreenNeeded.getVerigreenNeeded());
         Assert.assertEquals(false, verigreenNeeded.getShouldRejectCommit());
     }
