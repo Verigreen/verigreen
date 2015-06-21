@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and limitations 
 		lockParentForChildInsertRemove="false" lockAcquisitionTimeout="10000"
 		writeSkewCheck="true" />
 	<!-- 0 = no eviction -->
-	<eviction wakeUpInterval="0" />
+	<eviction wakeUpInterval="500" />
 
 	<loaders passivation="false" shared="false">
 		<preload>
