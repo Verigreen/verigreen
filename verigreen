@@ -1,0 +1,98 @@
+#! /bin/bash 
+#*******************************************************************************
+# Copyright 2015 Hewlett-Packard Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and limitations under the License.
+#*******************************************************************************
+# Basic support for IRIX style chkconfig or sysv-rc-conf (for Ubuntu)
+#*******************************************************************************
+# Set the script to load at start-up (run as a daemon) via:
+# Redhat/Centos: chkconfig 235 98 55
+# Ubuntu:        sysv-rc-conf -level 325 98 55
+# Description: Manages a service controlled by the chkconfig or sysv-rc-conf command.
+# Default location is the server's /etc/init.d/ folder, grant required permissions.
+#*******************************************************************************
+
+SERVICE_NAME="verigreen" # the service name (case sensitive, of course!). Should be the same as this script name
+
+# All parameters below are for the docker HOST machine, not the container!
+VG_NAME="<name>_vg"
+REPO_NAME="<repo_name>"
+
+REPO_DIR="/DATA/gitrepo/$REPO_NAME" # may need to manually clone to this location
+SSH_DIR="/root/.ssh"
+CONFIG_DIR="/DATA/VG"
+DOCKER_IMAGE="verigreen/verigreen"
+PORT=8085
+
+#*******************************************************************************
+# start, stop, status functions
+function SERVICE_START() {
+    /usr/bin/docker run --restart=always -d --hostname="$VG_NAME" --name="$VG_NAME" -v $SSH_DIR:/ssh -v $CONFIG_DIR:/vg -v $REPO_DIR:/repo -p $PORT:8080 $DOCKER_IMAGE
+    SERVICE_STATUS
+}
+
+function SERVICE_STOP() {
+    docker kill $VG_NAME
+    docker rm $VG_NAME
+}
+
+function SERVICE_STATUS() {
+    docker ps -a | grep $VG_NAME
+}
+#*******************************************************************************
+# authorized user verification, currtly, script is only supporting root!
+USERNAME="root"    # rename if clashes with system defined param
+USAGE="Usage: /sbin/service $SERVICE_NAME {start|stop|status|restart}"
+
+# set the USERNAME variable if missing from env
+if [ "x$USERNAME" = "x" ]; then
+    USERNAME=$(whoami)
+fi
+
+#*******************************************************************************
+# This part need not be changed, usually.
+
+case "$1" in
+    start)
+        echo -n "Starting $SERVICE_NAME $VGNAME"
+        #To run it as root:
+        SERVICE_START
+        #Or to run it as some other user:
+        #/bin/su - $USERNAME -c $SERVICE_START
+        echo "."
+        ;;
+
+    stop)
+        echo -n "Stopping $SERVICE_NAME"
+        #To run it as root:
+        echo "Stopping verigreen container"
+        SERVICE_STOP
+        #Or to run it as some other user:
+        #/bin/su - $USERNAME -c SERVICE_STOP
+        echo "."
+        ;;
+
+    restart|reload|condrestart)
+        # service must be in path. 
+        # usually under /sbin/service or /usr/sbin/service
+        service $SERVICE_NAME stop
+        service $SERVICE_NAME start
+        ;;
+
+    status)
+        SERVICE_STATUS
+        ;;
+  *)
+        echo $USAGE
+        exit 1
+esac
+
+exit 0
