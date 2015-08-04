@@ -15,6 +15,7 @@ package com.verigreen.collector.decision.decisionmaker;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONException;
@@ -28,7 +29,6 @@ import com.verigreen.collector.decision.OnFailureHandler;
 import com.verigreen.collector.model.CommitItem;
 import com.verigreen.collector.spring.CollectorApi;
 import com.verigreen.common.concurrency.RuntimeUtils;
-import com.verigreen.common.utils.CollectionUtils;
 
 public class DecisionMakerFailedItems {
     
@@ -36,13 +36,16 @@ public class DecisionMakerFailedItems {
         
         List<Decision> ret = new ArrayList<>();
         Collection<CommitItem> failedItems = getFailedAndRefresh(items);
-        if (!CollectionUtils.isNullOrEmpty(failedItems)) {
-            for (CommitItem currItem : failedItems) {
-                if (!isPending(currItem.getParent())) {
-                    ret.addAll(handleItem(currItem));
-                }
+        Iterator<CommitItem> iterate = failedItems.iterator();
+        CommitItem currItem;
+        while (iterate.hasNext()) {
+        	currItem = iterate.next();
+            if (!isPending(currItem.getParent())) {
+            	ret.addAll(handleItem(currItem));
             }
-        }
+            failedItems = getFailedAndRefresh(items);
+            iterate = failedItems.iterator();
+         }
         
         return ret;
     }
@@ -71,8 +74,8 @@ public class DecisionMakerFailedItems {
             ret.add(new Decision(item.getKey(), new OnFailureHandler(item)));
             houseOfCardsStart = item.getChild();
             CollectorApi.getCommitItemContainer().save(item);
-            houseOfCards(houseOfCardsStart, ret);
         }
+        houseOfCards(houseOfCardsStart, ret);
         
         return ret;
     }
@@ -86,7 +89,7 @@ public class DecisionMakerFailedItems {
             
             return;
         }
-        if (item.getStatus().equals(VerificationStatus.PASSED)) {
+        if (item.getStatus().equals(VerificationStatus.PASSED) || item.getStatus().equals(VerificationStatus.NOT_STARTED)) {
             
             return;
         }
@@ -126,9 +129,11 @@ public class DecisionMakerFailedItems {
         
         Collection<CommitItem> ret = new ArrayList<>();
         CommitItemContainer commitItemContainer = CollectorApi.getCommitItemContainer();
+        CommitItem commitItem;
         for (CommitItem currItem : items) {
-            if (currItem.getStatus().isFailureState()) {
-                ret.add(commitItemContainer.get(currItem.getKey()));
+        	commitItem = commitItemContainer.get(currItem.getKey()); //we need to get the refreshed commitItem so we will have the latest data of the item
+        	if (commitItem.getStatus().isFailureState() && !commitItem.isDone()) {
+        		ret.add(commitItem);
             }
         }
         
