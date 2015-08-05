@@ -29,8 +29,9 @@ import com.verigreen.common.utils.CollectionUtils;
 public class DecisionMakerPassedItems {
     
     public List<Decision> execute(Collection<CommitItem> items) {
-        
-        List<Decision> ret = new ArrayList<>();
+
+    	items = CommitItemUtils.refreshItems(items);
+    	List<Decision> ret = new ArrayList<>();
 
         Collection<CommitItem> passedItems =
                 CommitItemUtils.filterItems(items, VerificationStatus.PASSED);
@@ -76,6 +77,16 @@ public class DecisionMakerPassedItems {
                         RuntimeUtils.getCurrentMethodName(),
                         String.format("Setting commit item as done (%s)", item));
                 item.setDone(true);
+                ret.add(new Decision(item.getKey(), CollectorApi.getOnSuccessByChildHandler(item)));
+                CollectorApi.getCommitItemContainer().save(item);
+            }
+            if(item.getStatus().equals(VerificationStatus.FAILED) )
+            {
+            	VerigreenLogger.get().log(
+                        getClass().getName(),
+                        RuntimeUtils.getCurrentMethodName(),
+                        String.format("Setting failed  item as done (%s)", item));
+            	  item.setDone(true);
                 ret.add(new Decision(item.getKey(), CollectorApi.getOnSuccessByChildHandler(item)));
                 CollectorApi.getCommitItemContainer().save(item);
             }
