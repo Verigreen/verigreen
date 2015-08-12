@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  *******************************************************************************/
 			img {
-				top: 5px;
+				top: 0px;
 				right: 10px;
 				float: right;
 				width: 185px;
@@ -31,18 +31,48 @@
 				float: right;
 				bottom: 0px;
 				right: 2px;
+				color: #717171;
+				font-family: "HP Simplified";
 			}
 			.collectorName {
 				list-style: none;
 				text-align: center;
-				color: black;
-				font-family: "Times New Roman", Times, serif;
+				color: #717171;
+				font-family: "HP Simplified";
 				font-weight: bold;
 				font-style: italic;
 				font-size: 25px;
 			}
-			.table {
-				top: 110px;
+			/* .table {
+				padding-top: 100px;
+			} */
+			.tableHeader {
+				height: 42px;
+				background: #8eb924;
+				color: #ffffff;
+				font-family: "HP Simplified";
+				font-weight: bold;
+			}
+			.icon-sort {
+				color: #ffffff;
+				position: relative;
+				left: 5px;
+			}
+			tbody, tfoot{
+				color: #717171;
+				font-family: "HP Simplified";
+			}
+			.statusImg {
+				float: left;
+				padding-top: 3px;
+				padding-right: 3px;
+				width: 18px; 
+				height: 18px; 
+			}
+			.retryButton {
+				background: #868686;
+				color: #ffffff;
+				font-family: "HP Simplified";
 			}
 			.columnSelection {
 				position: absolute;
@@ -60,6 +90,8 @@
   				border: 1px solid #E0E0E0;
   				box-shadow: 1px 1px 2px #E0E0E0;
   				z-index: 10;
+  				color: #717171;
+				font-family: "HP Simplified";
 			}
 			.filter {
 				float: left;
@@ -85,7 +117,9 @@
     			border-top-right-radius: 0em;
     			border-bottom-right-radius: 0em;
 			}
-			 .search {
+			.search {
+			 	color: #717171;
+				font-family: "HP Simplified";
 			 	float: left;
 				margin-top: 7px;
 				margin-left: 8px;
@@ -93,9 +127,11 @@
 			.add-on {
 				min-height: 30px;
 			}
-			 .refresh {
+			.refresh {
 			 	float: left;
 				margin-top: 9px;
+				color: #717171;
+				font-family: "HP Simplified";
 			} 
 			.refreshButton {
   				margin: 0;
@@ -129,9 +165,21 @@
   				margin: 0;
   				outline: none;
   				padding: 5px;
-  				background: white;
+  				background: #8eb924;
   				border: none;
   				font-size: 30px;
+			}
+			.historyHeader {
+				background-color: #8eb924;
+				color: #ffffff;
+				font-family: "HP Simplified";
+				font-weight: bold;
+			}
+			.table-hover tbody tr:hover th {
+				background-color: #8eb924;
+				color: #ffffff;
+				font-family: "HP Simplified";
+				font-weight: bold;
 			}
 			.frame {
 				background: #F8F8F8;
@@ -142,6 +190,36 @@
 				min-width: 330px;
 				border-radius: 20px;
 			}
+			.menuPosition {
+				padding-bottom: 70px;
+			}
 			.protectedBranch {
 				min-width: 170px;
 			}
+			.dropdown-menu li>a:hover,.dropdown-menu li>a:focus,.dropdown-submenu:hover>a { 
+				text-decoration:none;
+				color:#ffffff;
+				background-color:#8eb924;
+				background-color:#8eb924;
+				background-image:-moz-linear-gradient(top, #8eb924, #8eb924);
+				background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#8eb924), to(#8eb924));
+				background-image:-webkit-linear-gradient(top, #8eb924, #8eb924);
+				background-image:-o-linear-gradient(top, #8eb924, #8eb924);
+				background-image:linear-gradient(to bottom, #8eb924, #8eb924);
+				background-repeat:repeat-x;
+				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8eb924', endColorstr='#8eb924', GradientType=0);
+			}
+			.dropdown-menu .active>a,.dropdown-menu .active>a:hover {
+				color:#ffffff;
+				text-decoration:none;
+				outline:0;
+				background-color:#8eb924;
+				background-color:#8eb924;
+				background-image:-moz-linear-gradient(top, #8eb924, #8eb924);
+				background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#8eb924), to(#8eb924));
+				background-image:-webkit-linear-gradient(top, #8eb924, #8eb924);
+				background-image:-o-linear-gradient(top, #8eb924, #8eb924);
+				background-image:linear-gradient(to bottom, #8eb924, #8eb924);
+				background-repeat:repeat-x;
+				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8eb924', endColorstr='#8eb924', GradientType=0);
+				}
