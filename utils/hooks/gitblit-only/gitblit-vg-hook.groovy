@@ -20,14 +20,13 @@
 import com.gitblit.GitBlit
 import com.gitblit.Keys
 import com.gitblit.models.RepositoryModel
-import com.gitblit.models.TeamModel
-import com.gitblit.models.UserModel
 import com.gitblit.utils.JGitUtils
 import com.gitblit.utils.StringUtils
+import java.lang.ProcessBuilder
+import groovy.transform.Field
 import java.io.File
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.lib.Config
-import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.transport.ReceiveCommand
 import org.eclipse.jgit.transport.ReceiveCommand.Result
 import org.slf4j.Logger
@@ -35,9 +34,12 @@ import org.slf4j.Logger
 /********************
 * Globals
 *********************/
-// Change this as needed:
-def VG_PATH   = '<Path to the folder containing the vg-call.sh file>'
-def HOOK_CALL = VG_PATH + '/vg-call.sh'
+// Change these as needed:
+@Field def JAVA_HOME = '/usr/lib/jvm/java-7-oracle'               // leave empty if already configured in environment
+@Field def VG_HOOK   = '/opt/gitblit-data/groovy/vg-hook-2.0.1'  // path to hook.properties file
+@Field def VG_PATH   = '/opt/gitblit-data/groovy/vg-hook-2.0.1' // path to git-hook.jar file
+@Field def ln        = System.getProperty("line.separator")    // get the system's line separator
+def HOOK_CALL = "java -jar " + VG_PATH + '/git-hook.jar'
 
 
 /********************
@@ -48,21 +50,34 @@ def executeOnShell(String command) {
 }
 
 private def executeOnShell(String command, File workingDir, StringBuilder output) {
-  logger.info(command)
-  def process = new ProcessBuilder(addShellPrefix(command))
-                                    .directory(workingDir)
-                                    .redirectErrorStream(true)
-                                    .start()
-  def lineSeperator = System.getProperty("line.separator")
-  process.inputStream.eachLine {output.append it + lineSeperator }
-  logger.info(output.toString())
-  process.waitFor();
-  return process.exitValue()
+  def exitCode            = 2
+  ProcessBuilder pb       = new ProcessBuilder(addShellPrefix(command))
+  Map<String, String> env = pb.environment()
+  
+  if (VG_HOOK.equals("")) {
+    output.append("[Verigreen] VG_HOOK is undefined. Exiting." + ln)
+  }
+  else
+  {
+    env.put("VG_HOOK", VG_HOOK)  // required
+    
+    if (!JAVA_HOME.equals("")) {     // use the JAVA_HOME if it is defined (earlier in this script)
+        env.put("JAVA_HOME", JAVA_HOME)
+    }
+    logger.info("--- PB ENV ---" + ln + env.toString()) // for debugging only
+    pb.directory(workingDir)  // gitblit runs groovy hooks in gitblit-data/groovy context by default
+    pb.redirectErrorStream(true)
+    Process p = pb.start()
+    p.inputStream.eachLine {output.append it + ln }
+    logger.info(output.toString())
+    p.waitFor();
+    exitCode = p.exitValue()
+  }
+  return exitCode
 }
-
-// change below to "cmd" and "/c" for Windows
+ 
 private def addShellPrefix(String command) {
-  commandArray = new String[3]
+  commandArray    = new String[3]
   commandArray[0] = "sh"
   commandArray[1] = "-c"
   commandArray[2] = command
@@ -75,21 +90,18 @@ private def addShellPrefix(String command) {
 ********************/
 // Indicate we have started the script
 logger.info("Verigreen hook triggered by ${user.username} for ${repository.name}")
-// get the system's line separator
-def ln        = System.getProperty("line.separator")
-logger.info(ln + "--- Repo info ---" + ln)
 def repoName          = repository.name
 Repository repo       = gitblit.getRepository(repository.name)
 def repoPath          = repo.directory.canonicalPath
 def sanitizedRepoName = StringUtils.stripDotGit(repoName)
+logger.info(ln + "--- Repo info ---" + ln)
 logger.info("repo: "            + repoName)
 logger.info("repo Path: "       + repoPath )
 logger.info("repo short name: " + sanitizedRepoName)
 repo.close()
 logger.info("VG_CALL: " + HOOK_CALL)
 
-for (ReceiveCommand command : commands)
-{
+for (ReceiveCommand command : commands) {
     // get the command's git parameters
     logger.info("newrev: " + command.getNewId().name())
     logger.info("oldrev: " + command.getOldId().name())
