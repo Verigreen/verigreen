@@ -10,7 +10,7 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  *******************************************************************************/
-			img {
+			.logo {
 				top: 0px;
 				right: 10px;
 				float: right;
@@ -51,12 +51,27 @@
 				background: #8eb924;
 				color: #ffffff;
 				font-family: "HP Simplified";
-				font-weight: bold;
+				font-weight: bold;	
 			}
-			.icon-sort {
+			.table>thead>tr>th {
+				vertical-align: middle;
+			}
+			.table>tbody>tr>td {
+				vertical-align: middle;
+			}
+			/* .icon-sort {
 				color: #ffffff;
 				position: relative;
+				font-size: 14px;
 				left: 5px;
+			} */
+			.table>thead>tr>th>span>a>img {
+				width: 16px;
+				height: 20px;
+				left: 3px;
+				bottom: 2px;
+				position: relative;
+				cursor: pointer;
 			}
 			tbody, tfoot{
 				color: #717171;
@@ -65,29 +80,36 @@
 			.statusImg {
 				float: left;
 				padding-top: 3px;
-				padding-right: 3px;
-				width: 18px; 
+				padding-right: 8px;
+				width: 22px; 
 				height: 18px; 
 			}
+			.btn.disabled,.btn[disabled] {
+				color:#333333;
+				background-color:#e6e6e6;
+			}
 			.retryButton {
+				min-width: 60px;
 				background: #868686;
 				color: #ffffff;
 				font-family: "HP Simplified";
+				text-align: center;
+				vertical-align: middle;
 			}
 			.columnSelection {
 				position: absolute;
-				left: 128px;
-				top: 115px;
+				left: 70px;
+				top: 123px;
 				overflow: auto; 
 				width: 150px; 
 				height: 75px; 
 				padding-left: 5px;
-				margin-top: 30px;
+				margin-top: 25px;
   				padding: 5px 0;
   				margin: 2px 0 0;
   				font-size: 14px;
-  				background-color: white;
-  				border: 1px solid #E0E0E0;
+  				background-color: #ffffff;
+  				border: 1px solid #cccccc;
   				box-shadow: 1px 1px 2px #E0E0E0;
   				z-index: 10;
   				color: #717171;
@@ -95,60 +117,71 @@
 			}
 			.filter {
 				float: left;
-				margin-top: 7px;
-				margin-left: 7px;
+				margin-top: 25px;
+				margin-left: 10px;
 			} 
-			.button {
-  				margin: 0;
+			.buttonFilter {
   				outline: none;
   				background: #F8F8F8;
-  				border: none;
-  				font-size: 23px;
-  				color: #b3b3b3;
+  				border: 1px solid #cccccc;
+  				font-size: 12px;
+  				color: #868686;
+  				width: 25px;
+				height: 25px;
 			}
-			/* .button:hover {
-  				cursor: pointer;
-  				color: #E0E0E0;
-			} */
+			.glyphicon-filter {
+				margin-bottom: 3px;
+				color: #868686;
+			}
 			#textbox {
-				border: 2px solid;
-				height: 30px;
-    			border-color: #dddddd;
-    			border-top-right-radius: 0em;
-    			border-bottom-right-radius: 0em;
+				padding-left: 8px;
+				width: 140px;
+				border-width: 0 0 0 0;
 			}
 			.search {
-			 	color: #717171;
+			 	color: #868686;
+			 	vertical-align: middle;
+			 	height: 25px;
+				width: 165px;
+				font-size: 14px;
 				font-family: "HP Simplified";
 			 	float: left;
-				margin-top: 7px;
-				margin-left: 8px;
+				margin-top: 25px;
+				margin-left: 10px;
+				height: 25px;
+				border: 1px solid #cccccc;
 			} 
-			.add-on {
-				min-height: 30px;
+			.icon-search {
+				vertical-align: middle;
+				color:  #868686;
+				margin-left: 5px;
 			}
 			.refresh {
 			 	float: left;
-				margin-top: 9px;
-				color: #717171;
+			 	margin-top: 25px;
 				font-family: "HP Simplified";
 			} 
 			.refreshButton {
-  				margin: 0;
+  				margin-left: 10px;
   				outline: none;
-  				padding: 5px;
-  				height: 28px;
-  				background: #F8F8F8;
-  				border: none;
-  				font-size: 30px;
-  				color: #b3b3b3;
+  				height: 25px;
+  				width: 85px;
+  				background: #868686;
+  				color: #ffffff;
+  				border: 1px solid #cccccc;
+  				font-size: 15px;
 			}
-			.refreshButton:hover {
-				color: #E0E0E0;
+			.icon-refresh {
+				margin-right: 3px;
 			}
 			.time {
-				width: 50px;
-				height: 40px;
+				margin-left: 10px;
+				width: 45px;
+				height: 25px;
+				padding-left: 7px;
+				padding-top: 2px;
+				background-color: #ffffff;
+				border: 1px solid #cccccc;
 			}
 			.historyButton {
   				margin: 0;
@@ -162,12 +195,10 @@
 				background: #f5f5f5;
 			}
 			.historyAllButton {
-  				margin: 0;
   				outline: none;
-  				padding: 5px;
+  				margin-bottom: 3px;
   				background: #8eb924;
   				border: none;
-  				font-size: 30px;
 			}
 			.historyHeader {
 				background-color: #8eb924;
@@ -181,15 +212,6 @@
 				font-family: "HP Simplified";
 				font-weight: bold;
 			}
-			.frame {
-				background: #F8F8F8;
-				float: left;
-				margin-top: 20px;
-				left: 2px;
-				height: 44px;
-				min-width: 330px;
-				border-radius: 20px;
-			}
 			.menuPosition {
 				padding-bottom: 70px;
 			}
@@ -200,26 +222,46 @@
 				text-decoration:none;
 				color:#ffffff;
 				background-color:#8eb924;
-				background-color:#8eb924;
-				background-image:-moz-linear-gradient(top, #8eb924, #8eb924);
-				background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#8eb924), to(#8eb924));
-				background-image:-webkit-linear-gradient(top, #8eb924, #8eb924);
-				background-image:-o-linear-gradient(top, #8eb924, #8eb924);
-				background-image:linear-gradient(to bottom, #8eb924, #8eb924);
-				background-repeat:repeat-x;
-				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8eb924', endColorstr='#8eb924', GradientType=0);
 			}
 			.dropdown-menu .active>a,.dropdown-menu .active>a:hover {
 				color:#ffffff;
 				text-decoration:none;
 				outline:0;
 				background-color:#8eb924;
-				background-color:#8eb924;
-				background-image:-moz-linear-gradient(top, #8eb924, #8eb924);
-				background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#8eb924), to(#8eb924));
-				background-image:-webkit-linear-gradient(top, #8eb924, #8eb924);
-				background-image:-o-linear-gradient(top, #8eb924, #8eb924);
-				background-image:linear-gradient(to bottom, #8eb924, #8eb924);
-				background-repeat:repeat-x;
-				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8eb924', endColorstr='#8eb924', GradientType=0);
-				}
+			}
+			.pagination {
+				height:40px;
+				margin:20px 0;
+			}
+			.pagination ul { 
+				display:inline-block;
+				margin-left:0;
+				margin-bottom:0;
+			}
+			.pagination ul>li {
+				display:inline;
+			}
+			.pagination ul>li>a,.pagination ul>li>span {
+				float:left;
+				padding:0 14px;
+				line-height:38px;
+				text-decoration:none;
+				background-color:#ffffff;
+				border:1px solid #dddddd;
+				border-left-width:0;
+			}
+			.pagination ul>li>a:hover,.pagination ul>.active>a,.pagination ul>.active>span {
+				background-color:#f5f5f5;
+			}
+			.pagination ul>.active>a,.pagination ul>.active>span { 
+				color:#999999;	
+				cursor:default;
+			}
+			.pagination ul>.disabled>span,.pagination ul>.disabled>a,.pagination ul>.disabled>a:hover {
+				color:#999999;
+				background-color:transparent;
+				cursor:default;
+			}
+			.pagination ul>li:first-child>a,.pagination ul>li:first-child>span {
+				border-left-width:1px;
+			}

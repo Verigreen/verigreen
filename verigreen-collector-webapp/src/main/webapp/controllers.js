@@ -30,7 +30,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	$scope.number = /^\d+$/;
 	$scope.time = "30";
 	$scope.checklist = true;
-	$scope.color = "#A8A8A8";
+	$scope.color = "#ffffff";
 	
 	$scope.getValueFilter = function(column) {
 		if($cookieStore.get(column) == true) {
@@ -54,7 +54,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
     		 $scope.colorFilter = "#8eb924";
     	}
     	else {
-    		 $scope.colorFilter = "#A8A8A8";
+    		 $scope.colorFilter = "#868686";
     	}
     };
     
@@ -62,7 +62,6 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
   		$scope.check =!$scope.check;
   		if($scope.check == true){
   			$scope.color = "#8eb924";
-  			$scope.cols = 450;
   			$cookies.time = $scope.time;
   			$scope.refresh();
 			$scope.clicked = [];
@@ -76,8 +75,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
   			},$scope.time*1000);
   		}
   		else if($scope.check == false){
-  			$scope.color = "#A8A8A8";
-  			$scope.cols = 330;
+  			$scope.color = "#ffffff";
   			$cookies.time = "0";
   			$interval.cancel(timer);
             timer=undefined;
@@ -100,7 +98,6 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
     $scope.autoreload = function() {
   		if($cookies.time > 0) {
   			$scope.color = "#8eb924";
-  			$scope.cols = 450;
   			$scope.check = true;
   			$scope.time = $cookies.time;
   			timer = $interval(function(){
