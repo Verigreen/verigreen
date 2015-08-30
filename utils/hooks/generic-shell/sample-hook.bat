@@ -26,17 +26,17 @@ REM #***************************************************************************
 
 REM Set the path to the hook.properties file
 REM modify as needed.
-IF  "X~%VG_HOOK%" EQU "X~%VG_HOOK%" SET "VG_HOOK=C:\verigreen"
+IF  "%VG_HOOK%" NEQ "%^VG_HOOK%" SET "VG_HOOK=C:\verigreen"
 REM ECHO VG_HOOK: %VG_HOOK%
 
 REM Set the path to the git-hook.jar file
 REM modify as needed.
-IF  "X~%VG_PATH%" EQU "X~%VG_PATH%" SET "VG_HOOK=C:\verigreen\hook"
+IF  "%VG_PATH%" NEQ "%^VG_PATH%" SET "VG_HOOK=C:\verigreen\hook"
 REM ECHO VG_PATH: %VG_PATH%
 
 REM This sets the JAVA_HOME for use.
 REM modify as needed.
-IF "X~%JAVA_HOME%" EQU "X~%JAVA_HOME%" SET "JAVA_HOME=C:\Program Files\Java\jdk1.7.0_25"
+IF "%JAVA_HOME%" NEQ "%^JAVA_HOME%" SET "JAVA_HOME=C:\Program Files\Java\jdk1.7.0_25"
 REM ECHO JAVA_HOME: %JAVA_HOME%
 
 
@@ -47,7 +47,7 @@ REM #***************************************************************************
 REM Check number of arguments specified on run
 REM First parameter passed to this script is the repository name
 IF "%1" == "" (
-	ECHO Error: Script must be run with 1 arguments!
+	ECHO Error: Script must be run with one (1) argument!
     EXIT /B 2
 )
 
