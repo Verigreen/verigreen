@@ -20,32 +20,51 @@ REM #***************************************************************************
 SETLOCAL
 SET "DEBUG_FILE=C:\Temp\vg.txt"
 
-REM Check number of arguments specified on run
-IF "%4" == "" (
-	ECHO Error: Script must be run with 4 arguments!
-    EXIT /B 2
-)
+REM #*******************************************************************************
+REM # Required parameters - Set these as needed
+REM #*******************************************************************************
 
-REM Set the path to the hook.properties file if needed.
+REM Set the path to the hook.properties file
 REM modify as needed.
-IF  "X~%VG_HOOK%" EQU "X~%VG_HOOK%" SET "VG_HOOK=C:\verigreen\hook\2.0.1"
-ECHO VG_HOOK: %VG_HOOK%
-rem "<Path to hook.properties file>"
+IF  "X~%VG_HOOK%" EQU "X~%VG_HOOK%" SET "VG_HOOK=C:\verigreen"
+REM ECHO VG_HOOK: %VG_HOOK%
+
+REM Set the path to the git-hook.jar file
+REM modify as needed.
+IF  "X~%VG_PATH%" EQU "X~%VG_PATH%" SET "VG_HOOK=C:\verigreen\hook"
+REM ECHO VG_PATH: %VG_PATH%
 
 REM This sets the JAVA_HOME for use.
 REM modify as needed.
 IF "X~%JAVA_HOME%" EQU "X~%JAVA_HOME%" SET "JAVA_HOME=C:\Program Files\Java\jdk1.7.0_25"
-ECHO JAVA_HOME: %JAVA_HOME%
-rem "<Path to JAVA_HOME if not defined in environment>"
+REM ECHO JAVA_HOME: %JAVA_HOME%
+
+
+REM #*******************************************************************************
+REM # Main
+REM #*******************************************************************************
+
+REM Check number of arguments specified on run
+REM First parameter passed to this script is the repository name
+IF "%1" == "" (
+	ECHO Error: Script must be run with 1 arguments!
+    EXIT /B 2
+)
+
+REM Read STDIN (oldrev newrev ref)
+for /F "tokens=*" %%a in ('more') do (
+  SET LINE=%%a 
+  REM echo #LINE: %LINE% 
+)
 
 REM debug
-ECHO VG HOOK: %VG_HOOK%      > %DEBUG_FILE%
-ECHO Vector: %1 %2 %3 %4    >> %DEBUG_FILE%
-ECHO JAVA_HOME: %JAVA_HOME% >> %DEBUG_FILE%
+ECHO VG HOOK:   %VG_HOOK%       >  %DEBUG_FILE%
+ECHO Vector:    %LINE%          >> %DEBUG_FILE%
+ECHO JAVA_HOME: %JAVA_HOME%     >> %DEBUG_FILE%
 
-REM Note: Each hook call must exit if its result is not 0
-echo CALL: "%JAVA_HOME%\bin\java.exe" -jar "%VG_HOOK%\git-hook.jar" %1 %2 %3 %4 >> %DEBUG_FILE%
-"%JAVA_HOME%\bin\java.exe" -jar "%VG_HOOK%\git-hook.jar" %1 %2 %3 %4
-
+REM Note: !!!   Each hook call must exit if its result is not 0   !!!
+echo CALL: "%JAVA_HOME%\bin\java.exe" -jar "%VG_PATH%\git-hook.jar" %1 %LINE%
+REM >> %DEBUG_FILE%
+call "%JAVA_HOME%\bin\java.exe" -jar "%VG_PATH%\git-hook.jar" %1 %LINE%
 ECHO ERRORLEVEL: %ERRORLEVEL% >> %DEBUG_FILE%
 EXIT /B %ERRORLEVEL%

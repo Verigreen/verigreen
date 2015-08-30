@@ -36,14 +36,14 @@ import org.slf4j.Logger
 *********************/
 // Change these as needed:
 // Windows only: In case JAVA_HOME path contains spaces, escape it with quotes 
-@Field def JAVA_HOME = '"c:/Program Files/Java/jre7"'               // leave empty if already configured in environment
+@Field def JAVA_HOME = '"c:\\Program Files\\Java\\jre7"'               // leave empty if already configured in environment
 // Linux example: @Field def JAVA_HOME = '/usr/lib/jvm/java-7-oracle'
 
 // VG paths must NOT be escaped with quotes!
-@Field def VG_HOOK   = 'c:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\gitblit-1.6.2\\WEB-INF\\data\\groovy\\vg'  // path to hook.properties file
+@Field def VG_HOOK   = 'c:\\apps\\gitblit-1.6.2\\data\\groovy\\vg'  // path to hook.properties file
 // Linux example: @Field def VG_HOOK   = '/opt/gitblit-data/groovy/vg-hook-2.0.1'
 
-@Field def VG_PATH   = 'c:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\gitblit-1.6.2\\WEB-INF\\data\\groovy\\vg' // path to git-hook.jar file
+@Field def VG_PATH   = 'c:\\apps\\gitblit-1.6.2\\data\\groovy\\vg' // path to git-hook.jar file
 // Linux example: @Field def VG_PATH   = '/opt/gitblit-data/groovy/vg-hook-2.0.1'
 
 
@@ -53,7 +53,8 @@ import org.slf4j.Logger
 @Field def ln         = System.getProperty("line.separator")    // get the system's line separator
 @Field def osType     = System.properties['os.name'].toLowerCase()
 @Field def folderSep  = (osType.contains('windows')) ? '\\' : '/'
-@Field def HOOK_CALL  = "java -jar " + '"' + VG_PATH + folderSep + "git-hook.jar"+ '"'
+@Field def javaExe    = (JAVA_HOME?.trim()) as boolean ? JAVA_HOME + folderSep + 'bin' + folderSep + 'java -jar ' : 'java -jar '
+@Field def HOOK_CALL  = javaExe + '"' + VG_PATH + folderSep + "git-hook.jar"+ '"'
 
 
 /********************
@@ -69,7 +70,7 @@ private def executeOnShell(String command, File workingDir, StringBuilder output
   Map<String, String> env = pb.environment()
   
   if (VG_HOOK.equals("")) {
-    output.append("[scriptName] Error: VG_HOOK is undefined. Exiting." + ln)
+    output.append("[${scriptName}] Error: VG_HOOK is undefined. Exiting." + ln)
   }
   else
   {
@@ -79,11 +80,12 @@ private def executeOnShell(String command, File workingDir, StringBuilder output
         env.put("JAVA_HOME", JAVA_HOME)
     }
 	if (debugLevel >= 1) {
-		logger.info("[scriptName] VG_HOOK:" + VG_HOOK + ln )
-		logger.info("[scriptName] HOOK_CALL:" + HOOK_CALL + ln + ln )
+		logger.info("[${scriptName}] JAVA_HOME:" + JAVA_HOME + ln )
+		logger.info("[${scriptName}] VG_HOOK:"   + VG_HOOK   + ln )
+		logger.info("[${scriptName}] HOOK_CALL:" + HOOK_CALL + ln + ln )
 	}
 	if (debugLevel >= 3) {
-		logger.info("[scriptName] --- PB ENV ---" + ln + env.toString())
+		logger.info("[${scriptName}] --- PB ENV ---" + ln + env.toString())
 	}
     pb.directory(workingDir)  // gitblit runs groovy hooks in gitblit-data/groovy context by default
     pb.redirectErrorStream(true)
@@ -109,12 +111,12 @@ private def addShellPrefix(String command) {
 * MAIN
 ********************/
 // Indicate we have started the script
-logger.info("[scriptName] Verigreen hook triggered by ${user.username} for ${repository.name}")
+logger.info("[${scriptName}] Verigreen hook triggered by ${user.username} for ${repository.name}")
 def repoName          = repository.name
 Repository repo       = gitblit.getRepository(repository.name)
 def repoPath          = repo.directory.canonicalPath
 def sanitizedRepoName = StringUtils.stripDotGit(repoName)
-if (debugLevel >= 1) { logger.info("[scriptName] --- Repo info ---" + ln) }
+if (debugLevel >= 1) { logger.info("[${scriptName}] --- Repo info ---" + ln) }
 if (debugLevel >= 2) {
 	// logger.info('Folder Separator:' + folderSep + ln) }
 	logger.info("repo: " + repoName) 
@@ -138,15 +140,12 @@ for (ReceiveCommand command : commands) {
             command.getOldId().name() + " " +
             command.getNewId().name() + " " +
             command.refName
-	
-	if (debugLevel >= 1) {
-		logger.info('vgCmd: ' + vgCmd.toString())
-	}
+	logger.info('vgCmd: ' + vgCmd.toString())
     def repoPathHandle  = new File(repoPath)
     StringBuilder vgMsg = new StringBuilder()
     def vgErrCode       = executeOnShell(vgCmd.toString(), repoPathHandle, vgMsg)
 
-    logger.info("[scriptName] Preparing to Exit Verigreen.groovy")
+    logger.info("[${scriptName}] Preparing to Exit Verigreen.groovy")
 
     // Reject the push if Verigreen is protecting this branch
     if (vgErrCode != 0) 
