@@ -3,7 +3,7 @@ jdk:
 - openjdk7
 install: mvn clean package -DskipTests=true
 before_deploy:
-  - export base_dir="git-hook" && export package_dir="$base_dir/verigreen-git-hook" && export target_dir="$base_dir/target" && mkdir -p $package_dir && cp $target_dir/dependency/*.jar $package_dir && cp $target_dir/git-hook.jar $package_dir && cp $base_dir/vg_hook.sh $package_dir && tar -zcvf $base_dir/verigreen-git-hook.tar.gz $package_dir/*
+  - export base_dir="git-hook" && export package_dir="$base_dir/verigreen-git-hook" && export target_dir="$base_dir/target" && mkdir -p $package_dir && cp $target_dir/dependency/*.jar $package_dir && cp $target_dir/git-hook.jar $package_dir && cp $base_dir/vg_hook.sh $package_dir && tar -zcvf $base_dir/verigreen-git-hook.tar.gz  --transform 's:.*/::g' $package_dir/*
 deploy:
   provider: releases
   api_key:

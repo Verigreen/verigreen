@@ -17,26 +17,31 @@ REM # can and should be adapted for use with/for other hooks.
 REM #*******************************************************************************
 REM # Parameters: Accepts one required parameter - the repository name which is protected
 REM #*******************************************************************************
-SETLOCAL
+SETLOCAL enabledelayedexpansion
 SET "DEBUG_FILE=C:\Temp\vg.txt"
 
 REM #*******************************************************************************
 REM # Required parameters - Set these as needed
 REM #*******************************************************************************
+REM The IF conditions are used to set the value only if the variable in undefined
+REM Remove the IF part and use only the SET part in case variable need be overwritten
 
 REM Set the path to the hook.properties file
 REM modify as needed.
-IF  "%VG_HOOK%" NEQ "%^VG_HOOK%" SET "VG_HOOK=C:\verigreen"
+
+IF  "%VG_HOOK%" EQU "%^VG_HOOK%" SET "VG_HOOK=C:\verigreen"
 REM ECHO VG_HOOK: %VG_HOOK%
+
 
 REM Set the path to the git-hook.jar file
 REM modify as needed.
-IF  "%VG_PATH%" NEQ "%^VG_PATH%" SET "VG_HOOK=C:\verigreen\hook"
+IF  "%VG_PATH%" EQU "%^VG_PATH%" SET "VG_PATH=C:\verigreen\hook"
 REM ECHO VG_PATH: %VG_PATH%
+
 
 REM This sets the JAVA_HOME for use.
 REM modify as needed.
-IF "%JAVA_HOME%" NEQ "%^JAVA_HOME%" SET "JAVA_HOME=C:\Program Files\Java\jdk1.7.0_25"
+IF "%JAVA_HOME%" EQU "%^JAVA_HOME%" SET "JAVA_HOME=C:\Program Files\Java\jdk1.7.0_25"
 REM ECHO JAVA_HOME: %JAVA_HOME%
 
 
@@ -47,7 +52,7 @@ REM #***************************************************************************
 REM Check number of arguments specified on run
 REM First parameter passed to this script is the repository name
 IF "%1" == "" (
-	ECHO Error: Script must be run with one (1) argument!
+	ECHO "Error: Script must be run with one (1) argument!"
     EXIT /B 2
 )
 
