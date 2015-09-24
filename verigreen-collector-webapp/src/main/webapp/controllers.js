@@ -321,7 +321,12 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 			{	
 				return 	true;
 			}
-			if(runTime>endTime) {
+			if(runTime == 'N/A' && endTime != 'N/A') 
+			{
+				return false;
+			}
+			else if(runTime>endTime || endTime == 'N/A') 
+			{
 				return true;
 			}
 		}

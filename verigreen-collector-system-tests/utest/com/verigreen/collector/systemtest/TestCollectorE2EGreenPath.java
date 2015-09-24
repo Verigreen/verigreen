@@ -838,7 +838,7 @@ public class TestCollectorE2EGreenPath extends SystemTestBase {
     public void testRetryTriggerFailed() throws IOException, InterruptedException {
         
         String destinationFolderForNewFile = DEFAULT_COMMIT_FOLDER;
-        long timeoutForTestInMilis = 2000 * 60 * 3;
+        long timeoutForTestInMilis = 10000 * 60 * 3;
         String commiterName = generateUserName();
         String commiterEmail = generateEmailAddress();
         String content = getContent("testRetryTriggerFailed");

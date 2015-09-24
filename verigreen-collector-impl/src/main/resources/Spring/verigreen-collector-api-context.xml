@@ -24,4 +24,12 @@ See the License for the specific language governing permissions and limitations 
 		<constructor-arg ref="baseUri" />
 		<constructor-arg ref="commitId" />
 	</bean>
+	
+	<bean id="jenkinsCallRequest" class="com.verigreen.rest.JenkinsCallRequest"
+		scope="prototype">
+		<constructor-arg ref="jenkinsUrl" />
+		<constructor-arg ref="jobName" />
+		<constructor-arg ref="formatOutput" />
+	</bean>
+	
 </beans>

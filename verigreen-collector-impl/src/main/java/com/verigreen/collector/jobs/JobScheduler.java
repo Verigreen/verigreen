@@ -59,12 +59,12 @@ public class JobScheduler {
             }
         }
     }
-    
     private void scheduleJobs() throws SchedulerException {
         scheduleJob(CacheCleanerJob.class, SimpleScheduleBuilder.repeatHourlyForever(_rhf));
         scheduleJob(BranchCleanerJob.class, SimpleScheduleBuilder.repeatHourlyForever(_rhf));
         scheduleJob(HistoryCleanerJob.class, SimpleScheduleBuilder.repeatHourlyForever(_rhf));
         scheduleJob(ConsumerJob.class, SimpleScheduleBuilder.repeatSecondlyForever(_rsf));
+        scheduleJob(CallJenkinsJob.class, SimpleScheduleBuilder.repeatSecondlyForever(_rsf));
     }
     
     private void scheduleJob(

@@ -43,16 +43,14 @@ public class TestCommitItemVerifier extends CollectorUnitTestCase {
     public void testVerifyWithCancel() {
         
         CommitItem item = CommitItemFactory.create(VerificationStatus.RUNNING);
-        JenkinsVerifierMockFactory.setHangMock();
         CommitItemVerifier commitItemVerifier = CollectorApi.getCommitItemVerifier();
-        commitItemVerifier.setPollTimeMillis(100);
         commitItemVerifier.verify(item);
-        commitItemVerifier.cancel();
+        boolean result = CollectorApi.getJenkinsVerifier().stop(CollectorApi.getVerificationJobName(), String.valueOf(item.getBuildNumber()));
         SynchronizeableThreadPoolExecutor executor =
                 (SynchronizeableThreadPoolExecutor) ExecutorServiceFactory.getCachedThreadPoolExecutor();
         executor.join();
         item = CollectorApi.getCommitItemContainer().get(item.getKey());
-        Assert.assertEquals(true, commitItemVerifier.isCanceled());
+        Assert.assertEquals(true, result);
         Assert.assertEquals(VerificationStatus.RUNNING, item.getStatus());
     }
     
@@ -60,9 +58,7 @@ public class TestCommitItemVerifier extends CollectorUnitTestCase {
     public void testVerifyWithTimeout() {
         
         CommitItem item = CommitItemFactory.create(VerificationStatus.RUNNING);
-        JenkinsVerifierMockFactory.setHangMock();
         CommitItemVerifier commitItemVerifier = CollectorApi.getCommitItemVerifier();
-        commitItemVerifier.setPollTimeMillis(100);
         commitItemVerifier.verify(item);
         SynchronizeableThreadPoolExecutor executor =
                 (SynchronizeableThreadPoolExecutor) ExecutorServiceFactory.getCachedThreadPoolExecutor();

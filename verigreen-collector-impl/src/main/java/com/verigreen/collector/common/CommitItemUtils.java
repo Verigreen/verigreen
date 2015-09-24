@@ -67,6 +67,21 @@ public class CommitItemUtils {
         return ret;
     }
     
+    public static Collection<CommitItem> getRunning() {
+        
+        List<CommitItem> ret =
+                CollectorApi.getCommitItemContainer().findByCriteria(new Criteria<CommitItem>() {
+                    
+                    @Override
+                    public boolean match(CommitItem entity) {
+                        
+                        return entity.getStatus().equals(VerificationStatus.RUNNING);
+                    }
+                });
+        
+        return ret;
+    }
+    
     public static Collection<CommitItem> filterNotDone(Collection<CommitItem> items) {
         
         return Collections2.filter(items, new Predicate<CommitItem>() {

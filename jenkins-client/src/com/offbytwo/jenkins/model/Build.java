@@ -38,7 +38,22 @@ public class Build extends BaseModel {
         return client.get(url, BuildWithDetails.class);
     }
     
-    public String Stop() throws HttpResponseException, IOException {
-        return client.get(url + "stop");
+    public String Stop() throws HttpResponseException, IOException{
+    	try {
+    		
+    		return client.get(url + "stop");
+    	}
+    	catch (IOException ex){
+    		if(((HttpResponseException)ex).getStatusCode() == 405)
+    		{
+    			stopPost();
+    			return "";
+    		}
+    	}
+		return "";
+    }
+    
+    private void stopPost() throws HttpResponseException, IOException{
+    	client.post(url + "stop");
     }
 }

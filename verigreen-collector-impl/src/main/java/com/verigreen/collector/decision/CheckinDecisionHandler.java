@@ -25,6 +25,8 @@ import com.verigreen.common.utils.Pair;
 import com.verigreen.jgit.SourceControlOperator;
 
 public class CheckinDecisionHandler extends DecisionHandler {
+	
+	private CommitItemVerifier verifier = CommitItemVerifier.getInstance();
 
 	public CheckinDecisionHandler(CommitItem commitItem) {
 
@@ -43,9 +45,7 @@ public class CheckinDecisionHandler extends DecisionHandler {
 							"Update branch (%s) succeeded, going to verify...",
 							_commitItem));
 			updateCommitItemToRunning();
-			CommitItemVerifier verifier = CollectorApi.getCommitItemVerifier();
-			CollectorApi.getCommitItemVerifierManager().add(
-					_commitItem.getKey(), verifier);
+			CollectorApi.getCommitItemVerifierManager().add(_commitItem.getKey(), verifier);
 			verifier.verify(_commitItem);
 		}
 	}

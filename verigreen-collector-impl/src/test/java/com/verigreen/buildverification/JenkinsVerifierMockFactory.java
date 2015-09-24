@@ -12,77 +12,19 @@
  *******************************************************************************/
 package com.verigreen.buildverification;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.easymock.EasyMock;
-import org.easymock.IAnswer;
 
-import com.verigreen.collector.api.VerificationStatus;
-import com.verigreen.collector.buildverification.BuildDataCallback;
-import com.verigreen.collector.buildverification.BuildVerificationResult;
 import com.verigreen.collector.buildverification.BuildVerifier;
 
 public class JenkinsVerifierMockFactory {
     
     private static BuildVerifier _buildVerifier = EasyMock.createNiceMock(BuildVerifier.class);
     
-    private static final String url = "https://helloworld.com";
-    
     public static BuildVerifier getMock() {
         
         return _buildVerifier;
     }
-    
-    public static void setPassedMock() {
-        
-        setMock(VerificationStatus.PASSED);
-    }
-    
-    public static void setFailedMock() {
-        
-        setMock(VerificationStatus.FAILED);
-    }
-    
-    public static void setHangMock() {
-        
-        reset();
-        EasyMock.expect(
-                _buildVerifier.BuildAndVerify(
-                        EasyMock.anyString(),
-                        EasyMock.anyString(),
-                        EasyMock.anyString(),
-                        EasyMock.anyObject(BuildDataCallback.class))).andAnswer(
-                new IAnswer<BuildVerificationResult>() {
-                    
-                    @Override
-                    public BuildVerificationResult answer() throws Throwable {
-                        
-                        Thread.sleep(400);
-                        
-                        return null;
-                    }
-                });
-        replay();
-    }
-    
-    private static void setMock(VerificationStatus status) {
-        
-        reset();
-        try {
-            EasyMock.expect(
-                    _buildVerifier.BuildAndVerify(
-                            EasyMock.anyString(),
-                            EasyMock.anyString(),
-                            EasyMock.anyString(),
-                            EasyMock.anyObject(BuildDataCallback.class))).andReturn(
-                    new BuildVerificationResult(100, new URI(url), status)).atLeastOnce();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        replay();
-    }
-    
+
     public static void replay() {
         
         EasyMock.replay(_buildVerifier);

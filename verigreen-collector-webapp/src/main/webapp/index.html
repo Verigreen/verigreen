@@ -30,11 +30,11 @@
 	</head>
 	<body class="wrapper" ng-click-body="checklist=true">
 		<div class="overlay"></div>
+		<a href='http://verigreen.io/' target="_blank"><img src="VeriGreenLogo_Wide.png" class="logo"></img></a><br/>
 		<script type="text/javascript">
 			var sortingOrder = '-creationTime';
 		</script>
 		<div ng-controller="ctrlRead" class="content">
-		  	<img src="VeriGreenLogo_Wide.png" class="logo"></img><br/>
 				<ul class="collectorName">
 					<li>
     					{{displayMode.Name}}
@@ -49,16 +49,16 @@
   				<button class="buttonFilter" ng-click="checklist=!checklist"><span ng-style="{'color': colorFilter}" class="glyphicon glyphicon-filter" aria-hidden="true"></span>
   				</button>
 			<div class="columnSelection" ng-hide="checklist">
-					<input type="checkbox" ng-checked="showId=getValueFilter('Id')" ng-click="toogleFilter('Id',showId)"/>ID<br/>
-					<input type="checkbox" ng-checked="showProtectedBranch=getValueFilter('ProtectedBranch')" ng-click="toogleFilter('ProtectedBranch',showProtectedBranch)"/>Protected Branch<br/>
-					<input type="checkbox" ng-checked="showParentBranch=getValueFilter('ParentBranch')" ng-click="toogleFilter('ParentBranch',showParentBranch)"/>Parent Branch<br/>
-					<input type="checkbox" ng-checked="showCommitter=getValueFilter('Committer')" ng-click="toogleFilter('Committer',showCommitter)"/>Committer<br/>
-					<input type="checkbox" ng-checked="showStatus=getValueFilter('Status')" ng-click="toogleFilter('Status',showStatus)"/>Status<br/>
-					<input type="checkbox" ng-checked="showRetry=getValueFilter('Retry')" ng-click="toogleFilter('Retry',showRetry)"/>Retry<br/>
-					<input type="checkbox" ng-checked="showCreationTime=getValueFilter('CreationTime')" ng-click="toogleFilter('CreationTime',showCreationTime)"/>Creation Time<br/>
-					<input type="checkbox" ng-checked="showRunTime=getValueFilter('RunTime')" ng-click="toogleFilter('RunTime',showRunTime)"/>Run Time<br/>
-					<input type="checkbox" ng-checked="showEndTime=getValueFilter('EndTime')" ng-click="toogleFilter('EndTime',showEndTime)"/>End Time<br/>
-					<input type="checkbox" ng-checked="showBuildUrl=getValueFilter('BuildUrl')" ng-click="toogleFilter('BuildUrl',showBuildUrl)"/>Build URL
+					<input type="checkbox" ng-checked="showId=getValueFilter('Id')" ng-click="toogleFilter('Id',showId)"/><span class="check">ID</span><br/>
+					<input type="checkbox" ng-checked="showProtectedBranch=getValueFilter('ProtectedBranch')" ng-click="toogleFilter('ProtectedBranch',showProtectedBranch)"/><span class="check">Protected Branch</span><br/>
+					<input type="checkbox" ng-checked="showParentBranch=getValueFilter('ParentBranch')" ng-click="toogleFilter('ParentBranch',showParentBranch)"/><span class="check">Parent Branch</span><br/>
+					<input type="checkbox" ng-checked="showCommitter=getValueFilter('Committer')" ng-click="toogleFilter('Committer',showCommitter)"/><span class="check">Committer</span><br/>
+					<input type="checkbox" ng-checked="showStatus=getValueFilter('Status')" ng-click="toogleFilter('Status',showStatus)"/><span class="check">Status</span ><br/>
+					<input type="checkbox" ng-checked="showRetry=getValueFilter('Retry')" ng-click="toogleFilter('Retry',showRetry)"/><span class="check">Retry</span><br/>
+					<input type="checkbox" ng-checked="showCreationTime=getValueFilter('CreationTime')" ng-click="toogleFilter('CreationTime',showCreationTime)"/><span class="check">Creation Time</span><br/>
+					<input type="checkbox" ng-checked="showRunTime=getValueFilter('RunTime')" ng-click="toogleFilter('RunTime',showRunTime)"/><span class="check">Run Time</span><br/>
+					<input type="checkbox" ng-checked="showEndTime=getValueFilter('EndTime')" ng-click="toogleFilter('EndTime',showEndTime)"/><span class="check">End Time</span><br/>
+					<input type="checkbox" ng-checked="showBuildUrl=getValueFilter('BuildUrl')" ng-click="toogleFilter('BuildUrl',showBuildUrl)"/><span class="check">Build URL</span>
 			</div>
 			</div>
 			<form name="form" class="refresh" title="Refresh table">
@@ -110,7 +110,7 @@
 						<td title="Parent branch" ng-hide="!showParentBranch">{{isParentBranchValid(item.parentBranch)}}</td>
 						<td title="Committer Email" ng-hide="!showCommitter">{{item.branchDescriptor.committer}}</td>
 						<td title="Commit verification status" ng-hide="!showStatus" style="min-width: 190px;"><img ng-src="{{getImage(item.status)}}" class="statusImg"/>{{item.status}}</td>
-					    <td title="Retry mechanism" ng-hide="!showRetry"><div ng-hide="true">{{item.branchDescriptor.commitId}}</div><button class="btn btn-default retryButton" ng-click="retry(item.branchDescriptor.committer,item.branchDescriptor.protectedBranch,item.branchDescriptor.newBranch,item.branchDescriptor.commitId)" ng-disabled="button(item.status,item.branchDescriptor.commitId,displayMode.Mode,item.runTimeStr,item.endTimeStr)">Retry</button></td>
+					    <td title="Retry mechanism" ng-hide="!showRetry"><div ng-hide="true">{{item.branchDescriptor.commitId}}</div><button class="btn btn-default retryButton" ng-click="retry(item.branchDescriptor.committer,item.branchDescriptor.protectedBranch,item.branchDescriptor.newBranch,item.branchDescriptor.commitId)" ng-disabled="button(item.status,item.branchDescriptor.commitId,displayMode.Mode,item.runDateTimeString,item.endDateTimeString)">Retry</button></td>
 						<td title="Git push time" ng-hide="!showCreationTime">{{item.creationDateTimeString}}</td>
 						<td title="Sent to Jenkins time" ng-hide="!showRunTime">{{item.runDateTimeString}}</td>
 						<td title="Verification End time" ng-hide="!showEndTime">{{item.endDateTimeString}}</td>
