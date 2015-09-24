@@ -28,11 +28,13 @@ public class DecisionMakerNotStartedItems {
     public List<Decision> execute(Collection<CommitItem> items) {
         
         List<Decision> ret = new ArrayList<>();
-        items = CommitItemUtils.refreshItems(items);
+
         if (!isPending(items)) {
             Collection<CommitItem> notStartedItems =
                     CommitItemUtils.filterItems(items, VerificationStatus.NOT_STARTED);
             if (!CollectionUtils.isNullOrEmpty(notStartedItems)) {
+                items = CommitItemUtils.refreshItems(items);
+                items = CommitItemUtils.filterNotDone(items);
                 CommitItem currParent = getParent(items, notStartedItems.iterator().next());
                 for (CommitItem currItem : notStartedItems) {
                     currItem.setParent(currParent);

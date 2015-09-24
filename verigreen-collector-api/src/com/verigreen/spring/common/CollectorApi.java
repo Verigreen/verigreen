@@ -13,6 +13,7 @@
 package com.verigreen.spring.common;
 
 import com.verigreen.rest.CommitItemRequest;
+import com.verigreen.rest.JenkinsCallRequest;
 import com.verigreen.rest.VerigreenNeededRequest;
 import com.verigreen.common.concurrency.RuntimeUtils;
 import com.verigreen.common.spring.SpringContextHolder;
@@ -52,8 +53,22 @@ public class CollectorApi {
                 committer));
     }
     
-    public static VerigreenNeededRequest getPostVerigreenNeededRequest(String commitId) {
+    public static JenkinsCallRequest getJenkinsCallRequest(
+    		 String jenkinsUrl,
+             String jobName,
+             String formatOutput) 
+    {
         
+    	return RuntimeUtils.cast(getBean(
+                "jenkinsCallRequest",
+                jenkinsUrl,
+                jobName,
+                formatOutput));
+    }
+    
+    public static VerigreenNeededRequest getPostVerigreenNeededRequest(String commitId) 
+    {
+    
         return RuntimeUtils.cast(getBean(
                 "postVerigreenNeededRequest",
                 getCollectorAddress(),

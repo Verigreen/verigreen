@@ -15,13 +15,16 @@ package com.verigreen.collector.model;
 import java.net.URI;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import com.verigreen.collector.api.BranchDescriptor;
 import com.verigreen.collector.api.VerificationStatus;
+import com.verigreen.collector.observer.Observer;
 import com.verigreen.collector.spring.CollectorApi;
 import com.verigreen.common.jbosscache.entity.UUIDEntity;
 import com.verigreen.common.utils.LocalMachineCurrentTimeProvider;
-
-public class CommitItem extends UUIDEntity implements Comparable<CommitItem> {
+@Component
+public class CommitItem extends UUIDEntity implements Comparable<CommitItem>, Observer {
     
     private static final long serialVersionUID = -500692221789722476L;
     
@@ -41,6 +44,10 @@ public class CommitItem extends UUIDEntity implements Comparable<CommitItem> {
     private int _buildNumber;
     private boolean _isDone = false;
     private String _childCommit = "";
+    private int _timeoutCounter = 0;
+	private int _retriableCounter = 0; 
+    private int _buildNumberToStop = 0;
+	private boolean _triggeredAttempt = false;
     
     public CommitItem() {}
     
@@ -54,6 +61,28 @@ public class CommitItem extends UUIDEntity implements Comparable<CommitItem> {
         
         return EMPTY.equals(value);
     }
+    public int getBuildNumberToStop() {
+		return _buildNumberToStop;
+	}
+
+	public void setBuildNumberToStop(int _buildNumberToStop) {
+		this._buildNumberToStop = _buildNumberToStop;
+	}
+    public int getTimeoutCounter() {
+		return _timeoutCounter;
+	}
+
+	public void setTimeoutCounter(int timeoutCounter) {
+		this._timeoutCounter = timeoutCounter;
+	}
+
+	public int getRetriableCounter() {
+		return _retriableCounter;
+	}
+
+	public void setRetriableCounter(int retriableCounter) {
+		this._retriableCounter = retriableCounter;
+	}
     
     public VerificationStatus getStatus() {
         
@@ -196,12 +225,29 @@ public class CommitItem extends UUIDEntity implements Comparable<CommitItem> {
         
         return _creationTime.compareTo(item.getCreationTime());
     }
+	
     
+	@Override
+	public void update(VerificationStatus status) {
+		
+		this.setStatus(status);
+		
+	}
+	
+	public boolean isTriggeredAttempt() {
+		return _triggeredAttempt;
+	}
+	
+	public void setTriggeredAttempt(boolean triggeredAttempt) {
+		this._triggeredAttempt = triggeredAttempt;
+	}
+	
     @Override
     public String toString() {
         
         return String.format(
-                "CommitItem [\n\t_branchDescriptor=%s,\n\t_mergedBranchName=%s, _status=%s, _creationTime=%s, _runTime=%s, _endTime=%s, _buildUrl=%s, _isDone=%s, _parent=%s, _child=%s]",
+                "CommitItem [\n\t_branchDescriptor=%s,\n\t_mergedBranchName=%s, _status=%s, _creationTime=%s, _runTime=%s, _endTime=%s, _buildUrl=%s, _isDone=%s, _parent=%s, _child=%s, "
+                + "_timeoutCounter=%s, _retriableCounter=%s, _triggeredAttempt=%s, _buildNumberToStop=%s] ",
                 _branchDescriptor,
                 _mergedBranchName,
                 _status,
@@ -211,6 +257,13 @@ public class CommitItem extends UUIDEntity implements Comparable<CommitItem> {
                 _buildNumber,
                 _isDone,
                 _parent != null ? _parent.getKey() : null,
-                _child != null ? _child.getKey() : null);
+                _child != null ? _child.getKey() : null,
+        		_timeoutCounter,
+        		_retriableCounter,
+        		_triggeredAttempt,
+        		_buildNumberToStop);
+        		
     }
+
+	
 }

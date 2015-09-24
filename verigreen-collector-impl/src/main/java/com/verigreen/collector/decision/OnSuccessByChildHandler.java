@@ -13,7 +13,8 @@
 package com.verigreen.collector.decision;
 
 import com.verigreen.collector.api.VerificationStatus;
-import com.verigreen.collector.buildverification.CommitItemVerifier;
+
+import com.verigreen.collector.buildverification.JenkinsUpdater;
 import com.verigreen.collector.common.EmailSender;
 import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.collector.model.CommitItem;
@@ -50,11 +51,9 @@ public class OnSuccessByChildHandler extends DecisionHandler {
         try {
             if (_commitItem.getStatus().equals(VerificationStatus.RUNNING)) {
                 //cancel job
-                CommitItemVerifier verifier =
-                        CollectorApi.getCommitItemVerifierManager().get(_commitItem.getKey());
-                if (verifier != null) {
-                    verifier.cancel();
-                }
+            	_commitItem.setBuildNumberToStop(_commitItem.getBuildNumber());
+            	JenkinsUpdater.getInstance().unregister(_commitItem);
+            	CollectorApi.getJenkinsVerifier().stop(CollectorApi.getVerificationJobName(), String.valueOf(_commitItem.getBuildNumberToStop()));
             }
         } catch (Exception e) {
             VerigreenLogger.get().error(

@@ -10,37 +10,23 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  *******************************************************************************/
-package com.verigreen.collector.buildverification;
+package com.verigreen.rest;
 
-import java.net.URI;
+import java.io.UnsupportedEncodingException;
+import com.verigreen.restclient.Request;
 
-import com.verigreen.collector.api.VerificationStatus;
-
-public class BuildVerificationResult {
+public class JenkinsCallRequest extends Request {
     
-    private final int _buildNumber;
-    private final URI _buildUrl;
-    private final VerificationStatus _status;
+    private final static String request = "job";
     
-    public BuildVerificationResult(int buildNumber, URI buildUrl, VerificationStatus status) {
+    public JenkinsCallRequest(
+            String jenkinsUrl,
+            String jobName,
+            String formatOutput
+            ) throws UnsupportedEncodingException {
         
-        _buildNumber = buildNumber;
-        _buildUrl = buildUrl;
-        _status = status;
+    	super(jenkinsUrl + request + '/' + jobName + '/' + formatOutput);      
     }
     
-    public int getBuildNumber() {
-        
-        return _buildNumber;
-    }
-    
-    public URI getBuildUrl() {
-        
-        return _buildUrl;
-    }
-    
-    public VerificationStatus getStatus() {
-        
-        return _status;
-    }
 }
+

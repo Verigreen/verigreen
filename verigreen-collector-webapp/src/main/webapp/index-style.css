@@ -12,7 +12,7 @@
  *******************************************************************************/
 			.logo {
 				top: 0px;
-				right: 10px;
+				right: 0px;
 				float: right;
 				width: 185px;
 				height: 75px;
@@ -102,7 +102,7 @@
 				top: 123px;
 				overflow: auto; 
 				width: 150px; 
-				height: 75px; 
+				height: 90px; 
 				padding-left: 5px;
 				margin-top: 25px;
   				padding: 5px 0;
@@ -112,8 +112,14 @@
   				border: 1px solid #cccccc;
   				box-shadow: 1px 1px 2px #E0E0E0;
   				z-index: 10;
-  				color: #717171;
+  				color: #5a5a5a;
 				font-family: "HP Simplified";
+			}
+			.check {
+				padding-left: 5px;
+			}
+			checkbox {
+				top: 8px;
 			}
 			.filter {
 				float: left;

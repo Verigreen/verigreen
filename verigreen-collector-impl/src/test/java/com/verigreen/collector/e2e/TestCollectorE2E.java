@@ -17,14 +17,13 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.quartz.JobExecutionException;
 
-import com.verigreen.common.concurrency.SynchronizeableThreadPoolExecutor;
-import com.verigreen.buildverification.JenkinsVerifierMockFactory;
 import com.verigreen.collector.api.VerificationStatus;
 import com.verigreen.collector.common.TestCollectorConstants;
 import com.verigreen.collector.jobs.ConsumerJob;
 import com.verigreen.collector.model.CommitItem;
 import com.verigreen.collector.spring.CollectorApi;
 import com.verigreen.common.concurrency.ExecutorServiceFactory;
+import com.verigreen.common.concurrency.SynchronizeableThreadPoolExecutor;
 import com.verigreen.common.jbosscache.Criteria;
 import com.verigreen.common.testcase.CollectorUnitTestCase;
 import com.verigreen.common.util.CommitItemFactory;
@@ -78,7 +77,6 @@ public class TestCollectorE2E extends CollectorUnitTestCase {
     @Test
     public void testE2EWith2ItemsSeparately() throws Exception {
         
-        JenkinsVerifierMockFactory.setHangMock();
         CommitItem item1 =
                 createItem(TestCollectorConstants.BRANCH_1, true, false, false, true, true);
         // consume

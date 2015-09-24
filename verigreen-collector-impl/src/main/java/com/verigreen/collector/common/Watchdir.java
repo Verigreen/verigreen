@@ -22,6 +22,7 @@ import java.nio.file.WatchService;
 import java.util.List;
 import java.util.Properties;
 
+import com.verigreen.collector.buildverification.JenkinsVerifier;
 import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.common.concurrency.RuntimeUtils;
 
@@ -59,6 +60,7 @@ public class Watchdir implements Runnable{
 							//If the value is null then add it from the prop file to the hash map. This is important in case reading the value when a first push happened after changing the job name 
 							if((VerigreenNeededLogic.VerigreenMap.get("_jobName") == null) || (!VerigreenNeededLogic.VerigreenMap.get("_jobName").equals(jobName))){
 								VerigreenNeededLogic.VerigreenMap.put("_jobName", jobName);
+								JenkinsVerifier.job2Verify = JenkinsVerifier.getJobToVerify();
 							}
 							
 							if(!VerigreenNeededLogic.VerigreenMap.get("_protectedBranches").equals(protectedBranches)){

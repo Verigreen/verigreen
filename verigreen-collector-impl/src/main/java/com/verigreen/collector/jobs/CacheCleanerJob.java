@@ -22,6 +22,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.verigreen.collector.api.VerificationStatus;
 import com.verigreen.collector.common.VerigreenNeededLogic;
 import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.collector.model.CommitItem;
@@ -55,13 +56,17 @@ public class CacheCleanerJob implements Job {
                     
                     @Override
                     public boolean match(CommitItem entity) {
-                        
-                        return isExceedThreashold(entity.getCreationTime());
+                        //if the item has exceeded the days threshold AND is not in a RUNNING state, it will be deleted
+                        return isExceedThreashold(entity.getCreationTime()) && !isRunning(entity.getStatus());
                     }
                 });
+        
         CollectorApi.getCommitItemContainer().delete(toDelete);
+        
         for (CommitItem currItem : toDelete) {
-            CollectorApi.getCommitItemVerifierManager().remove(currItem.getKey());
+
+        		CollectorApi.getCommitItemVerifierManager().remove(currItem.getKey());
+        	
         }
     }
     
@@ -70,5 +75,17 @@ public class CacheCleanerJob implements Job {
         Days daysBetweenCreationTimeAndNow = Days.daysBetween(new DateTime(date), DateTime.now());
         
         return daysBetweenCreationTimeAndNow.getDays() >= Integer.parseInt(VerigreenNeededLogic.VerigreenMap.get("daysThreashold"));
+    }
+    
+    private boolean isRunning(VerificationStatus status) 
+    {   //checks if an item is running or not    
+        if(status.equals(VerificationStatus.RUNNING))
+        {
+        	return true;
+        }
+        else
+        {
+        	return false;
+        }
     }
 }

@@ -55,11 +55,11 @@ public class TestCheckinDecisionHandler extends CollectorUnitTestCase {
         CommitItemVerifier verifier =
                 CollectorApi.getCommitItemVerifierManager().get(item.getKey());
         Assert.assertNotNull(verifier);
-        verifier.cancel();
+        boolean result = CollectorApi.getJenkinsVerifier().stop(CollectorApi.getVerificationJobName(), String.valueOf(item.getBuildNumber()));
         SynchronizeableThreadPoolExecutor executor =
                 (SynchronizeableThreadPoolExecutor) ExecutorServiceFactory.getCachedThreadPoolExecutor();
         executor.join();
-        Assert.assertTrue(verifier.isCanceled());
+        Assert.assertTrue(result);
     }
     
     @Test
@@ -72,18 +72,17 @@ public class TestCheckinDecisionHandler extends CollectorUnitTestCase {
         CommitItemVerifier verifier =
                 CollectorApi.getCommitItemVerifierManager().get(item.getKey());
         Assert.assertNotNull(verifier);
-        verifier.cancel();
+        boolean result = CollectorApi.getJenkinsVerifier().stop(CollectorApi.getVerificationJobName(), String.valueOf(item.getBuildNumber()));;
         SynchronizeableThreadPoolExecutor executor =
                 (SynchronizeableThreadPoolExecutor) ExecutorServiceFactory.getCachedThreadPoolExecutor();
         executor.join();
-        Assert.assertTrue(verifier.isCanceled());
-        
+        Assert.assertTrue(result);
         handler.handle();
         CommitItemVerifier verifier2 =
                 CollectorApi.getCommitItemVerifierManager().get(item.getKey());
         Assert.assertNotSame(verifier, verifier2);
         executor.join();
-        Assert.assertFalse(verifier2.isCanceled());
+        Assert.assertFalse(!result);
         item = CollectorApi.getCommitItemContainer().get(item.getKey());
         Assert.assertEquals(VerificationStatus.PASSED, item.getStatus());
     }

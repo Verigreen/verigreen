@@ -13,13 +13,6 @@
 package com.verigreen.buildverification;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import junit.framework.Assert;
 
@@ -31,8 +24,6 @@ import org.springframework.test.context.ContextConfiguration;
 import com.google.common.collect.ImmutableMap;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.JobWithDetails;
-import com.verigreen.collector.api.VerificationStatus;
-import com.verigreen.collector.buildverification.BuildVerificationResult;
 import com.verigreen.collector.buildverification.BuildVerifier;
 import com.verigreen.collector.buildverification.JenkinsVerifier;
 import com.verigreen.collector.spring.CollectorApi;
@@ -45,43 +36,16 @@ import com.verigreen.common.testcase.IntegrationTest;
 @Category(IntegrationTest.class)
 @Ignore
 public class TestJenkinsVerifier extends CollectorSpringTestCase {
-    
+	
     @Test
-    public void testBuildAndVerify() {
+    public void testBuild() throws IOException {
         
-        final BuildVerifier jenkinsVerifier = CollectorApi.getJenkinsVerifier();
-        int nThreads = 4;
-        
-        ExecutorService executerService = Executors.newFixedThreadPool(nThreads);
-        List<Future<BuildVerificationResult>> results =
-                new ArrayList<Future<BuildVerificationResult>>();
-        for (int i = 0; i < nThreads; i++) {
-            Future<BuildVerificationResult> result =
-                    executerService.submit(new Callable<BuildVerificationResult>() {
-                        
-                        @Override
-                        public BuildVerificationResult call() throws Exception {
-                            
-                            BuildVerificationResult buildResult =
-                                    jenkinsVerifier.BuildAndVerify(
-                                            "testing-jenkins-api",
-                                            "ParamForTesting",
-                                            UUID.randomUUID().toString(),
-                                            null);
-                            
-                            return buildResult;
-                        }
-                    });
-            results.add(result);
-        }
-        for (Future<BuildVerificationResult> buildResult : results) {
-            try {
-                BuildVerificationResult result = buildResult.get();
-                Assert.assertEquals(VerificationStatus.PASSED, result.getStatus());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    	String jobName = "testing-jenkins-api";
+        String parameterNameForJob = "ParamForTesting";
+        final ImmutableMap<String, String> params = ImmutableMap.of(parameterNameForJob, "master");
+        JenkinsServer jenkninsServer = CollectorApi.getJenkinsServer();
+        JobWithDetails job = jenkninsServer.getJob(jobName);
+        job.build(params);
     }
     
     @Test

@@ -15,8 +15,6 @@ package com.verigreen.common.testcase;
 import org.junit.Ignore;
 import org.junit.experimental.categories.Category;
 
-import com.verigreen.buildverification.JenkinsVerifierMockFactory;
-
 @Category(UnitTests.class)
 @Ignore
 public class CollectorUnitTestCase extends CollectorSpringTestCase {
@@ -25,6 +23,6 @@ public class CollectorUnitTestCase extends CollectorSpringTestCase {
     public void setUp() {
         
         super.setUp();
-        JenkinsVerifierMockFactory.setPassedMock();
+
     }
 }

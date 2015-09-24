@@ -12,143 +12,42 @@
  *******************************************************************************/
 package com.verigreen.collector.buildverification;
 
-import java.net.URI;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.verigreen.collector.api.VerificationStatus;
-import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.collector.model.CommitItem;
-import com.verigreen.collector.spring.CollectorApi;
-import com.verigreen.common.concurrency.ExecutorServiceFactory;
-import com.verigreen.common.concurrency.RuntimeUtils;
-import com.verigreen.common.utils.StringUtils;
 
 public class CommitItemVerifier {
+
+    private List<CommitItem> createCommitItems = new ArrayList<>();
+    private static volatile CommitItemVerifier instance = null;
     
-    private boolean _canceled = false;
-    private int _timeoutInMillis;
-    private int _pollTimeMillis = 10 * 1000;
-    private String _commitItemKey = StringUtils.EMPTY_STRING;
+	protected CommitItemVerifier() {
+	      // Exists only to defeat instantiation.
+	}
+	
+	public static CommitItemVerifier getInstance()
+    { 
+    	if(instance == null)
+    	{
+    		synchronized(CommitItemVerifier.class)
+    		{ 
+    			if(instance == null)
+    			{ 
+    				instance = new CommitItemVerifier();  
+    			}
+    		}
+    	}
+    	return instance; 
+    }
     
     public void verify(final CommitItem item) {
         
-        _commitItemKey = item.getKey();
-        final Future<BuildVerificationResult> future =
-                verifyAsync("origin/" + item.getMergedBranchName());
-        ExecutorServiceFactory.fireAndForget(new Runnable() {
-            
-            @Override
-            public void run() {
-                
-                waitForResult(future);
-            }
-        });
+        createCommitItems.add(item);
     }
     
-    public void cancel() {
-        
-        _canceled = true;
-        if (!StringUtils.isNullOrEmpty(_commitItemKey)) {
-            CommitItem commitItem = CollectorApi.getCommitItemContainer().get(_commitItemKey);
-            VerigreenLogger.get().log(
-                    getClass().getName(),
-                    RuntimeUtils.getCurrentMethodName(),
-                    String.format("cancelling verification of %s...", commitItem));
-            CollectorApi.getJenkinsVerifier().stop(
-                    CollectorApi.getVerificationJobName(),
-                    String.valueOf(commitItem.getBuildNumber()));
-        }
-    }
-    
-    public void setTimeoutInMillis(int timeoutInMillis) {
-        
-        _timeoutInMillis = timeoutInMillis;
-    }
-    
-    public void setPollTimeMillis(int pollTimeMillis) {
-        
-        _pollTimeMillis = pollTimeMillis;
-    }
-    
-    public boolean isCanceled() {
-        
-        return _canceled;
-    }
-    
-    private void waitForResult(Future<BuildVerificationResult> future) {
-        
-        CommitItem commitItem = CollectorApi.getCommitItemContainer().get(_commitItemKey);
-        BuildVerificationResult result = null;
-        long timeOut = System.currentTimeMillis() + _timeoutInMillis;
-        try {
-            do {
-                try {
-                    result = future.get(_pollTimeMillis, TimeUnit.MILLISECONDS);
-                } catch (TimeoutException e) {
-                    VerigreenLogger.get().log(
-                            getClass().getName(),
-                            RuntimeUtils.getCurrentMethodName(),
-                            String.format(
-                                    "commit item is still in the process of verification %s...",
-                                    commitItem));
-                }
-            } while (result == null && !_canceled && !hasTimedOut(timeOut));
-        } catch (Throwable thrown) {
-            VerigreenLogger.get().error(
-                    getClass().getName(),
-                    RuntimeUtils.getCurrentMethodName(),
-                    String.format("Unexpected failure during verification of %s", commitItem),
-                    thrown);
-        }
-        if (!_canceled) {
-            commitItem = CollectorApi.getCommitItemContainer().get(_commitItemKey);
-            VerificationStatus finalStatus =
-                    result == null ? VerificationStatus.TIMEOUT : result.getStatus();
-            commitItem.setStatus(finalStatus);
-            CollectorApi.getCommitItemContainer().save(commitItem);
-        }
-    }
-    
-    private boolean hasTimedOut(long timeOut) {
-        
-        return System.currentTimeMillis() > timeOut;
-    }
-    
-    private Future<BuildVerificationResult> verifyAsync(final String branchName) {
-        
-        return ExecutorServiceFactory.getCachedThreadPoolExecutor().submit(
-                new Callable<BuildVerificationResult>() {
-                    
-                    @Override
-                    public BuildVerificationResult call() {
-                        
-                        BuildVerificationResult result =
-                                CollectorApi.getJenkinsVerifier().BuildAndVerify(
-                                        CollectorApi.getVerificationJobName(),
-                                        CollectorApi.getBranchParamName(),
-                                        branchName,
-                                        getCallback());
-                        
-                        return result;
-                    }
-                });
-    }
-    
-    private BuildDataCallback getCallback() {
-        
-        return new BuildDataCallback() {
-            
-            @Override
-            public void buildStarted(URI buildUrl, int buildNumber) {
-                
-                CommitItem commitItem = CollectorApi.getCommitItemContainer().get(_commitItemKey);
-                commitItem.setBuildUrl(buildUrl);
-                commitItem.setBuildNumber(buildNumber);
-                CollectorApi.getCommitItemContainer().save(commitItem);
-            }
-        };
-    }
+    public List<CommitItem> getCommitItems(){
+		return this.createCommitItems;
+	}
+
 }
