@@ -835,6 +835,7 @@ public class TestCollectorE2EGreenPath extends SystemTestBase {
      * @throws IOException 
      * */
     @Test
+    @Ignore
     public void testRetryTriggerFailed() throws IOException, InterruptedException {
         
         String destinationFolderForNewFile = DEFAULT_COMMIT_FOLDER;
