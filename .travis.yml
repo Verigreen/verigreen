@@ -8,8 +8,9 @@ deploy:
   provider: releases
   api_key:
     secure: scB/WQtgXCtvVF98j3T9l0GO5z6Fmg36oay/ipRFInZb0fWVlw76Uy88TwRNMHcmyNj3l4uf4Pd0N3vebLznvww5/67eSuskrMbGbRltP9Odc37a+K3T+VZ2PfTnxiCtCvy6KLP2Iq+gUbZoGYaAAFGu61xcua6CUooB6mX59s7+oRfaKvJmatpeACeAis2YXcnjEhHh1SaTuUrMlOezd1/hv8uBgdTyZhGEWvvpwHKlXdSdQ4ff3T8rrhzoV/kCLQUKjMaYzLNcJtRbOOhBJXaivZaON0jfaQCIXRWonL9juFYKPVjoTE8q5h+3C1+y7QYPClAfZFIf3NFp2TtGOia4B70VeIVJ+UFG/USX5I/eodGmsvibzmnrBQxpO8UNWWg5gHOBRULqk5lZWyIUL3GHk9SOgzrDf0tlIu5YLJS8h93mNFRZAYKKZQ4S33aeSEG2g27NSg3dq/C+R+9OYoqYjhMIndAWERG/rZ1af1JwnC1feow9aOl0njQ8lPWA5fgs/oAyBwfinvL7d3tps4Zy3ZuSk5vPNfKczY7I5GK7p/9kDUm91LiF2ZsZeJQXWFE1i0BGKwgQxeWRPzf/M0dkTk4o0WgDo5Kq1uQpHHKlC3N93SEGrY9v5B84yJB+ErwRxc7EC22qLDSfANqFji0UJ5zEIaQjm0Sw1uwpk1w=
-  file: verigreen-collector-webapp/target/verigreen-collector.war
-  file: git-hook/verigreen-git-hook.tar.gz
+  file: 
+    - verigreen-collector-webapp/target/verigreen-collector.war
+    - git-hook/verigreen-git-hook.tar.gz
   skip_cleanup: true
   on:
     repo: Verigreen/verigreen
