@@ -10,9 +10,9 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  *******************************************************************************/
-var app = angular.module('App', ['ngCookies','angularModalService']);
-app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedProperty', '$cookies', '$interval', '$cookieStore',
-   function ($scope, $filter, $http, ModalService, sharedProperty, $cookies, $interval, $cookieStore) {
+var app = angular.module('App', ['ngCookies']);
+app.controller('ctrlRead', ['$scope','$filter','$http', 'sharedProperty', '$cookies', '$interval', '$cookieStore',
+   function ($scope, $filter, $http, sharedProperty, $cookies, $interval, $cookieStore) {
 
 	// init
 	$scope.sortingOrder = sortingOrder;
@@ -31,6 +31,8 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	$scope.time = "30";
 	$scope.checklist = true;
 	$scope.color = "#ffffff";
+	$scope.message = "";
+	$scope.showModal = false;
 	
 	$scope.getValueFilter = function(column) {
 		if($cookieStore.get(column) == true) {
@@ -135,7 +137,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 			});
 			$scope.search();
 		}).error(function(data) {
-			alert('err');
+			console.error("Commit-items data not available!");
 		});
 	};
 	
@@ -144,23 +146,15 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 			$scope.branchDescriptor = sharedProperty.setbranchDescriptor(committer,protectedBranch,branchId,commitId);
 			$scope.menuOptions = [
 			                       ['Force push', function () {
-			                    	   showModalWindow();
+			                    	   $scope.message = "";
+			                    	   $scope.data = {password:""};
+			                    	   $scope.showModal = true;
 			                       }]
 			                   ];
 		}
 		else {
 			$scope.menuOptions = null;
 		}
-	};
-	
-	function showModalWindow() {
-		    ModalService.showModal({
-		      templateUrl: "modal.html",
-		      controller: "ModalController",
-		    }).then(function(modal) {
-		      modal.element.modal();
-		      modal.close();
-		    });
 	};
 
 	var searchMatch = function(haystack, needle) {
@@ -352,7 +346,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	        }).success(function(data) {
 	               $scope.items = data;
 	        }).error(function(data) {
-	               alert('err');
+	        	console.error("Connection refused!");
 	        });
 	 };
 	  
@@ -375,7 +369,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
                         	});
                         });
               }).error(function(data) {
-                        alert('err');
+            	  console.error("History data not available!");
               });
 	  };
 	  
@@ -447,7 +441,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 	              }).success(function(data) {
 	            	  $scope.displayMode = data;
 	              }).error(function(data) {
-	            	  alert('err');
+	            	  console.error("Data not available!");
 	              });
 	       }; 
 	                                                                  	
@@ -464,7 +458,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 		}).success(function(data) {
 			$scope.messages = data;
 		}).error(function(data) {
-			alert('err');
+			console.error("Commit-message data not available!");
 		});
 	};
 	
@@ -478,35 +472,35 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'ModalService', 'sharedP
 		}
 	};
 
+	$scope.checkPassword = function(password) {
+		$scope.branchDescriptor = sharedProperty.getbranchDescriptor();
+		$http({
+			url : "rest/branches",
+			method : "POST",
+			dataType : "json",
+			data : $scope.branchDescriptor,
+			params : password,
+			headers : {
+				"Content-Type" : "application/json; charset=utf-8",
+				"Accept" : "application/json"
+			}
+		}).success(function(data) {
+			$scope.items = data;
+			$scope.cancel();
+		}).error(function(data) {
+			$scope.message = 'The password is incorrect!';
+		});
+	};
+	
+	$scope.cancel = function () {
+		$scope.showModal = false;
+	};
+	
+	$scope.errorMessage = function(password) {
+		if(!password) {
+			$scope.message = "";
+		}
+	};
+	
 }
 ]);
-
-app.controller('ModalController', [ '$scope', '$http', 'close',
-		'sharedProperty', function($scope, $http, close, sharedProperty) {
-			$scope.open = true;
-			$scope.close = function() {
-				close(500); // close, but give 500ms for bootstrap to animate
-				$scope.open = false;
-			};
-
-			$scope.checkPassword = function(password) {
-				$scope.branchDescriptor = sharedProperty.getbranchDescriptor();
-				$http({
-					url : "rest/branches",
-					method : "POST",
-					dataType : "json",
-					data : $scope.branchDescriptor,
-					params : password,
-					headers : {
-						"Content-Type" : "application/json; charset=utf-8",
-						"Accept" : "application/json"
-					}
-				}).success(function(data) {
-					$scope.items = data;
-					$scope.close();
-				}).error(function(data) {
-					alert('The password is incorrect!');
-				});
-			};
-
-		} ]);
