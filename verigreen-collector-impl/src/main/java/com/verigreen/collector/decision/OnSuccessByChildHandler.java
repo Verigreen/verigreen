@@ -13,7 +13,7 @@
 package com.verigreen.collector.decision;
 
 import com.verigreen.collector.api.VerificationStatus;
-
+import com.verigreen.collector.buildverification.CommitItemCanceler;
 import com.verigreen.collector.buildverification.JenkinsUpdater;
 import com.verigreen.collector.common.EmailSender;
 import com.verigreen.collector.common.log4j.VerigreenLogger;
@@ -53,7 +53,7 @@ public class OnSuccessByChildHandler extends DecisionHandler {
                 //cancel job
             	_commitItem.setBuildNumberToStop(_commitItem.getBuildNumber());
             	JenkinsUpdater.getInstance().unregister(_commitItem);
-            	CollectorApi.getJenkinsVerifier().stop(CollectorApi.getVerificationJobName(), String.valueOf(_commitItem.getBuildNumberToStop()));
+            	CommitItemCanceler.getInstance().add(_commitItem);
             }
         } catch (Exception e) {
             VerigreenLogger.get().error(
