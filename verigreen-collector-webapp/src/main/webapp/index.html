@@ -19,8 +19,6 @@
 		<script src="angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js"></script>
 		<script type="text/javascript" src="date.js"></script>
-		<!-- script modal window -->
-		<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular-cookies.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="index-style.css" />
 		<script src="controllers.js"></script>
@@ -68,6 +66,20 @@
   				<span ng-show="check"><input type="text" class="time" name="time" ng-pattern="number" ng-model="time" ng-enter="changeTime(form.time.$valid)" ng-keyup="blurAfterEnter($event)" /><span style="margin-left:7px;">Seconds</span></span>
   			</form>
   			</div>
+			<modal-dialog show="showModal">
+			 	<form name="form">
+			              <div class="modal-header">
+			                <h4 class="modal-title">Force Push</h4>
+			              </div>
+			              <div class="modal-body">
+			               Password : <input name="password" type="password" required ng-model="data.password" ng-focus="showModal" ng-keyup="errorMessage(data.password.length)"><input class="error" ng-model="message" disabled></input>
+			              </div>
+			              <div class="modal-footer">
+			  				 <button type="submit"  ng-click="checkPassword(data)" ng-enter="checkPassword(data)" class="btn btn-default" ng-disabled="!data.password.length" >OK</button>
+			  				 <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			              </div>
+				</form>
+			</modal-dialog>
 			<table class="table table-striped table-hover" >
 				<thead>
 					<tr class="tableHeader">

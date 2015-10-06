@@ -123,3 +123,25 @@ app.directive('ngFocus', function($timeout, $parse) {
 	    }
 	  };
 	});
+
+app.directive('modalDialog', function() {
+	  return {
+	    restrict: 'E',
+	    scope: {
+	      show: '='
+	    },
+	    replace: true, 
+	    transclude: true,
+	    link: function(scope, element, attrs) {
+	      scope.dialogStyle = {};
+	      if (attrs.width)
+	        scope.dialogStyle.width = attrs.width;
+	      if (attrs.height)
+	        scope.dialogStyle.height = attrs.height;
+	      scope.hideModal = function() {
+	        scope.show = false;
+	      };
+	    },
+	    template: "<div ng-show='show' class='modal-overlay'><div ng-click='hideModal()'></div><div class='modal-dialog' ng-style='dialogStyle'><div class='close' ng-click='hideModal()'>&times;</div><div class='content' ng-transclude></div></div></div>"
+	  };
+	});
