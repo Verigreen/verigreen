@@ -14,6 +14,7 @@ package com.verigreen.collector.spring;
 
 import com.offbytwo.jenkins.JenkinsServer;
 import com.verigreen.collector.buildverification.BuildVerifier;
+import com.verigreen.collector.buildverification.CommitItemCanceler;
 import com.verigreen.collector.buildverification.CommitItemVerifier;
 import com.verigreen.collector.buildverification.CommitItemVerifierManager;
 import com.verigreen.collector.cache.container.CommitItemContainer;
@@ -114,6 +115,11 @@ public class CollectorApi {
     public static CommitItemVerifier getCommitItemVerifier() {
         
         return getBean(CommitItemVerifier.class);
+    }
+    
+    public static CommitItemCanceler getCommitItemCanceler() {
+        
+        return getBean(CommitItemCanceler.class);
     }
     
     public static CommitItemVerifierManager getCommitItemVerifierManager() {

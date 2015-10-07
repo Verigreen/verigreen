@@ -19,6 +19,7 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.verigreen.collector.api.VerificationStatus;
+import com.verigreen.collector.buildverification.CommitItemCanceler;
 import com.verigreen.collector.buildverification.CommitItemVerifier;
 import com.verigreen.collector.buildverification.JenkinsUpdater;
 import com.verigreen.collector.buildverification.JenkinsVerifier;
@@ -27,6 +28,7 @@ import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.collector.model.CommitItem;
 import com.verigreen.collector.model.MinJenkinsJob;
 import com.verigreen.collector.observer.Observer;
+import com.verigreen.common.concurrency.ExecutorServiceFactory;
 import com.verigreen.common.concurrency.RuntimeUtils;
 import com.verigreen.restclient.RestClientImpl;
 import com.verigreen.restclient.RestClientResponse;
@@ -53,7 +55,29 @@ public class CallJenkinsJob implements Job {
 	}
 
 	private void calllingJenkinsForCancel() {
-		// TODO Auto-generated method stub
+		//stop all commits in the commitItemCanceler 
+		VerigreenLogger.get().log(
+	             getClass().getName(),
+	             RuntimeUtils.getCurrentMethodName(),
+	             String.format(
+	                     "There are [%s] not canceled items...",
+	                     CommitItemCanceler.getInstance().getCommitItems().size() ));
+		for (Iterator<CommitItem> iterator = CommitItemCanceler.getInstance().getCommitItems().iterator(); iterator.hasNext();) {
+			final CommitItem ci = iterator.next();
+			iterator.remove();
+			ExecutorServiceFactory.fireAndForget(new Runnable() {
+				
+				@Override
+				public void run() 
+				{
+					com.verigreen.collector.spring.CollectorApi.getJenkinsVerifier().stop(com.verigreen.collector.spring.CollectorApi.getVerificationJobName(), String.valueOf(ci.getBuildNumberToStop()));
+				}
+				
+			});
+			
+			// Remove the current element from the iterator and the list.
+	        
+		}
 		
 	}
 

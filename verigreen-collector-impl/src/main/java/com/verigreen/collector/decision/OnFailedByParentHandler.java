@@ -11,11 +11,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  *******************************************************************************/
 package com.verigreen.collector.decision;
+import com.verigreen.collector.buildverification.CommitItemCanceler;
 import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.collector.model.CommitItem;
-import com.verigreen.collector.spring.CollectorApi;
 import com.verigreen.common.concurrency.RuntimeUtils;
-import com.verigreen.common.concurrency.ExecutorServiceFactory;
 
 
 
@@ -33,18 +32,6 @@ public class OnFailedByParentHandler extends DecisionHandler {
                 getClass().getName(),
                 RuntimeUtils.getCurrentMethodName(),
                 String.format("Cancelling verification of %s...", _commitItem));
-
-
-        ExecutorServiceFactory.fireAndForget(new Runnable() {
-        
-        @Override
-        public void run() 
-        {
-            CollectorApi.getJenkinsVerifier().stop(CollectorApi.getVerificationJobName(), String.valueOf(_commitItem.getBuildNumberToStop()));
-        }
-        
-        });
-
-
+        CommitItemCanceler.getInstance().add(_commitItem);
     }
 }

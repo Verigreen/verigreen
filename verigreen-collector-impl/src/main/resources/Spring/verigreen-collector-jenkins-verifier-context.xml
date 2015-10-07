@@ -24,6 +24,10 @@ See the License for the specific language governing permissions and limitations 
 		 scope="prototype">
 	</bean>
 	
+	<bean id="commitItemCanceler" class="com.verigreen.collector.buildverification.CommitItemCanceler" 
+		 scope="singleton">
+	</bean>
+	
 	<bean id="commitItemVerifierManager" class="com.verigreen.collector.buildverification.CommitItemVerifierManager"
 		 scope="singleton">
 	</bean>
