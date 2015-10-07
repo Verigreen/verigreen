@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and limitations 
 	<parent>
 		<groupId>com.verigreen</groupId>
 		<artifactId>verigreen-root</artifactId>
-		<version>2.5.1-SNAPSHOT</version>
+		<version>2.5.2</version>
 	</parent>
 	<artifactId>vg-rest-client</artifactId>
 	<name>${project.artifactId}</name>
