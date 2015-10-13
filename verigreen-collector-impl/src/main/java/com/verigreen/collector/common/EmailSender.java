@@ -12,6 +12,7 @@
  *******************************************************************************/
 package com.verigreen.collector.common;
 
+
 import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
@@ -34,6 +35,7 @@ public class EmailSender {
    
     private final String _mailServer;
     private static String _collectorAddress;
+    private String _offlineMode = VerigreenNeededLogic.properties.getProperty("faq.offline").toString();
 
 	protected EmailSender(String mailServer) {
         
@@ -95,8 +97,9 @@ public class EmailSender {
             String committerEmail,
             String protectedBranch,
             String parentCommitId,
-            String tempBranch) {
-        
+            String tempBranch){
+    	String link = "";
+    	
         StringBuilder status =
                 new StringBuilder();
         if(subject.equals("Verigreen Status - Failure"))
@@ -122,7 +125,7 @@ public class EmailSender {
         if(result.equals(VerificationStatus.MERGE_FAILED))
         {
             status.append(String.format("<tr><td>Merge failed between commits:<td> <b>%s</b> and <b>%s</b></td></td></tr>",parentCommitId.substring(0, 7),commitId.substring(0, 7)));
-        }
+       }
         else
         {
         status.append(String.format("<tr><td>Commit Id:</td><td>%s</td></tr>", commitId.substring(0, 7)));
@@ -140,6 +143,9 @@ public class EmailSender {
         if(subject.equals("Verigreen Status - Failure"))
         {
         	status.append(String.format("<tr><td>Temporary branch:</td><td>%s</td></tr></table>", tempBranch));
+        	link = checkVerificationStatus(result);
+        	status.append(link);
+            
         } else {
        	 status.append(String.format(
                  "</table>"));
@@ -183,5 +189,49 @@ public class EmailSender {
                             Arrays.toString(recipients)),
                     ex);
         }
+    }
+    private String checkVerificationStatus(VerificationStatus result){
+    	String property = "";
+    	String link = "";
+    	if(_offlineMode.equals("false"))
+    	{
+    		if(result.equals(VerificationStatus.GIT_FAILURE))
+    		{	property = VerigreenNeededLogic.properties.getProperty("faq.online.git");
+    			link = String.format("<br><br><table><tr><td>Check the <a href=%s> FAQ </a> page for more information on the encountered error</td></tr></table>", 
+    					property);
+    		}
+    		if(result.equals(VerificationStatus.TIMEOUT))
+    		{
+    			property = VerigreenNeededLogic.properties.getProperty("faq.online.timeout");
+    			link = String.format("<br><br><table><tr><td>Check the <a href=%s> FAQ </a> page for more information on the encountered error</td></tr></table>",    		 
+    					property);
+    		}
+    		if(result.equals(VerificationStatus.TRIGGER_FAILED))
+    		{
+    			property = VerigreenNeededLogic.properties.getProperty("faq.online.trigger");
+    			link = String.format("<br><br><table><tr><td>Check the <a href=%s> FAQ </a> page for more information on the encountered error</td></tr></table>", 
+    					property);
+    		}
+    	}else {
+    		if(result.equals(VerificationStatus.GIT_FAILURE))
+    		{	
+    			property = VerigreenNeededLogic.properties.getProperty("faq.offline.git");
+    			link = String.format("<br><br><table><tr><td>Check the <a href=%s> FAQ </a> page for more information on the encountered error</td></tr></table>", 
+    				 _collectorAddress.replace("/rest", "/") + property);
+    		}
+    		if(result.equals(VerificationStatus.TIMEOUT))
+    		{
+    			property = VerigreenNeededLogic.properties.getProperty("faq.offline.timeout");
+    			link = String.format("<br><br><table><tr><td>Check the <a href=%s> FAQ </a> page for more information on the encountered error</td></tr></table>",    		 
+    					_collectorAddress.replace("/rest", "/") + property);
+    		}
+    		if(result.equals(VerificationStatus.TRIGGER_FAILED))
+    		{
+    			property = VerigreenNeededLogic.properties.getProperty("faq.offline.trigger");
+    			link = String.format("<br><br><table><tr><td>Check the <a href=%s> FAQ </a> page for more information on the encountered error</td></tr></table>", 
+    					_collectorAddress.replace("/rest", "/") + property);
+    		}
+    	}
+    	return link;
     }
 }
