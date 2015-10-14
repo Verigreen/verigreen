@@ -35,7 +35,7 @@ public class EmailSender {
    
     private final String _mailServer;
     private static String _collectorAddress;
-    private String _offlineMode = VerigreenNeededLogic.properties.getProperty("faq.offline").toString();
+    private static String _offlineMode;
 
 	protected EmailSender(String mailServer) {
         
@@ -44,6 +44,10 @@ public class EmailSender {
 
 	public void setcollectorAddress(String collectorAddress) {
 		_collectorAddress = collectorAddress;
+	}
+	public void setOfflineMode(String offlineMode)
+	{
+		_offlineMode=offlineMode;
 	}
 	
 	public String getCommitMessage(String commitId){
