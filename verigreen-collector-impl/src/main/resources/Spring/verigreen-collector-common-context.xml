@@ -36,6 +36,7 @@ See the License for the specific language governing permissions and limitations 
 		scope="singleton">
 		<constructor-arg name="mailServer" value="${mail.server}" />
 		<property name="collectorAddress" value="${collector.address}" />
+		<property name="offlineMode" value="${faq.offline}" />
 	</bean>
 	
 	<bean id="verigreenNeededLogic"
