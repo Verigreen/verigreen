@@ -70,17 +70,21 @@ public class DecisionMakerFailedItems {
         List<Decision> ret = new ArrayList<>();
         CommitItem parent = item.getParent();
         CommitItem houseOfCardsStart = item;
+
         if (parent == null || parent.getStatus().equals(VerificationStatus.PASSED) || parent.getStatus().equals(VerificationStatus.PASSED_AND_PUSHED)) {
             item.setDone(true);
             ret.add(new Decision(item.getKey(), new OnFailureHandler(item)));
-            if(item.getStatus().equals(VerificationStatus.FAILED))
-            {	
             	houseOfCardsStart = item.getChild();
-            }
             CollectorApi.getCommitItemContainer().save(item);
         }
-        houseOfCards(houseOfCardsStart, ret);
-        
+        if(item.getStatus().equals(VerificationStatus.FAILED)){
+        	houseOfCards(houseOfCardsStart, ret);
+        }
+        else{
+        	item.setDone(true);
+            ret.add(new Decision(item.getKey(), new OnFailureHandler(item)));
+            CollectorApi.getCommitItemContainer().save(item);
+        }
         return ret;
     }
     
