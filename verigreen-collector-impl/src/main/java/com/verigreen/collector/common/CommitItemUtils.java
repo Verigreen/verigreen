@@ -120,6 +120,7 @@ public class CommitItemUtils {
 			else  {
 				jsonObject.put("buildUrl", "");
 			}
+			jsonObject.put("creationTime", localCommitItem.getCreationTime());
 			if(canceledItem == false) {
 				jsonObject.put("status", localCommitItem.getStatus().name());
 				if(localCommitItem.getEndTime()!=null) {

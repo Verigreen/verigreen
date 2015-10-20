@@ -36,6 +36,7 @@ import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.collector.model.CommitItem;
 import com.verigreen.collector.spring.CollectorApi;
 import com.verigreen.common.concurrency.RuntimeUtils;
+import com.verigreen.common.utils.LocalMachineCurrentTimeProvider;
 
 
 @Path("/branches")
@@ -95,6 +96,9 @@ public class BranchResource {
     	CommitItem localCommitItem = retrieveCommitItem(branch);
         if (localCommitItem != null){
 	        localCommitItem.setStatus(VerificationStatus.NOT_STARTED);
+	        localCommitItem.setCreationTime(new LocalMachineCurrentTimeProvider().getCurrentTime());
+	        localCommitItem.setParent(null);
+	        localCommitItem.setChild(null);
 	        localCommitItem.setTimeoutCounter(0);
 	        localCommitItem.setRetriableCounter(0);
 	        localCommitItem.setBuildNumber(0);

@@ -376,6 +376,7 @@ app.controller('ctrlRead', ['$scope','$filter','$http', 'sharedProperty', '$cook
 	  $scope.historyResource();
 	  
 	  historyDate = function(hitem){
+		  hitem.creationTimeString = formatDate(hitem.creationTime);
 	      hitem.endDateTimeString = formatDate(hitem.endTime);
       };
 	  

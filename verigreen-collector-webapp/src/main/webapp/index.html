@@ -134,6 +134,7 @@
 						<th title="Parent branch" style="width : 160px;" class="historyHeader">Parent Branch</th>
 						<th title="Committer Email" class="historyHeader">Committer</th>
 						<th title="Commit verification status" class="historyHeader">Status</th>
+						<th title="Git push time" class="historyHeader">Creation Time</th>
 						<th title="Verification End time" class="historyHeader">End Time</th>
 						<th title="Jenkins Build URL(Commit Id)" colspan="2" class="historyHeader">Build URL (Commit ID)</th>
 					</tr>
@@ -143,6 +144,7 @@
 						<td title="Parent Branch" style="width : 160px;">{{isParentBranchValid(hitem.parentBranch)}}</td>
 						<td title="Committer Email">{{hitem.committer}}</td>
 						<td title="Commit verification status"><img ng-src="{{getImage(hitem.status)}}" class="statusImg"/>{{hitem.status}}</td>
+						<td title="Git push time">{{hitem.creationTimeString}}</td>
 						<td title="Verification End time">{{hitem.endDateTimeString}}</td>
 						<td title="Jenkins Build URL(Commit Id)" colspan="2"><a href={{hitem.buildUrl}} target="_blank">{{hitem.buildUrl.substring(hitem.buildUrl.indexOf("job")+4)}}</a>({{hitem.commitId.substring(3,10)}})</td>
 					</tr>
