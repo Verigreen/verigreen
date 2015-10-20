@@ -227,7 +227,7 @@ public class VerigreenNeededLogic {
 				// commit item already exists -> don't do verigreen
 				ans = false;
 				VerificationStatus vs = item.getStatus();
-            	if (vs.equals(VerificationStatus.PASSED) || vs.equals(VerificationStatus.FORCING_PUSH)){
+            	if (vs.equals(VerificationStatus.PASSED) || vs.equals(VerificationStatus.FORCING_PUSH) || vs.equals(VerificationStatus.PASSED_BY_CHILD)){
             		shouldRejectCommit = false;
             	}
             	else if (vs.equals(VerificationStatus.GIT_FAILURE) || 
