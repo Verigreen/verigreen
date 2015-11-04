@@ -129,7 +129,7 @@ public class CallJenkinsJob implements Job {
 						"Sending REST call to Jenkins server..."));
 		
 		String jenkinsUrl = VerigreenNeededLogic.properties.getProperty("jenkins.url");
-		String jobName = VerigreenNeededLogic.properties.getProperty("jenkins.jobName");
+		String jobName = VerigreenNeededLogic.VerigreenMap.get("_jobName");
 		
 		RestClientResponse result = new RestClientImpl().get(CollectorApi.getJenkinsCallRequest(jenkinsUrl, jobName, param));
 		return result;
