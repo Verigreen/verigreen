@@ -74,17 +74,11 @@ public class DecisionMakerFailedItems {
         if (parent == null || parent.getStatus().equals(VerificationStatus.PASSED) || parent.getStatus().equals(VerificationStatus.PASSED_AND_PUSHED)) {
             item.setDone(true);
             ret.add(new Decision(item.getKey(), new OnFailureHandler(item)));
-            	houseOfCardsStart = item.getChild();
+            houseOfCardsStart = item.getChild();
             CollectorApi.getCommitItemContainer().save(item);
         }
-        if(item.getStatus().equals(VerificationStatus.FAILED)){
-        	houseOfCards(houseOfCardsStart, ret);
-        }
-        else{
-        	item.setDone(true);
-            ret.add(new Decision(item.getKey(), new OnFailureHandler(item)));
-            CollectorApi.getCommitItemContainer().save(item);
-        }
+        houseOfCards(houseOfCardsStart, ret);
+        
         return ret;
     }
     
