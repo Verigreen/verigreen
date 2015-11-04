@@ -63,6 +63,7 @@ public class JenkinsVerifier implements BuildVerifier {
 			}
 			else
 			{
+				// in case the job does not exist in Jenkins (wrong job name in the config properties)
 				VerigreenLogger.get().log(
 						JenkinsVerifier.class.getName(),
 						RuntimeUtils.getCurrentMethodName(),
@@ -72,12 +73,15 @@ public class JenkinsVerifier implements BuildVerifier {
 			}
 		}
 		catch (IOException e) 
-		{		
+		{
+			// in case the job does exist, but due to network issues (communication with Jenkins), we get an IOException and
+			// the method fails to retrieve the job
 			VerigreenLogger.get().error(
                     JenkinsVerifier.class.getName(),
                     RuntimeUtils.getCurrentMethodName(),
                     String.format(
-                            "Failed get job for verification"),e);
+                            "Failed to retrieve job for verification. Retrying..."),e);
+			retries++;
 		}
 		}
 		if(jobToVerify == null)
