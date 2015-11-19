@@ -29,7 +29,6 @@ REPO_NAME="<repo_name>"
 REPO_DIR="/DATA/gitrepo/$REPO_NAME" # may need to manually clone to this location
 SSH_DIR="/root/.ssh" # SSH keys to authenticate git operations within the repository
 CONFIG_DIR="/DATA/VG" # config.properties and run.yml files are placed here
-CACHE_DIR="/DATA/CACHELOADER" # Create this folder in advance. This allows history continuity with container restarts
 DOCKER_IMAGE="verigreen/vg-collector"
 PORT=8085
 RESTART_OPT="--restart=always"
@@ -37,7 +36,7 @@ RESTART_OPT="--restart=always"
 #*******************************************************************************
 # start, stop, status functions
 function SERVICE_START() {
-    /usr/bin/docker run $RESTART_OPT -d --hostname="$VG_NAME" --name="$VG_NAME" -v $SSH_DIR:/ssh -v $CONFIG_DIR:/vg -v $REPO_DIR:/repo -v $CACHE_DIR:/app/cacheloader -p $PORT:8080 $DOCKER_IMAGE
+    /usr/bin/docker run $RESTART_OPT -d --hostname="$VG_NAME" --name="$VG_NAME" -v $SSH_DIR:/ssh -v $CONFIG_DIR:/vg -v $REPO_DIR:/repo -p $PORT:8080 $DOCKER_IMAGE
     SERVICE_STATUS
 }
 
