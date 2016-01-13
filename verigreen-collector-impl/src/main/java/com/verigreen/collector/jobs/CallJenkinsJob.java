@@ -191,6 +191,8 @@ public class CallJenkinsJob implements Job {
 			 
 			 values.setBuildNumber(buildNumber);
 			 
+			 values.setRunning(childJsonObject.get("building").getAsBoolean());
+			 
 			 if (childJsonObject.get("result") instanceof JsonNull)
 			 {
 				 values.setJenkinsResult("null");
@@ -326,7 +328,7 @@ public class CallJenkinsJob implements Job {
 					
 				}
 				
-				else if(!((MinJenkinsJob)parsedResults.get(((CommitItem)observer).getMergedBranchName())).getJenkinsResult().equals("null"))
+				else if(!((MinJenkinsJob)parsedResults.get(((CommitItem)observer).getMergedBranchName())).isRunning())
 				{// if we are here we already have a build number
 					relevantObservers.add(observer);
 				}

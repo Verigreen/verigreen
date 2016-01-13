@@ -18,6 +18,7 @@ public class MinJenkinsJob {
 	private String buildNumber;
 	private String jenkinsResult;
 	private String branchName;
+	private boolean isRunning = true;
 	
 	public String getBuildNumber() {
 		return buildNumber;
@@ -36,5 +37,11 @@ public class MinJenkinsJob {
 	}
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
+	}
+	public boolean isRunning() {
+		return isRunning;
+	}
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
 	}
 }
