@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and limitations 
 	<parent>
 		<groupId>com.verigreen</groupId>
 		<artifactId>verigreen-root</artifactId>
-		<version>2.5.6</version>
+		<version>2.5.7-SNAPSHOT</version>
 	</parent>
 	<artifactId>verigreen-collector-impl</artifactId>
 	<name>${project.artifactId}</name>
@@ -92,7 +92,7 @@ See the License for the specific language governing permissions and limitations 
 		<dependency>
 			<groupId>com.offbytwo.jenkins</groupId>
 			<artifactId>jenkins-client</artifactId>
-			<version>0.2.1.302.1</version>
+			<version>0.2.1.302.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		   <groupId>org.glassfish.jersey.containers</groupId>
