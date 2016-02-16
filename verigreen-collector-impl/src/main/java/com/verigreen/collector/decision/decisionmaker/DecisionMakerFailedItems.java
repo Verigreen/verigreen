@@ -122,6 +122,8 @@ public class DecisionMakerFailedItems {
                     e));
 		}
         item.setBuildNumber(0);
+        item.setRetriableCounter(0);
+        item.setTimeoutCounter(0);
         item.setStatus(VerificationStatus.NOT_STARTED);
         CollectorApi.getCommitItemContainer().save(item);
         houseOfCards(item.getChild(), decisions);
