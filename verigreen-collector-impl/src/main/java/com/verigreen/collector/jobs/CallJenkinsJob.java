@@ -323,7 +323,7 @@ public class CallJenkinsJob implements Job {
 						((CommitItem)observer).setBuildNumber(Integer.parseInt(parsedResults.get(((CommitItem)observer).getMergedBranchName()).getBuildNumber()));
 						((CommitItem)observer).setBuildUrl(new URI (JenkinsVerifier.getBuildUrl(Integer.parseInt(parsedResults.get(((CommitItem)observer).getMergedBranchName()).getBuildNumber()))));
 						
-						com.verigreen.collector.spring.CollectorApi.getCommitItemContainer().save(((CommitItem)observer));
+						com.verigreen.collector.spring.CollectorApi.getCommitItemContainer().save((CommitItem)observer);
 					}
 					
 				}

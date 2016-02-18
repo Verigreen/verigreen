@@ -51,7 +51,7 @@ public class JenkinsVerifier implements BuildVerifier {
 	                RuntimeUtils.getCurrentMethodName(),
 	                String.format(
 	                        "Attempting to retrieve job for verification...", retries));
-			jobToVerify = CollectorApi.getJenkinsServer().getJob((CollectorApi.getVerificationJobName().toLowerCase()));	
+			jobToVerify = CollectorApi.getJenkinsServer().getJob(CollectorApi.getVerificationJobName().toLowerCase());	
 			if(jobToVerify != null)
 			{
 				VerigreenLogger.get().log(
