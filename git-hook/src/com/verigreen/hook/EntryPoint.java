@@ -15,6 +15,7 @@ package com.verigreen.hook;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.common.concurrency.RuntimeUtils;
@@ -58,7 +59,7 @@ public class EntryPoint {
                     "Error: No parameters specified");
         } else if (args.length == 1) {
             // read stdin params
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
             String s = in.readLine();
             VerigreenLogger.get().log(
                     EntryPoint.class.getName(),

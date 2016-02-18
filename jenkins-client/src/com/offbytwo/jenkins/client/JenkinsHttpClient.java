@@ -11,8 +11,10 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import org.apache.commons.lang.CharSet;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -36,7 +38,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.offbytwo.jenkins.model.BaseModel;
 
 public class JenkinsHttpClient {
-    
+
+    private static final String CHARSET_UTF_8 = "UTF-8";
     private final URI uri;
     private final DefaultHttpClient client;
     private BasicHttpContext localContext;
@@ -130,7 +133,7 @@ public class JenkinsHttpClient {
         if (status < 200 || status >= 300) {
             throw new HttpResponseException(status, response.getStatusLine().getReasonPhrase());
         }
-        Scanner s = new Scanner(response.getEntity().getContent());
+        Scanner s = new Scanner(response.getEntity().getContent(), CHARSET_UTF_8);
         s.useDelimiter("\\z");
         StringBuffer sb = new StringBuffer();
         while (s.hasNext()) {
@@ -224,7 +227,7 @@ public class JenkinsHttpClient {
         }
         try {
             InputStream content = response.getEntity().getContent();
-            Scanner s = new Scanner(content);
+            Scanner s = new Scanner(content, CHARSET_UTF_8);
             StringBuffer sb = new StringBuffer();
             while (s.hasNext()) {
                 sb.append(s.next());
