@@ -17,7 +17,10 @@ import java.lang.reflect.Method;
 import com.verigreen.common.exception.LabException;
 
 public class ReflectionComparer {
-    
+
+    private ReflectionComparer() {
+    }
+
     public static <T> boolean isEquals(T x, T y) {
         
         boolean ret = true;

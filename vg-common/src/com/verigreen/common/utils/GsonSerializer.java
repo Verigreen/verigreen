@@ -17,7 +17,10 @@ import com.google.gson.Gson;
 public class GsonSerializer {
     
     private static final Gson _gson = new Gson();
-    
+
+    private GsonSerializer() {
+    }
+
     /**
      * Serialize a generic object to json
      */

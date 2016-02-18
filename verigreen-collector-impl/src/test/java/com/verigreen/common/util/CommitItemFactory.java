@@ -19,7 +19,10 @@ import com.verigreen.collector.spring.CollectorApi;
 import com.verigreen.common.utils.StringUtils;
 
 public class CommitItemFactory {
-    
+
+    private CommitItemFactory() {
+    }
+
     public static CommitItem create(VerificationStatus status, String protectedBranch) {
         
         return create(

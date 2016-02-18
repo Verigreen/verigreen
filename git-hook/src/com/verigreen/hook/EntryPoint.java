@@ -21,7 +21,10 @@ import com.verigreen.common.concurrency.RuntimeUtils;
 import com.verigreen.common.spring.SpringContextLoader;
 
 public class EntryPoint {
-    
+
+    private EntryPoint() {
+    }
+
     public static void main(String[] args) throws IOException, InterruptedException {
         
         initialize();

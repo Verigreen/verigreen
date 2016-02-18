@@ -17,7 +17,10 @@ import java.sql.Timestamp;
 public class TimeUtils {
     
     public final static long UNINITIALIZED = 0;
-    
+
+    private TimeUtils() {
+    }
+
     public static long timeSpanInSeconds(long time1, long time2) {
         
         return (time2 - time1) / 1000;

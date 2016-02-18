@@ -19,7 +19,10 @@ import com.verigreen.common.concurrency.RuntimeUtils;
 import com.verigreen.common.spring.SpringContextHolder;
 
 public class CollectorApi {
-    
+
+    private CollectorApi() {
+    }
+
     public static String getCollectorAddress() {
     	String address = RuntimeUtils.cast(getBean("collectorAddress"));
     	return address;    

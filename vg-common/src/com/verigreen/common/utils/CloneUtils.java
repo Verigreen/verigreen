@@ -16,7 +16,10 @@ import java.io.Serializable;
 
 
 public class CloneUtils {
-    
+
+    private CloneUtils() {
+    }
+
     public static <TValue extends Serializable> TValue clone(TValue clonable) {
         
         ObjectCopier<TValue> copier = new ObjectCopier<TValue>();
