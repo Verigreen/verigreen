@@ -25,7 +25,7 @@ public class SequenceManager {
     
     private final static SequenceManager _instance = new SequenceManager();
     private final Map<Class<? extends Entity>, AtomicInteger> _entitiesToSequences =
-            new ConcurrentHashMap<Class<? extends Entity>, AtomicInteger>();
+            new ConcurrentHashMap<>();
     private final int _seed = 0;
     
     private SequenceManager() {}

@@ -46,7 +46,7 @@ public class GracefulThreadPoolExecutor extends ThreadPoolExecutor {
         if (tasks == null || unit == null)
             throw new NullPointerException();
         long nanos = unit.toNanos(timeout);
-        List<Future<T>> futures = new ArrayList<Future<T>>(tasks.size());
+        List<Future<T>> futures = new ArrayList<>(tasks.size());
         for (Callable<T> t : tasks)
             futures.add(newTaskFor(t));
         

@@ -36,7 +36,7 @@ public class ProtectedBranchesDecisionMaker {
         Collection<List<Decision>> ret = new ArrayList<>();
         CommitItem item = null;
         try {
-        	ArrayList<CommitItem> notStarted = new ArrayList<CommitItem>(CommitItemUtils.filterItems(CommitItemUtils.getNotDone(), VerificationStatus.NOT_STARTED));
+        	ArrayList<CommitItem> notStarted = new ArrayList<>(CommitItemUtils.filterItems(CommitItemUtils.getNotDone(), VerificationStatus.NOT_STARTED));
             Collection<CommitItem> notDone = CommitItemUtils.getNotDone();
             notDone.removeAll(notStarted);            
             while(notDone.size()<numberCommits && !notStarted.isEmpty()) {

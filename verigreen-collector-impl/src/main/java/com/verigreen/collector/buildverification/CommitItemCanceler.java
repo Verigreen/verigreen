@@ -19,7 +19,7 @@ import com.verigreen.collector.model.CommitItem;
 
 public class CommitItemCanceler {
 
-	private List<CommitItem> commitsToStop = new ArrayList<CommitItem>();
+	private List<CommitItem> commitsToStop = new ArrayList<>();
     private static volatile CommitItemCanceler instance = null;
     
 	protected CommitItemCanceler() {

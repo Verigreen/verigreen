@@ -24,7 +24,7 @@ import com.verigreen.common.exception.LabException;
 
 public class SynchronizeableThreadPoolExecutor extends GracefulThreadPoolExecutor {
     
-    Collection<Future<?>> _tasks = new LinkedList<Future<?>>();
+    Collection<Future<?>> _tasks = new LinkedList<>();
     
     public SynchronizeableThreadPoolExecutor() {
         

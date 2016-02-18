@@ -130,7 +130,7 @@ public abstract class EntityContainer<K, V extends Entity<K>> implements
     public List<V> getAll() {
         
         Node<String, Object> cache = getCache().getNode(Fqn.fromString(_cacheName));
-        ArrayList<V> list = new ArrayList<V>();
+        ArrayList<V> list = new ArrayList<>();
         if (cache != null) {
             populateValues(cache, list);
         }
@@ -167,7 +167,7 @@ public abstract class EntityContainer<K, V extends Entity<K>> implements
     
     protected List<V> internalFindByCriteria(Criteria<V> criteria, List<V> items) {
         
-        List<V> foundItems = new ArrayList<V>();
+        List<V> foundItems = new ArrayList<>();
         
         for (V wi : items) {
             if (criteria.match(wi)) {

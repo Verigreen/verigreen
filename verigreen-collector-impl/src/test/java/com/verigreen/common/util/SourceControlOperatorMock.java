@@ -101,7 +101,7 @@ public class SourceControlOperatorMock implements SourceControlOperator {
         EasyMock.expect(_mock.checkout(protectedBranch, false, false)).andReturn(protectedBranch);
         EasyMock.expect(_mock.checkout(mergedBranch, false, false)).andReturn(mergedBranch);
         EasyMock.expect(_mock.merge(EasyMock.anyString(), EasyMock.anyString())).andReturn(
-                new Pair<Boolean, String>(mergeResult, "")).times(2);
+                new Pair<>(mergeResult, "")).times(2);
         EasyMock.expect(_mock.push(protectedBranch, protectedBranch)).andReturn(true);
         EasyMock.expect(_mock.push(mergedBranch, mergedBranch)).andReturn(true).atLeastOnce();
         if (updateBranchWithParentThrowsException) {
@@ -121,7 +121,7 @@ public class SourceControlOperatorMock implements SourceControlOperator {
                             EasyMock.eq(false),
                             EasyMock.eq(false),
                             EasyMock.eq(false))).andReturn(
-                    new Pair<Boolean, String>(mergeResult, "")).times(2);
+                    new Pair<>(mergeResult, "")).times(2);
         }
         EasyMock.expect(_mock.getPathOfLocalRepository()).andReturn("");
         EasyMock.expect(_mock.commit("", "", "")).andReturn("");

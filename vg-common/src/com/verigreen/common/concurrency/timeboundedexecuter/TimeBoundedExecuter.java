@@ -81,9 +81,9 @@ public class TimeBoundedExecuter {
     private <TResult> List<TimeBoundedThread<TResult>> createTimeBoundedThreads(
             List<Action<TResult>> actionDelegate) {
         
-        List<TimeBoundedThread<TResult>> tasks = new ArrayList<TimeBoundedThread<TResult>>();
+        List<TimeBoundedThread<TResult>> tasks = new ArrayList<>();
         for (Action<TResult> action : actionDelegate) {
-            tasks.add(new TimeBoundedThread<TResult>(action));
+            tasks.add(new TimeBoundedThread<>(action));
         }
         
         return tasks;
@@ -94,7 +94,7 @@ public class TimeBoundedExecuter {
             long timeBoundInMillis,
             TimeBoundedPolicy policy) {
         
-        TimeBoundedThread<T> timeBoundedThread = new TimeBoundedThread<T>(actionDelegate);
+        TimeBoundedThread<T> timeBoundedThread = new TimeBoundedThread<>(actionDelegate);
         Future<T> future = _executerService.submit(timeBoundedThread);
         T retVal = loopWhileStillNotFinished(actionDelegate, timeBoundInMillis, future, policy);
         

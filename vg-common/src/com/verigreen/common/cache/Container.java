@@ -20,7 +20,7 @@ import com.verigreen.common.utils.StringUtils;
 
 public abstract class Container<TEntity extends Entity> {
     
-    protected final UniqueIndex<String, TEntity> _keyToEntity = new UniqueIndex<String, TEntity>();
+    protected final UniqueIndex<String, TEntity> _keyToEntity = new UniqueIndex<>();
     
     public TEntity get(String id) {
         

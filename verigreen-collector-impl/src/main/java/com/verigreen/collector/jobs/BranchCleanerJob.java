@@ -62,13 +62,13 @@ public class BranchCleanerJob implements Job{
 	}
 
 	private List <String> branchesToBeDelete(List <String> branchesList){
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		Repository repo = null;
-		Map<String, List <String>> branchesMap = new HashMap<String, List <String>>();
+		Map<String, List <String>> branchesMap = new HashMap<>();
 		for (String branch : branchesList) {
 			List<String> values = null;
 			if (!branchesMap.containsKey(branch.subSequence(0, 10))){
-				values = new ArrayList<String>();
+				values = new ArrayList<>();
 				values.add(branch);
 				branchesMap.put(branch.subSequence(0, 10).toString(), values);
 			}

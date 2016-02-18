@@ -42,7 +42,7 @@ public class TEQCommandExecuter {
             KeepWaitingPolicy<?> keepWaitingPolicy) {
         
         _timeBoundedExecuter.perform(
-                new RunnableExecuter<TCommandParameters>(
+                new RunnableExecuter<>(
                         commandPack.getCommand(),
                         commandPack.getParameters()),
                 _timeoutMillis,
@@ -53,7 +53,7 @@ public class TEQCommandExecuter {
             CommandPack<TCommandParameters> commandPack) {
         
         _timeBoundedExecuter.perform(
-                new RunnableExecuter<TCommandParameters>(
+                new RunnableExecuter<>(
                         commandPack.getCommand(),
                         commandPack.getParameters()),
                 _timeoutMillis);

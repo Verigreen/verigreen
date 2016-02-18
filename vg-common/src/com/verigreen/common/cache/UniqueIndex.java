@@ -29,7 +29,7 @@ public class UniqueIndex<TKey, TValue extends Serializable> extends Index<TKey, 
     
     public List<TValue> getAll() {
         
-        List<TValue> ret = new ArrayList<TValue>();
+        List<TValue> ret = new ArrayList<>();
         for (Entry<TKey, TValue> entry : _map.entrySet()) {
             ret.add(entry.getValue());
         }

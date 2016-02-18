@@ -52,7 +52,7 @@ public class ResourceFinder {
     private final URL[] _urls;
     private final String _path;
     private final ClassLoader _classLoader;
-    private final List<String> _resourcesNotLoaded = new ArrayList<String>();
+    private final List<String> _resourcesNotLoaded = new ArrayList<>();
     
     public ResourceFinder(URL... urls) {
         
@@ -188,7 +188,7 @@ public class ResourceFinder {
     public List<String> findAllStrings(String uri) throws IOException {
         String fulluri = _path + uri;
         
-        List<String> strings = new ArrayList<String>();
+        List<String> strings = new ArrayList<>();
         
         Enumeration<URL> resources = getResources(fulluri);
         while (resources.hasMoreElements()) {
@@ -212,7 +212,7 @@ public class ResourceFinder {
         _resourcesNotLoaded.clear();
         String fulluri = _path + uri;
         
-        List<String> strings = new ArrayList<String>();
+        List<String> strings = new ArrayList<>();
         
         Enumeration<URL> resources = getResources(fulluri);
         while (resources.hasMoreElements()) {
@@ -249,7 +249,7 @@ public class ResourceFinder {
      */
     public Map<String, String> mapAllStrings(String uri) throws IOException {
         
-        Map<String, String> strings = new HashMap<String, String>();
+        Map<String, String> strings = new HashMap<>();
         Map<String, URL> resourcesMap = getResourcesMap(uri);
         for (Iterator<Entry<String, URL>> iterator = resourcesMap.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, URL> entry = iterator.next();
@@ -285,7 +285,7 @@ public class ResourceFinder {
     public Map<String, String> mapAvailableStrings(String uri) throws IOException {
         
         _resourcesNotLoaded.clear();
-        Map<String, String> strings = new HashMap<String, String>();
+        Map<String, String> strings = new HashMap<>();
         Map<String, URL> resourcesMap = getResourcesMap(uri);
         for (Iterator<Entry<String, URL>> iterator = resourcesMap.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, URL> entry = iterator.next();
@@ -732,7 +732,7 @@ public class ResourceFinder {
     public List<Properties> findAllProperties(String uri) throws IOException {
         String fulluri = _path + uri;
         
-        List<Properties> properties = new ArrayList<Properties>();
+        List<Properties> properties = new ArrayList<>();
         
         Enumeration<URL> resources = getResources(fulluri);
         while (resources.hasMoreElements()) {
@@ -765,7 +765,7 @@ public class ResourceFinder {
         _resourcesNotLoaded.clear();
         String fulluri = _path + uri;
         
-        List<Properties> properties = new ArrayList<Properties>();
+        List<Properties> properties = new ArrayList<>();
         
         Enumeration<URL> resources = getResources(fulluri);
         while (resources.hasMoreElements()) {
@@ -802,7 +802,7 @@ public class ResourceFinder {
      */
     public Map<String, Properties> mapAllProperties(String uri) throws IOException {
         
-        Map<String, Properties> propertiesMap = new HashMap<String, Properties>();
+        Map<String, Properties> propertiesMap = new HashMap<>();
         Map<String, URL> map = getResourcesMap(uri);
         for (Iterator<Entry<String, URL>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, URL> entry = iterator.next();
@@ -839,7 +839,7 @@ public class ResourceFinder {
     public Map<String, Properties> mapAvailableProperties(String uri) throws IOException {
         
         _resourcesNotLoaded.clear();
-        Map<String, Properties> propertiesMap = new HashMap<String, Properties>();
+        Map<String, Properties> propertiesMap = new HashMap<>();
         Map<String, URL> map = getResourcesMap(uri);
         for (Iterator<Entry<String, URL>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
             Entry<String, URL> entry = iterator.next();
@@ -865,7 +865,7 @@ public class ResourceFinder {
     public Map<String, URL> getResourcesMap(String uri) throws IOException {
         
         String basePath = _path + uri;
-        Map<String, URL> resources = new HashMap<String, URL>();
+        Map<String, URL> resources = new HashMap<>();
         if (!basePath.endsWith("/")) {
             basePath += "/";
         }

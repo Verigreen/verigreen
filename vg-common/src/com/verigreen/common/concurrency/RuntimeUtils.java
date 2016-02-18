@@ -62,7 +62,7 @@ public class RuntimeUtils {
             Field[] fields,
             Class<? extends Annotation> annotation) {
         
-        List<Field> ret = new ArrayList<Field>();
+        List<Field> ret = new ArrayList<>();
         for (Field field : fields) {
             if (field.isAnnotationPresent(annotation))
                 ret.add(field);
