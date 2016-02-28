@@ -69,7 +69,7 @@ public class SpringContextLoader extends AbstractContextLoader {
         String[] ecLocations = getLocationsToLoad();
         
         int size = ecLocations.length + additionalLocations.size();
-        ArrayList<String> newLocations = new ArrayList<String>(size);
+        ArrayList<String> newLocations = new ArrayList<>(size);
         Collections.addAll(newLocations, ecLocations);
         
         // this line needs to be at the end so that any mock contexts will override normal contexts

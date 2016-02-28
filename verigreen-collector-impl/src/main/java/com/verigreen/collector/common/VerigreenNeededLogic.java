@@ -49,9 +49,9 @@ import com.verigreen.jgit.SourceControlOperator;
 
 public class VerigreenNeededLogic {
 	public static Properties properties = new Properties();
-	public static Map<String,String> VerigreenMap = new HashMap<String,String>();
-	public static Map<String,String> jenkinsParams = new HashMap<String,String>();
-	public static Map<String,List<JSONObject>> history = new HashMap<String,List<JSONObject>>();
+	public static Map<String,String> VerigreenMap = new HashMap<>();
+	public static Map<String,String> jenkinsParams = new HashMap<>();
+	public static Map<String,List<JSONObject>> history = new HashMap<>();
 	private String vgHomePath = System.getenv("VG_HOME");
 	private String historyJsonPath = vgHomePath + "//history.json";
 
@@ -113,7 +113,7 @@ public class VerigreenNeededLogic {
 		            while( keys.hasNext() ){
 		                key = (String)keys.next();
 		                keyValues = jObject.getJSONArray(key);
-		                values = new ArrayList<JSONObject>();
+		                values = new ArrayList<>();
 		                for(int i = 0; i < keyValues.length(); i++)
 		                {
 			                values.add(keyValues.getJSONObject(i));
@@ -223,7 +223,7 @@ public class VerigreenNeededLogic {
 		if (ans) {
 			CommitItem item =
 					checkIfCommitItemExists(parentBranchName, branchNameToVerify, commitId);
-			List<String> passCommit = VerigreenMap.get("_passCommit") != null? new LinkedList<String>(Arrays.asList(VerigreenMap.get("_passCommit").split("\\s*,\\s*"))):null;
+			List<String> passCommit = VerigreenMap.get("_passCommit") != null? new LinkedList<>(Arrays.asList(VerigreenMap.get("_passCommit").split("\\s*,\\s*"))):null;
 			
 			if (item != null){
 				// commit item already exists -> don't do verigreen
@@ -323,7 +323,7 @@ public class VerigreenNeededLogic {
 	 */
 	public static Map<String, String> checkJenkinsMode(CommitItem commitItem) {	
 		
-		Map<String, String> resultMap =  new HashMap<String,String>();
+		Map<String, String> resultMap = new HashMap<>();
 		Map<String, String> paramMap = commitItemAsParameterMap(commitItem);
 
 		if(jenkinsParams.get("jenkinsparam.mode") != null && jenkinsParams.get("jenkinsparam.mode").equals("json")){
@@ -347,7 +347,7 @@ public class VerigreenNeededLogic {
 	 */
 	public static Map<String, String> commitItemAsParameterMap(CommitItem commitItem) {	
 		
-		Map<String, String> returnedForJenkins = new HashMap<String,String>();
+		Map<String, String> returnedForJenkins = new HashMap<>();
 		for(String key : jenkinsParams.keySet())
 		{
 			if(key.contains("commitid")){

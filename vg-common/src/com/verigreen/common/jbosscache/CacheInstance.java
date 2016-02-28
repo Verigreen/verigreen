@@ -40,7 +40,7 @@ public class CacheInstance {
     
     public void start() {
         
-        CacheFactory<String, Object> factory = new DefaultCacheFactory<String, Object>();
+        CacheFactory<String, Object> factory = new DefaultCacheFactory<>();
         String configFileName = CONFIG_PATH;
         _cache = factory.createCache(configFileName, false);
         _cache.create();

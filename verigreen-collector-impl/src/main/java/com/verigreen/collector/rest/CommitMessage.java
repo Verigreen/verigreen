@@ -39,7 +39,7 @@ public class CommitMessage {
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
 	public static Response get() {
-		Map<String,String> logMessages = new HashMap<String,String>();
+		Map<String,String> logMessages = new HashMap<>();
 		try {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 	     Repository repo = builder.setGitDir(new File(VerigreenNeededLogic.properties.getProperty("git.repositoryLocation"))).setMustExist(true).build();

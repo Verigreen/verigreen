@@ -74,7 +74,7 @@ public class BuildWithDetails extends Build {
             }
         });
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
 
         if (parameters != null && !parameters.isEmpty()) {
             for (Map<String, Object> param : ((Map<String, List<Map<String, Object>>>) parameters.toArray()[0]).get("parameters")) {

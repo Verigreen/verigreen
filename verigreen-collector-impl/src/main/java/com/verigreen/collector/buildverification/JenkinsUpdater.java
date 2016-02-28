@@ -23,7 +23,7 @@ public class JenkinsUpdater implements Subject {
     // Map to make the correlation between the build results from Jenkins and the VerificationStatus class
 	static
     {
-    	_verificationStatusesMap = new HashMap<String, VerificationStatus>();
+    	_verificationStatusesMap = new HashMap<>();
     	_verificationStatusesMap.put(BuildResult.SUCCESS.toString(), VerificationStatus.PASSED);
     	_verificationStatusesMap.put(BuildResult.ABORTED.toString(), VerificationStatus.FAILED);
     	_verificationStatusesMap.put(BuildResult.FAILURE.toString(), VerificationStatus.FAILED);
@@ -78,7 +78,7 @@ public class JenkinsUpdater implements Subject {
 	public List<Observer> setObserversStatus(List<Observer> relevantObservers, Map <String, MinJenkinsJob> results)
 	{
 		//sets the observer status based on the result recieved from Jenkins
-		List<Observer> notifiedObservers = new ArrayList<Observer>();
+		List<Observer> notifiedObservers = new ArrayList<>();
 		MinJenkinsJob result;
 		for(Observer observer : relevantObservers)
 		{	
@@ -93,7 +93,7 @@ public class JenkinsUpdater implements Subject {
 	public void notifyObserver(List<Observer> relevantObservers) 
 	{
 	//the relevant observers are notified, unregistered and saved to the commit item container	
-		List<CommitItem> notifiedObservers = new ArrayList<CommitItem>();
+		List<CommitItem> notifiedObservers = new ArrayList<>();
 		for(Observer observer : relevantObservers){
 			if(!com.verigreen.collector.spring.CollectorApi.getCommitItemContainer().get(((CommitItem)observer).getKey()).getStatus().isFinalState()) {
 				notifiedObservers.add((CommitItem)observer);

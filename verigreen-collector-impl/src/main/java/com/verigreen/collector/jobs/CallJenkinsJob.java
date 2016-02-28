@@ -174,7 +174,7 @@ public class CallJenkinsJob implements Job {
 	             RuntimeUtils.getCurrentMethodName(),
 	             String.format(
 	                     "Parsing JSON results fron Jenkins..."));
-		Map<String, MinJenkinsJob> buildsAndStatusesMap = new HashMap<String, MinJenkinsJob>();
+		Map<String, MinJenkinsJob> buildsAndStatusesMap = new HashMap<>();
 		JsonParser parser = new JsonParser();
 		JsonObject mainJson = (JsonObject) parser.parse(json);
 		
@@ -296,7 +296,7 @@ public class CallJenkinsJob implements Job {
 	                     "Analyzing JSON results and returning the relevant observers..."));
 
 		List<Observer> observers =  jenkinsUpdater.getObservers();
-		List<Observer> relevantObservers = new ArrayList<Observer>();
+		List<Observer> relevantObservers = new ArrayList<>();
 		for(Observer observer : observers)
 		{	
 			observer = com.verigreen.collector.spring.CollectorApi.getCommitItemContainer().get(((CommitItem)observer).getKey());

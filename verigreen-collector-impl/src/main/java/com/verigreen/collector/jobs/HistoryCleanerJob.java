@@ -44,7 +44,7 @@ public class HistoryCleanerJob implements Job {
 	}
 
 	private void getHistory() {
-		Map<String,List<JSONObject>> newHistory = new HashMap<String,List<JSONObject>>();
+		Map<String,List<JSONObject>> newHistory = new HashMap<>();
 		List<CommitItem> commitItems = CollectorApi.getCommitItemContainer().getAll();
 		
 		for (CommitItem commit : commitItems) {

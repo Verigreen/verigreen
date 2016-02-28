@@ -22,7 +22,7 @@ public class CloneUtils {
 
     public static <TValue extends Serializable> TValue clone(TValue clonable) {
         
-        ObjectCopier<TValue> copier = new ObjectCopier<TValue>();
+        ObjectCopier<TValue> copier = new ObjectCopier<>();
         copier.copyObject(clonable);
         
         return copier.pasteObject();

@@ -109,7 +109,7 @@ public class CommitItemUtils {
     }
     
     public static void createJsonFile(CommitItem localCommitItem, boolean canceledItem) throws JSONException, IOException {
-		List<JSONObject> objectList = new ArrayList<JSONObject>();
+		List<JSONObject> objectList = new ArrayList<>();
 		JSONObject jsonObject = new JSONObject();
 		String parent = localCommitItem.getParent() !=null ? localCommitItem.getParent().getBranchDescriptor().getNewBranch()
                 : localCommitItem.getBranchDescriptor().getProtectedBranch();

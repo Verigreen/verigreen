@@ -24,7 +24,7 @@ public class Locker {
     
     private static Locker _instance = new Locker();
     private final ConcurrentMap<Integer, LockerData> _data =
-            new ConcurrentHashMap<Integer, LockerData>();
+            new ConcurrentHashMap<>();
     
     private Locker() {}
     

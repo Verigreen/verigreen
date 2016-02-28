@@ -232,7 +232,7 @@ public class JGitOperator implements SourceControlOperator {
             Iterable<PushResult> results = command.call();
             for (PushResult pushResult : results) {
             	Collection<RemoteRefUpdate> resultsCollection = pushResult.getRemoteUpdates();
-            	Map<PushResult,RemoteRefUpdate> resultsMap = new HashMap<PushResult,RemoteRefUpdate>();
+            	Map<PushResult,RemoteRefUpdate> resultsMap = new HashMap<>();
             	for(RemoteRefUpdate remoteRefUpdate : resultsCollection)
             	{
             		resultsMap.put(pushResult, remoteRefUpdate);
@@ -341,7 +341,7 @@ public class JGitOperator implements SourceControlOperator {
     
     public Pair<Boolean, String> merge(String branchToUpdate, String branchHead, boolean commit) {
         
-        Pair<Boolean, String> ret = new Pair<Boolean, String>(false, "");
+        Pair<Boolean, String> ret = new Pair<>(false, "");
         MergeCommand command = _git.merge();
         try {
             String refName =
@@ -476,7 +476,7 @@ public class JGitOperator implements SourceControlOperator {
                             "Merge not needed for parent_branch:%s into:%s",
                             branchHead,
                             branchToUpdate));
-            ret = new Pair<Boolean, String>(true, "");
+            ret = new Pair<>(true, "");
         } else if (mergeResult.getMergeStatus().equals(MergeStatus.MERGED_NOT_COMMITTED)) {
             String autoMergeMessage = createMessageAutoCommit(mergeResult);
 			String commitId = commit(commited_By_Collector, email_Address, autoMergeMessage );
@@ -489,13 +489,13 @@ public class JGitOperator implements SourceControlOperator {
                             branchHead,
                             branchToUpdate,
                             adjustCommitId));
-            ret = new Pair<Boolean, String>(true, adjustCommitId);
+            ret = new Pair<>(true, adjustCommitId);
         }else if (mergeResult.getMergeStatus().equals(MergeStatus.MERGED)) {
          VerigreenLogger.get().log(
                  getClass().getName(),
                  RuntimeUtils.getCurrentMethodName(),
                  "Merge was made after diverted branch with auto commit");
-         ret = new Pair<Boolean, String>(true, "");
+         ret = new Pair<>(true, "");
          new RestClientImpl().post(CollectorApi.getPostVerigreenNeededRequest(mergeResult.getNewHead().getName().substring(0, 7)));
      }
         return ret;
@@ -523,7 +523,7 @@ public class JGitOperator implements SourceControlOperator {
 
 	@Override
 	public List<String> retreiveBranches() {
-		List <String> receivedListAsString = new ArrayList<String>();
+		List <String> receivedListAsString = new ArrayList<>();
 		List <Ref> receivedList;
 		try {
 			receivedList = _git.branchList().setListMode(ListMode.ALL).call();
