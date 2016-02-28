@@ -58,7 +58,7 @@ public class BranchCleanerJob implements Job{
 		_jgit = (JGitOperator)SpringContextHolder.getInstance().getBean("jgitOperator");
 		List <String> branchesToBeDeleteList = branchesToBeDelete(_jgit.getBranchesList(_jgit.retreiveBranches()));
 		if(!CollectionUtils.isNullOrEmpty(branchesToBeDeleteList))
-			_jgit.deleteBranch(true,(branchesToBeDeleteList.toArray(new String[branchesToBeDeleteList.size()])));
+			_jgit.deleteBranch(true, branchesToBeDeleteList.toArray(new String[branchesToBeDeleteList.size()]));
 	}
 
 	private List <String> branchesToBeDelete(List <String> branchesList){

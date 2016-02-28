@@ -46,9 +46,9 @@ public class Pair<TFirst, TSecond> {
         if (other instanceof Pair) {
             Pair<?, ?> otherPair = (Pair<?, ?>) other;
             ret =
-                    (((_first == otherPair._first) || ((_first != null)
+                    ((_first == otherPair._first) || ((_first != null)
                                                        && (otherPair._first != null) && _first.equals(otherPair._first))) && ((_second == otherPair._second) || ((_second != null)
-                                                                                                                                                                 && (otherPair._second != null) && _second.equals(otherPair._second))));
+                                                                                                                                                                 && (otherPair._second != null) && _second.equals(otherPair._second)));
         }
         
         return ret;

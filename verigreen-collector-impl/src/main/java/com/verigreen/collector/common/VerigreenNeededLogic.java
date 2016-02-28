@@ -300,9 +300,9 @@ public class VerigreenNeededLogic {
 					@Override
 					public boolean match(CommitItem entity) {
 
-						return ((entity.getBranchDescriptor().getNewBranch().equals(
+						return (entity.getBranchDescriptor().getNewBranch().equals(
 								branchNameToVerify) || (entity.getChildCommit().equals(commitId))) && entity.getBranchDescriptor().getProtectedBranch().equals(
-										parentBranchName));
+										parentBranchName);
 					}
 				});
 
