@@ -22,7 +22,10 @@ public class StringUtils {
     public static final String SPACE = " ";
     public static final String PERIOD = ".";
     public static final String TAB = "\t";
-    
+
+    private StringUtils() {
+    }
+
     public static boolean isNullOrEmpty(String value) {
         
         return (value == null) || (value.length() == 0);

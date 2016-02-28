@@ -35,6 +35,9 @@ import com.verigreen.common.utils.LocalMachineCurrentTimeProvider;
 
 public class CommitItemUtils {
 
+	private CommitItemUtils() {
+	}
+
 	public static Collection<CommitItem> filterItems(
             Collection<CommitItem> items,
             final VerificationStatus state) {

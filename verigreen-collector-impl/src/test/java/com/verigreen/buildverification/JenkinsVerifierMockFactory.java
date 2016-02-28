@@ -19,7 +19,10 @@ import com.verigreen.collector.buildverification.BuildVerifier;
 public class JenkinsVerifierMockFactory {
     
     private static BuildVerifier _buildVerifier = EasyMock.createNiceMock(BuildVerifier.class);
-    
+
+    private JenkinsVerifierMockFactory() {
+    }
+
     public static BuildVerifier getMock() {
         
         return _buildVerifier;

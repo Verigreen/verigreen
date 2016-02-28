@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RuntimeUtils {
-    
+
+    private RuntimeUtils() {
+    }
+
     public static boolean isDebuggerAttached() {
         
         boolean isDebug =

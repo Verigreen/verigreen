@@ -33,6 +33,9 @@ import com.verigreen.collector.common.VerigreenNeededLogic;
 
 @Path("/commit-message")
 public class CommitMessage {
+	private CommitMessage() {
+	}
+
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
 	public static Response get() {

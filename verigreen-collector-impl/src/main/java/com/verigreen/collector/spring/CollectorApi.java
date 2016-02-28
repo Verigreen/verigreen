@@ -32,7 +32,10 @@ import com.verigreen.common.spring.SpringContextHolder;
 import com.verigreen.jgit.SourceControlOperator;
 
 public class CollectorApi {
-    
+
+    private CollectorApi() {
+    }
+
     public static CacheInstance getCache() {
         
         return getBean(CacheInstance.class);

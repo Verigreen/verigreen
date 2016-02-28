@@ -22,7 +22,10 @@ import java.util.Properties;
  * 
  */
 public class PropertiesUtils {
-    
+
+    private PropertiesUtils() {
+    }
+
     /**
      * First tries to get the propertyName from the environment variables. <br>
      * If does not exist - gets from props. <br>

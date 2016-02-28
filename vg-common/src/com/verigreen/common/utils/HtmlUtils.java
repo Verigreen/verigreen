@@ -15,4 +15,7 @@ package com.verigreen.common.utils;
 public class HtmlUtils {
 
     public static final String NEW_LINE = "<br>";
+
+    private HtmlUtils() {
+    }
 }

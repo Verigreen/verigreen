@@ -17,7 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CollectionUtils {
-    
+
+    private CollectionUtils() {
+    }
+
     public static boolean isEquals(List<String> left, List<String> right) {
         
         boolean ret = false;

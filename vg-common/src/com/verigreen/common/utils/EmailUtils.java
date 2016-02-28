@@ -22,7 +22,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailUtils {
-    
+
+    private EmailUtils() {
+    }
+
     public static void send(
             String subject,
             String messageText,

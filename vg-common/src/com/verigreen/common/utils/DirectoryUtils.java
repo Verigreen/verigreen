@@ -16,7 +16,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DirectoryUtils {
-    
+
+    private DirectoryUtils() {
+    }
+
     /**
      * Returns a path to the given directory, if such can be resolved from your current path.
      * 

@@ -19,7 +19,10 @@ import com.verigreen.common.concurrency.RuntimeUtils;
 public class SystemOut {
     
     private static boolean isInProductionMode = RuntimeUtils.isInProductionMode();
-    
+
+    private SystemOut() {
+    }
+
     public static void println(String x) {
         
         if (!isInProductionMode) {

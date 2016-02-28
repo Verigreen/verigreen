@@ -19,7 +19,10 @@ import com.verigreen.common.concurrency.RuntimeUtils;
 import com.verigreen.common.spring.SpringContextHolder;
 
 public class GitHookApi {
-    
+
+    private GitHookApi() {
+    }
+
     public static CreateBranchRequest getCreateBranchRequest(BranchDescriptor branchDescriptor) {
         
         return RuntimeUtils.cast(getBean(
