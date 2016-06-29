@@ -219,7 +219,8 @@ public class VerigreenNeededLogic {
 		String reason = "";
 		boolean ans;
 		boolean shouldRejectCommit = true;
-		ans= (VerigreenMap.get("_protectedBranches")).contains(parentBranchName) && !(VerigreenMap.get("_permittedUsers")).contains(committer);
+		
+		ans= (VerigreenMap.get("_protectedBranches")).matches("(^|(.*,))"+parentBranchName+"((,.*)|$)") && !(VerigreenMap.get("_permittedUsers")).matches("(^|(.*,))"+committer+"((,.*)|$)");
 		if (ans) {
 			CommitItem item =
 					checkIfCommitItemExists(parentBranchName, branchNameToVerify, commitId);
