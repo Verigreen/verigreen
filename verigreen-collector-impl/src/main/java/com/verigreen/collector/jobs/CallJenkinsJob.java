@@ -55,6 +55,11 @@ public class CallJenkinsJob implements Job {
 	}
 
 	private void calllingJenkinsForCancel() {
+
+		// Check if there is anything to do.
+		if(CommitItemVerifier.getInstance().getCommitItems().size() <= 0)
+			return;
+
 		//stop all commits in the commitItemCanceler 
 		VerigreenLogger.get().log(
 	             getClass().getName(),
@@ -101,6 +106,11 @@ public class CallJenkinsJob implements Job {
 	}
 	
 	private void calllingJenkinsForCreate() {
+
+		// Check if there is anything to do.
+		if(CommitItemVerifier.getInstance().getCommitItems().size() <= 0)
+			return;
+
 		VerigreenLogger.get().log(
 	             getClass().getName(),
 	             RuntimeUtils.getCurrentMethodName(),
@@ -139,14 +149,15 @@ public class CallJenkinsJob implements Job {
 
 		String result;
 		int sizeObservers = jenkinsUpdater.getObservers().size();
-		VerigreenLogger.get().log(
-	             getClass().getName(),
-	             RuntimeUtils.getCurrentMethodName(),
-	             String.format(
-	                     "Jenkins called for update on [%s] not updated items...",
-	                     sizeObservers ));
-		
+
 		if (sizeObservers > 0){
+			VerigreenLogger.get().log(
+					getClass().getName(),
+					RuntimeUtils.getCurrentMethodName(),
+					String.format(
+							"Jenkins called for update on [%s] not updated items...",
+							sizeObservers ));
+
 			RestClientResponse response = createRestCall("api/json?depth=1&pretty=true&tree=builds[number,result,building,timestamp,actions[parameters[value]]]");
 			result = response.getEntity(String.class);
 			try {
