@@ -205,13 +205,16 @@ public class CallJenkinsJob implements Job {
 			 JsonArray actionsJsonArray = childJsonObject.get("actions").getAsJsonArray();
 			 
 			 parameterJsonObjectArray = checkForParameters(actionsJsonArray);
-			
-			 JsonArray jsonParametersArray =  parameterJsonObjectArray.getAsJsonArray("parameters");
-			 
-			 JsonObject parameterJsonObject = (JsonObject) jsonParametersArray.get(0);
-			 
-			 values.setBranchName(parameterJsonObject.get("value").getAsString());
-			 
+
+			 if (parameterJsonObjectArray != null)
+			 {
+				 JsonArray jsonParametersArray = parameterJsonObjectArray.getAsJsonArray("parameters");
+
+				 JsonObject parameterJsonObject = (JsonObject) jsonParametersArray.get(0);
+
+				 values.setBranchName(parameterJsonObject.get("value").getAsString());
+			 }
+
 			 buildsAndStatusesMap.put(values.getBranchName(), values);				 
 		}
 		return buildsAndStatusesMap;
