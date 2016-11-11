@@ -50,6 +50,8 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import com.verigreen.collector.common.log4j.VerigreenLogger;
 import com.verigreen.spring.common.CollectorApi;
@@ -61,12 +63,18 @@ public class JGitOperator implements SourceControlOperator {
     
     private Repository _repo;
     private Git _git;
+    private CredentialsProvider _cp;
+
     private final static String REFS_HEADS 				= "refs/heads/";
     private final static String REFS_REMOTES 			= "refs/remotes/origin/";
     private String commited_By_Collector;
     private String email_Address;
 
-	public JGitOperator(String repositoryPath) {
+    public JGitOperator(String repositoryPath) {
+        this(repositoryPath, null, null);
+    }
+
+	public JGitOperator(String repositoryPath, String gitUser, String gitPassword) {
 		
 		try {
             // need to verify repo was created successfully - this is not enough
@@ -76,7 +84,8 @@ public class JGitOperator implements SourceControlOperator {
 			}*/
             _repo = new FileRepository(repositoryPath);
             _git = new Git(_repo);
- 
+            if(gitUser != null)
+                _cp  = new UsernamePasswordCredentialsProvider(gitUser, gitPassword);
             } catch (IOException e) {
             throw new RuntimeException(String.format(
                     "Failed creating git repository for path [%s]",
@@ -147,6 +156,8 @@ public class JGitOperator implements SourceControlOperator {
         command.setRefSpecs(spec);
         FetchResult result = null;
         try {
+            if(_cp != null)
+                command.setCredentialsProvider(_cp);
             result = command.call();
         } catch (Throwable e) {
             throw new RuntimeException(String.format(
@@ -229,6 +240,8 @@ public class JGitOperator implements SourceControlOperator {
         command.setRefSpecs(refSpec);
         try {
         	List<Ref> remoteBranches = _git.branchList().setListMode(ListMode.REMOTE).call();
+            if(_cp != null)
+                command.setCredentialsProvider(_cp);
             Iterable<PushResult> results = command.call();
             for (PushResult pushResult : results) {
             	Collection<RemoteRefUpdate> resultsCollection = pushResult.getRemoteUpdates();
