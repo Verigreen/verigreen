@@ -88,7 +88,9 @@ public class BranchOperator {
         System.out.println("======================================="
                            + StringUtils.NEW_LINE
                            + StringUtils.NEW_LINE);
-        System.out.println("Submitted for verification by Verigreen" + StringUtils.NEW_LINE + StringUtils.NEW_LINE);
+        System.out.println("Submitted for verification by Verigreen");
+        System.out.println("You can monitor the job at : " + CollectorApi.getCollectorAddress().replace("/rest",""));
+        System.out.println(StringUtils.NEW_LINE + StringUtils.NEW_LINE);
         System.out.println("======================================="
                            + StringUtils.NEW_LINE
                            + StringUtils.NEW_LINE);

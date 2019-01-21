@@ -78,7 +78,7 @@ See the License for the specific language governing permissions and limitations 
 				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.1.3.v20140225</version>
+					<version>9.1.6.v20160112</version>
 					<configuration>
 						<webAppSourceDirectory>${project.basedir}/webapp</webAppSourceDirectory>
 						<webApp>

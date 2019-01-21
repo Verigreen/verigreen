@@ -27,6 +27,8 @@ See the License for the specific language governing permissions and limitations 
 	<bean id="jgitOperator" class="com.verigreen.jgit.JGitOperator"
 		scope="singleton">
 		<constructor-arg name="repositoryPath" value="${git.repositoryLocation}" />
+		<constructor-arg name="gitUser" value="${git.user}"/>
+		<constructor-arg name="gitPassword" value="${git.password}"/>
 		<property name="commited_By_Collector" value="${commited.by.collector}"/>
 		<property name="email_Address" value="${email.address}"/>
 	</bean>

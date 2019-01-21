@@ -138,7 +138,9 @@ public class VerigreenNeededLogic {
     }
 	private void checkGitRepo() {
 		String repositoryPath = properties.getProperty("git.repositoryLocation");
-		SourceControlOperator srcControl = new JGitOperator(repositoryPath);
+		String gitUser = properties.getProperty("git.user");
+		String gitPassword = properties.getProperty("git.password");
+		SourceControlOperator srcControl = new JGitOperator(repositoryPath, gitUser, gitPassword);
 		srcControl.fetch();
 	}
 	

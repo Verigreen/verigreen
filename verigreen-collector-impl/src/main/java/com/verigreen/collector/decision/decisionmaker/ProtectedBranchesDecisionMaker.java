@@ -44,11 +44,11 @@ public class ProtectedBranchesDecisionMaker {
             	notDone.add(item);
             	notStarted.remove(item);
             }
-            VerigreenLogger.get().log(
-                    getClass().getName(),
-                    RuntimeUtils.getCurrentMethodName(),
-                    String.format("There are %d not done item(s)", notDone.size()));
             if (!CollectionUtils.isNullOrEmpty(notDone)) {
+                VerigreenLogger.get().log(
+                        getClass().getName(),
+                        RuntimeUtils.getCurrentMethodName(),
+                        String.format("There are %d not done item(s)", notDone.size()));
                 ret = handle(notDone);
             }
         } catch (Exception e) {

@@ -27,7 +27,7 @@ See the License for the specific language governing permissions and limitations 
 		<loader class="org.jboss.cache.loader.FileCacheLoader" async="false"
 			fetchPersistentState="true">
 			<properties>
-				location=/${env.VG_HOME}/cacheloader
+				location=cacheloader
 			</properties>
 		</loader>
 	</loaders>
