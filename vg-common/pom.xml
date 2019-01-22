@@ -56,7 +56,7 @@ See the License for the specific language governing permissions and limitations 
 	</pluginRepositories>
 
 	<properties>
-		<spring.version>3.2.2.RELEASE</spring.version>
+		<spring.version>4.3.21.RELEASE</spring.version>
 	</properties>
 
 	<build>
