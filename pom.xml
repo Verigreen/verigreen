@@ -82,7 +82,7 @@ See the License for the specific language governing permissions and limitations 
 		</pluginManagement>
 	</build>
 	<properties>
-		<spring.version>3.2.2.RELEASE</spring.version>
+		<spring.version>4.3.21.RELEASE</spring.version>
 		<junit.version>4.8</junit.version>
 		<jersey.version>2.6</jersey.version>
 		<jersey.client.version>2.6</jersey.client.version>
